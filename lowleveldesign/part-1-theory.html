@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The LLD Runbook — Part 1: Theory and Principles</title>
+  <link rel="stylesheet" href="assets/fonts.css" />
+  <link rel="stylesheet" href="assets/runbook.css" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+       Page 1 — Cover
+       ============================================================ -->
+  <section class="page cover">
+    <header class="cover__top">
+      <div class="brand">
+        <span class="brand__mark" aria-hidden="true"></span>
+        CodeCompass
+      </div>
+      <span class="cover__part">Part 1 · Theory</span>
+    </header>
+
+    <div>
+      <p class="cover__eyebrow">Low Level Design</p>
+      <h1 class="cover__title">The LLD <span class="accent">Runbook</span></h1>
+      <p class="cover__subtitle">A working engineer's guide to the design interview.</p>
+
+      <div class="cover__rule"></div>
+
+      <div class="cover__lede">
+        <p>
+          LLD is the round where months of preparation can quietly go in the wrong direction.
+          You can know every design pattern by name and still lose the room, because the round
+          isn't testing recall. It's testing whether your design survives the next question.
+        </p>
+        <p>
+          This is the shortest honest path I know from <em>I understand OOP</em> to
+          <em>I can defend a design under pressure</em>. Part 1 builds the vocabulary.
+          Part 2 puts it to work on real problems.
+        </p>
+      </div>
+    </div>
+
+    <div class="cover__meta">
+      <div>
+        <div class="cover__author">Varun Kashyap</div>
+        <div>Part 1 of 2 · Theory and Principles</div>
+      </div>
+      <div>Edition 1 · 2026</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Page 2 — How to use this runbook
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span>Front matter</span>
+      <span><strong>The LLD Runbook</strong> · Part 1</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title">How to use this runbook</h1>
+
+      <p class="lead">
+        This book is short on purpose. Not because low level design is a small subject, but
+        because the version of it that matters in an interview is much smaller than the
+        literature around it.
+      </p>
+
+      <div class="section">
+        <h2>How it's built</h2>
+        <p>
+          Part 1 is theory, and it is deliberately compressed — principles, patterns and a
+          repeatable framework, with just enough code to make each idea concrete. Part 2 is
+          where the real work happens: ten problems worked end to end, two pages each, in the
+          same order you'd actually solve them in a room.
+        </p>
+        <p>
+          Read Part 1 once, cover to cover. Come back to it only through Part 2, when a problem
+          makes you reach for something and you want to check that you're reaching for the right
+          thing. Theory read on its own tends not to stick; theory read because a problem
+          demanded it usually does.
+        </p>
+      </div>
+
+      <div class="section grid grid--2">
+        <div>
+          <h4>I assume you already know</h4>
+          <ul class="list">
+            <li>A language with classes and interfaces — Java throughout, but nothing here is Java-specific.</li>
+            <li>Basic data structures, enough to reason about a map or a linked list without looking them up.</li>
+            <li>What an interface is, even if you've never thought hard about when to introduce one.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>I deliberately skip</h4>
+          <ul class="list">
+            <li>Language syntax and OOP mechanics you can look up in a minute.</li>
+            <li>The full pattern catalogue. Six patterns carry most interviews; the rest get a line each.</li>
+            <li>Distributed systems concerns. That's a different round, and mixing the two costs candidates marks.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Contents · Part 1</h2>
+        <div class="toc">
+          <div class="toc__row">
+            <span class="toc__num">1</span>
+            <span class="toc__title">What LLD actually is</span>
+            <span class="toc__dots"></span>
+            <span class="toc__page">3</span>
+          </div>
+          <div class="toc__row">
+            <span class="toc__num">2</span>
+            <span class="toc__title">Object orientation, reconsidered</span>
+            <span class="toc__dots"></span>
+            <span class="toc__page">6</span>
+          </div>
+          <div class="toc__row">
+            <span class="toc__num">3</span>
+            <span class="toc__title">SOLID, with the bad code shown first</span>
+            <span class="toc__dots"></span>
+            <span class="toc__page">9</span>
+          </div>
+          <div class="toc__row">
+            <span class="toc__num">4</span>
+            <span class="toc__title">Principles that keep designs small</span>
+            <span class="toc__dots"></span>
+            <span class="toc__page">14</span>
+          </div>
+          <div class="toc__row">
+            <span class="toc__num">5</span>
+            <span class="toc__title">The patterns that actually come up</span>
+            <span class="toc__dots"></span>
+            <span class="toc__page">16</span>
+          </div>
+          <div class="toc__row">
+            <span class="toc__num">6</span>
+            <span class="toc__title">A framework for any LLD problem</span>
+            <span class="toc__dots"></span>
+            <span class="toc__page">24</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>A note on the code</h2>
+        <p>
+          Snippets here are short on purpose — usually the ten or so lines where the decision
+          actually lives, with the scaffolding stripped out. Nobody learns anything from a full
+          class listing printed on a page. Where a problem has a complete implementation worth
+          reading, you'll find a link beside it:
+        </p>
+        <p><span class="chip">github.com/varunkashyap-vkd/lld-runbook</span></p>
+        <p>
+          All of it compiles and runs. If you learn by breaking things, clone it first and read
+          the chapter second.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook</span>
+      <span class="page__num">2</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 3 — What LLD actually is
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span>1 · What LLD actually is</span>
+      <span><strong>The LLD Runbook</strong> · Part 1</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title">What LLD actually is</h1>
+
+      <p class="lead">
+        Ask ten engineers to define low level design and you'll get ten answers, most of them
+        gesturing vaguely at classes and UML. That vagueness is the first thing working against
+        you, so it's worth fixing before anything else.
+      </p>
+
+      <div class="section">
+        <h2>A definition worth keeping</h2>
+        <p>
+          Low level design is turning a loosely worded requirement into classes, responsibilities
+          and relationships a team could build on — and then defending those choices when the
+          requirement changes.
+        </p>
+        <p>
+          Notice the two halves. The first is modelling. The second is defending. Almost everyone
+          prepares for the first, and then loses the round in the second, because the interviewer's
+          real question was never <em>can you draw this</em>. It was <em>what happens to your
+          design when I change my mind</em>.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>Where it shows up</h2>
+        <ul class="list">
+          <li>
+            <strong>A dedicated LLD round.</strong> Forty-five to sixty minutes, a deliberately
+            open prompt — design a parking lot, a rate limiter, a food delivery app. Code is
+            usually optional; structure and reasoning are not.
+          </li>
+          <li>
+            <strong>A machine coding round.</strong> Same modelling problem, but you ship running
+            code in ninety minutes to three hours. The design bar is lower, the execution bar is
+            much higher.
+          </li>
+          <li>
+            <strong>The last ten minutes of a DSA round.</strong> Your solution works, and then
+            the interviewer says <em>now make the eviction policy configurable</em>. The round
+            just turned into LLD without anyone announcing it.
+          </li>
+          <li>
+            <strong>A hiring manager or bar-raiser conversation.</strong> No code at all. You talk
+            through a design you've built, and every trade-off you glossed over gets probed.
+          </li>
+        </ul>
+      </div>
+
+      <div class="section note">
+        <p class="label">Worth knowing</p>
+        <p>
+          The third one catches the most people out. Candidates relax once the algorithm passes,
+          and treat the follow-up as a bonus question rather than the part that's actually being
+          scored. It's usually the part that's actually being scored.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>What changes with your level</h2>
+        <table class="table table--rowhead">
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>What they need to see</th>
+              <th>What sinks you</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Entry</td>
+              <td>A correct, readable class structure. Sensible names, responsibilities in roughly the right place.</td>
+              <td>Procedural code wearing a class costume — one manager object doing everything.</td>
+            </tr>
+            <tr>
+              <td>Mid</td>
+              <td>Justified trade-offs. You chose composition here and an interface there, and can say why out loud.</td>
+              <td>Design on autopilot. Patterns applied because they're familiar, not because the problem asked.</td>
+            </tr>
+            <tr>
+              <td>Senior</td>
+              <td>Questioning the requirement itself, and drawing boundaries that hold when the follow-up lands.</td>
+              <td>Answering exactly what was asked, and nothing more.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook</span>
+      <span class="page__num">3</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 4 — Four rounds that get confused
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span>1 · What LLD actually is</span>
+      <span><strong>The LLD Runbook</strong> · Part 1</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title">Four rounds that get confused</h1>
+
+      <p class="lead">
+        DSA, LLD, machine coding and HLD blur together in most preparation material, and the
+        blur is expensive. Knowing which room you're in changes what a good answer looks like.
+      </p>
+
+      <div class="section">
+        <table class="table table--rowhead">
+          <thead>
+            <tr>
+              <th></th>
+              <th>DSA</th>
+              <th>LLD</th>
+              <th>Machine coding</th>
+              <th>HLD</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Unit of work</td>
+              <td>An algorithm</td>
+              <td>A class model</td>
+              <td>A running module</td>
+              <td>Services and data flow</td>
+            </tr>
+            <tr>
+              <td>You optimise for</td>
+              <td>Correctness, then complexity</td>
+              <td>Structure that absorbs change</td>
+              <td>Working software, quickly</td>
+              <td>Behaviour at scale</td>
+            </tr>
+            <tr>
+              <td>Really scored on</td>
+              <td>Does it work, and how fast</td>
+              <td>Why these classes, and not others</td>
+              <td>Does it run, and is it clean</td>
+              <td>Trade-offs across the system</td>
+            </tr>
+            <tr>
+              <td>Typical length</td>
+              <td>45 min</td>
+              <td>45–60 min</td>
+              <td>90–180 min</td>
+              <td>45–60 min</td>
+            </tr>
+            <tr>
+              <td>Classic failure</td>
+              <td>Brute force, never optimised</td>
+              <td>Writing code before naming the nouns</td>
+              <td>Over-engineering until nothing runs</td>
+              <td>Naming technologies instead of reasoning</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <h2>The gear shift that trips people up</h2>
+        <p>
+          DSA trains a specific instinct: there is one best answer, and your job is to find it.
+          That instinct actively hurts you in an LLD round, where there is a family of defensible
+          answers and the interviewer is watching how you choose between them. Two candidates can
+          produce different class diagrams for the same prompt and both clear the bar — the one
+          who can't explain their choice is the one who doesn't.
+        </p>
+        <p>
+          The practical consequence is about silence. In a DSA round, going quiet for two minutes
+          while you think is normal, sometimes even a good sign. In an LLD round it's close to
+          fatal, because the reasoning <em>is</em> the deliverable. A diagram that appears on the
+          board without narration gives the interviewer nothing to score.
+        </p>
+      </div>
+
+      <div class="section note">
+        <p class="label">The line between LLD and HLD</p>
+        <p>
+          If your answer involves load balancers, replication or a message queue, you've drifted
+          into HLD. If it involves which class owns a field and who is allowed to mutate it,
+          you're in LLD. Drifting upward feels impressive and reads as avoidance — it's the most
+          common way experienced candidates lose points on a problem they could have modelled well.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>When you can't tell which room you're in</h2>
+        <p>
+          Ask. <em>Would you like me to focus on the class design, or do you want something running
+          by the end?</em> is a perfectly reasonable opening question, and I've never seen it land
+          badly. Recruiters describe rounds inconsistently, interviewers adapt on the day, and the
+          thirty seconds you spend clarifying is far cheaper than twenty minutes spent solving the
+          wrong problem well.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook</span>
+      <span class="page__num">4</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 5 — What's actually being evaluated
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span>1 · What LLD actually is</span>
+      <span><strong>The LLD Runbook</strong> · Part 1</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title">What's actually being evaluated</h1>
+
+      <p class="lead">
+        Interviewers rarely score the diagram. They score the sequence of decisions that produced
+        it, and there are five of them worth preparing for directly.
+      </p>
+
+      <div class="section">
+        <h2>The five things on the scorecard</h2>
+        <ol class="list list--num">
+          <li>
+            <strong>Requirement clarification.</strong> Did you find the ambiguity before you
+            built on top of it? Prompts are underspecified on purpose.
+          </li>
+          <li>
+            <strong>Entity modelling.</strong> Are your nouns the right nouns? Most bad designs
+            are traceable to a class that should never have existed, or one that should have.
+          </li>
+          <li>
+            <strong>Boundaries and abstraction.</strong> What is hidden behind what, and can a
+            caller do damage you didn't intend?
+          </li>
+          <li>
+            <strong>Extensibility under pressure.</strong> The follow-up change — how much of
+            your design has to be rewritten to absorb it?
+          </li>
+          <li>
+            <strong>Communication.</strong> Whether the four above were visible to the person in
+            the room, or happened silently in your head.
+          </li>
+        </ol>
+      </div>
+
+      <div class="section">
+        <h2>How strong DSA candidates lose this round</h2>
+        <ul class="list">
+          <li>
+            <strong>Coding too early.</strong> Ten minutes of unprompted code buys you a structure
+            you now feel obliged to defend.
+          </li>
+          <li>
+            <strong>Pattern-dropping.</strong> A Factory, a Singleton and an Observer on a problem
+            that needed one interface. It reads as insecurity, not fluency.
+          </li>
+          <li>
+            <strong>Designing for imaginary scale.</strong> Thread pools and caches for a problem
+            with three entities and no stated load.
+          </li>
+          <li>
+            <strong>Going quiet.</strong> Covered on the previous page, and worth repeating —
+            unnarrated thinking is unscored thinking.
+          </li>
+          <li>
+            <strong>Treating the follow-up as an attack.</strong> Defensiveness here is a bad look.
+            The change was always coming; it's the whole point of the round.
+          </li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>What good sounds like</h2>
+        <p>
+          The gap between a pass and a strong pass is usually one sentence pattern, repeated all
+          the way through: <strong>state the choice, name the alternative, give the reason.</strong>
+        </p>
+        <p class="aside">
+          &ldquo;I'll put eviction behind an interface rather than a flag on the cache. The flag is
+          less code today, but every new policy means editing the same class — and I'd rather add a
+          file than edit one.&rdquo;
+        </p>
+        <p>
+          That takes twenty seconds and covers three of the five items above. Say it out loud enough
+          times in practice and it stops sounding rehearsed.
+        </p>
+      </div>
+
+      <div class="section note">
+        <p class="label">If you take one thing from this chapter</p>
+        <p>
+          The follow-up isn't a curveball, and it isn't the interviewer being difficult. It's the
+          exam. Everything before it exists to set up the moment where the requirement shifts and
+          we find out whether your design bends or breaks. Chapter 6 turns that into a repeatable
+          sequence you can run on any prompt.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook</span>
+      <span class="page__num">5</span>
+    </footer>
+  </section>
+
+</body>
+
+</html>

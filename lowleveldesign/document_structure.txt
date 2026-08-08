@@ -1,0 +1,61 @@
+1. What is LLD, and how it differs from core DSA
+	1. Where is LLD asked?
+	2. Why is it important?
+	3. How is it different from
+		1. DSA
+		2. Machine coding
+		3. HLD
+2. OOPS concepts
+	1. Interviewer's perspective and expectation from each topic with examples
+		1. Encapsulation
+		2. Abstraction
+		3. Inheritance
+		4. Polymorphism
+3. SOLID principles with examples, with each concept include
+	1. Bad code
+	2. Better code
+	3. Interview examples
+	4. Common mistakes
+4. Other important LLD concepts with examples
+	1. KISS
+	2. DRY
+	3. YAGNI
+	4. Composition over Inheritance
+	5. Program to Interfaces
+	6. Favor Immutability
+5. Design Patterns That Actually Matter in Interviews - I won't cover all in detail, only the major ones. Others will be a add-on with minimal definitions and explanations
+	1. Mandatory
+		1. Strategy
+		2. Factory
+		3. Observer
+		4. Singleton
+		5. Builder
+		6. Decorator
+	2. Useful
+		1. Adapter
+		2. Command
+		3. Template
+		4. State
+	3. All others with quick explanations
+6.0 A Framework for Solving Any LLD Interview
+6. In depth of explanation of 10 lld problems starting with
+	1. LRU cache - share real anecdote around how it starts as a dsa interview but then interviewer tweaks it and asks to convert it to MRU strategy without complete code rewriting
+	2. Hashmap implementation - similar modification for collision handling strategies
+	3. Other well known problems, some of which have been asked to me myself
+	4. Each problem will include following
+		1. Problem Statement
+		2. Clarifying Questions
+		3. Requirements
+		4. Functional Requirements
+		5. Non Functional Requirements
+		6. Entities
+		7. Class Diagram
+		8. Relationships
+		9. Design Patterns Used
+		10. Java Implementation
+		11. Complexity
+		12. Follow-up Questions
+		13. Alternative Design
+		14. Common Mistakes
+		15. Interviewer's Perspective
+		16. Real Interview Story

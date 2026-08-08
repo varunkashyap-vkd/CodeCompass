@@ -1,0 +1,606 @@
+/* ============================================================
+   The LLD Runbook — print stylesheet
+   Implements lowleveldesign/style-reference.md.
+   Do not introduce sizes, colours or gaps outside those scales.
+   ============================================================ */
+
+:root {
+  /* Type */
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", "Cascadia Code", "Consolas", ui-monospace, monospace;
+
+  --fs-display: 44px;
+  --fs-h1: 25px;
+  --fs-h2: 16.5px;
+  --fs-h3: 13.5px;
+  --fs-label: 10px;
+  --fs-lead: 14px;
+  --fs-body: 12.5px;
+  --fs-compact: 11.5px;
+  --fs-caption: 11px;
+  --fs-code: 11px;
+  --fs-micro: 9.5px;
+
+  --lh-tight: 1.2;
+  --lh-head: 1.25;
+  --lh-body: 1.55;
+
+  /* Colour */
+  --ink: #1A1735;
+  --ink-soft: #4B5563;
+  --ink-faint: #8B8AA0;
+
+  --primary: #8A2BE2;
+  --primary-dark: #5B21B6;
+  --accent: #A855F7;
+
+  --paper: #FFFFFF;
+  --surface: #FAF8FD;
+  --surface-strong: #F3EEFA;
+
+  --rule: #E7E3F0;
+  --rule-strong: #D9D2EA;
+
+  --bad: #A33A32;
+  --bad-bg: #FBF3F2;
+  --good: #1F7A5C;
+  --good-bg: #F1F8F5;
+  --note: #8A2BE2;
+  --note-bg: #F8F4FD;
+
+  /* Space */
+  --s-1: 2px;
+  --s-2: 4px;
+  --s-3: 6px;
+  --s-4: 8px;
+  --s-5: 12px;
+  --s-6: 16px;
+  --s-7: 20px;
+  --s-8: 24px;
+  --s-9: 32px;
+
+  /* Geometry */
+  --radius: 4px;
+  --radius-sm: 3px;
+  --page-w: 210mm;
+  --page-h: 297mm;
+  --page-pad-y: 14mm;
+  --page-pad-x: 15mm;
+  --gutter: 7mm;
+
+  /* Cover only */
+  --gradient: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+}
+
+/* ---------- Reset ---------- */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  line-height: var(--lh-body);
+  color: var(--ink);
+  background: #E9E7EE;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+   Page frame
+   ============================================================ */
+.page {
+  position: relative;
+  width: var(--page-w);
+  height: var(--page-h);
+  margin: 20px auto;
+  padding: var(--page-pad-y) var(--page-pad-x) 12mm;
+  background: var(--paper);
+  box-shadow: 0 2px 10px rgba(26, 23, 53, 0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.page__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding-bottom: var(--s-3);
+  margin-bottom: var(--s-6);
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--fs-micro);
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+}
+
+.page__head strong {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.page__body {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.page__foot {
+  margin-top: auto;
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--rule);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.02em;
+  color: var(--ink-faint);
+}
+
+.page__foot strong {
+  color: var(--ink-soft);
+  font-weight: 600;
+}
+
+.page__num {
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   Typography
+   ============================================================ */
+h1 {
+  font-size: var(--fs-h1);
+  line-height: 1.15;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+}
+
+.page-title {
+  margin-bottom: var(--s-5);
+}
+
+.page-title::after {
+  content: "";
+  display: block;
+  width: 34px;
+  height: 2px;
+  margin-top: var(--s-4);
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+h2 {
+  font-size: var(--fs-h2);
+  line-height: var(--lh-head);
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: var(--s-4);
+}
+
+h3 {
+  font-size: var(--fs-h3);
+  line-height: 1.35;
+  font-weight: 700;
+  margin-bottom: var(--s-3);
+}
+
+h4,
+.label {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  line-height: var(--lh-tight);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: var(--s-3);
+}
+
+h2,
+h3,
+h4 {
+  break-after: avoid;
+  page-break-after: avoid;
+}
+
+p + p {
+  margin-top: var(--s-4);
+}
+
+strong {
+  font-weight: 600;
+}
+
+.lead {
+  font-size: var(--fs-lead);
+  font-weight: 500;
+  line-height: 1.5;
+  margin-bottom: var(--s-6);
+}
+
+.caption {
+  font-size: var(--fs-caption);
+  color: var(--ink-soft);
+}
+
+.section + .section {
+  margin-top: var(--s-7);
+}
+
+.block + .block {
+  margin-top: var(--s-5);
+}
+
+/* ---------- Lists ---------- */
+.list {
+  list-style: none;
+}
+
+.list li {
+  position: relative;
+  padding-left: 14px;
+}
+
+.list li + li {
+  margin-top: var(--s-3);
+}
+
+.list li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.6em;
+  width: 6px;
+  height: 1px;
+  background: var(--primary);
+}
+
+.list--num {
+  counter-reset: item;
+}
+
+.list--num li {
+  padding-left: 20px;
+}
+
+.list--num li::before {
+  counter-increment: item;
+  content: counter(item) ".";
+  top: 0;
+  width: auto;
+  height: auto;
+  background: none;
+  font-size: var(--fs-compact);
+  font-weight: 600;
+  color: var(--primary);
+}
+
+/* ---------- Layout ---------- */
+.grid {
+  display: grid;
+  gap: var(--gutter);
+}
+
+.grid--2 {
+  grid-template-columns: 1fr 1fr;
+}
+
+.divider {
+  height: 1px;
+  background: var(--rule);
+  margin: var(--s-6) 0;
+}
+
+/* ============================================================
+   Tables
+   ============================================================ */
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--fs-compact);
+  line-height: 1.45;
+}
+
+.table th {
+  text-align: left;
+  vertical-align: bottom;
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  background: var(--surface-strong);
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.table td {
+  padding: 7px 8px;
+  vertical-align: top;
+  border-bottom: 1px solid var(--rule);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table--rowhead td:first-child,
+.table--rowhead th:first-child {
+  font-weight: 600;
+  color: var(--ink);
+  width: 22%;
+}
+
+/* ============================================================
+   Notes — left accent, minimal fill
+   ============================================================ */
+.note {
+  border-left: 2px solid var(--note);
+  background: var(--note-bg);
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
+}
+
+.note .label {
+  margin-bottom: var(--s-2);
+  color: var(--primary-dark);
+}
+
+.note--bad {
+  border-left-color: var(--bad);
+  background: var(--bad-bg);
+}
+
+.note--bad .label {
+  color: var(--bad);
+}
+
+.note--good {
+  border-left-color: var(--good);
+  background: var(--good-bg);
+}
+
+.note--good .label {
+  color: var(--good);
+}
+
+/* Untinted variant for lighter emphasis */
+.aside {
+  border-left: 2px solid var(--rule-strong);
+  padding-left: 12px;
+}
+
+/* ============================================================
+   Code
+   ============================================================ */
+code {
+  font-family: var(--font-mono);
+  font-size: var(--fs-compact);
+  font-weight: 500;
+  background: var(--surface-strong);
+  padding: 1px 4px;
+  border-radius: var(--radius-sm);
+}
+
+pre {
+  font-family: var(--font-mono);
+  font-size: var(--fs-code);
+  line-height: 1.5;
+  background: var(--surface-strong);
+  border-radius: var(--radius-sm);
+  padding: 8px 10px;
+  overflow: hidden;
+}
+
+pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+  font-weight: 400;
+}
+
+.chip {
+  display: inline-block;
+  font-family: var(--font-mono);
+  font-size: var(--fs-caption);
+  color: var(--primary-dark);
+  border: 1px solid var(--rule-strong);
+  border-radius: var(--radius-sm);
+  padding: 2px 6px;
+  background: var(--paper);
+}
+
+/* ============================================================
+   Contents
+   ============================================================ */
+.toc__row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 7px 0;
+  border-bottom: 1px solid var(--rule);
+}
+
+.toc__num {
+  min-width: 14px;
+  font-size: var(--fs-compact);
+  font-weight: 600;
+  color: var(--primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.toc__title {
+  font-weight: 600;
+}
+
+.toc__dots {
+  flex: 1 1 auto;
+  border-bottom: 1px dotted var(--rule-strong);
+  transform: translateY(-4px);
+}
+
+.toc__page {
+  font-size: var(--fs-compact);
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ============================================================
+   Cover
+   ============================================================ */
+.cover {
+  justify-content: space-between;
+  padding: 18mm var(--page-pad-x) 12mm;
+  background:
+    radial-gradient(100% 70% at 100% 0%, rgba(168, 85, 247, 0.09) 0%, rgba(168, 85, 247, 0) 55%),
+    var(--paper);
+}
+
+.cover__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--fs-compact);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--ink-soft);
+}
+
+.brand__mark {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius);
+  background: var(--gradient);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Drawn rather than typed, so the mark never depends on font glyph coverage. */
+.brand__mark::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  background: var(--paper);
+  transform: rotate(45deg);
+  border-radius: 1px;
+}
+
+.cover__part {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary-dark);
+}
+
+.cover__eyebrow {
+  font-size: var(--fs-label);
+  font-weight: 600;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: var(--s-5);
+}
+
+.cover__title {
+  font-size: var(--fs-display);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.cover__title .accent {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cover__subtitle {
+  margin-top: var(--s-5);
+  font-size: var(--fs-lead);
+  font-weight: 500;
+  color: var(--primary-dark);
+}
+
+.cover__rule {
+  width: 48px;
+  height: 2px;
+  margin: var(--s-7) 0;
+  background: var(--gradient);
+  border-radius: 2px;
+}
+
+.cover__lede {
+  max-width: 132mm;
+}
+
+.cover__lede p + p {
+  margin-top: var(--s-5);
+}
+
+.cover__meta {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-top: var(--s-5);
+  border-top: 1px solid var(--rule);
+  font-size: var(--fs-caption);
+  color: var(--ink-soft);
+}
+
+.cover__author {
+  font-size: var(--fs-body);
+  font-weight: 600;
+  color: var(--ink);
+}
+
+/* ============================================================
+   Print
+   ============================================================ */
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  body {
+    background: var(--paper);
+  }
+
+  .page {
+    margin: 0;
+    box-shadow: none;
+  }
+
+  .page + .page {
+    break-before: page;
+    page-break-before: always;
+  }
+
+  .note,
+  .table,
+  .grid,
+  .toc__row,
+  pre,
+  figure {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
