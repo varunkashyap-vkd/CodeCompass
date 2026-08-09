@@ -99,12 +99,12 @@ The `of 28` is deliberate. It bounds the document so it never feels open-ended.
 | 5.1 | 19 | Choosing a pattern | done | Symptom-to-pattern table covering all seven. The three groups. When the answer is no pattern at all, and why naming it is worth less than applying it. |
 | 5.2 | 20 | Singleton | done | *Creational.* Naive lazy init versus the holder idiom. Where it shows up. The trap: global mutable state; create one and inject it. |
 | 5.3 | 21 | Factory | done | *Creational.* Construction leaking into callers. UML diagram. The honest point that the switch is confined, not removed. Simple factory versus GoF Factory Method. |
-| 5.4 | 22 | Builder | todo | *Creational.* Telescoping constructors and optional parameters. Closes out object creation. |
-| 5.5 | 23 | Observer | todo | *Behavioural.* Push versus pull, listener lifecycle, and the leak nobody unregisters. |
-| 5.6 | 24 | Strategy | todo | *Behavioural.* The workhorse. Already set up by 2.4, 3.2 and 4.2, so this page can go deeper rather than re-explain. |
-| 5.7 | 25 | State | todo | *Behavioural.* Deliberately adjacent to Strategy: State is Strategy that swaps itself. Vending machine / order lifecycle. |
-| 5.8 | 26 | Decorator | todo | *Structural.* Builds directly on the composition arithmetic in 4.2. Layered behaviour without subclass explosion. |
-| 5.9 | 27 | The rest, at a glance | todo | Adapter, Command, Template Method, Chain of Responsibility, Composite, Facade, Proxy in brief; remaining catalogue as one-liners. |
+| 5.4 | 22 | Builder | done | *Creational.* Telescoping constructor with adjacent booleans. Fluent usage plus the builder mechanics. `build()` as the last chance to refuse an invalid object. Builder versus Factory. |
+| 5.5 | 23 | Observer | done | *Behavioural.* A place() method growing a line per feature. Class diagram. The listener leak, failure isolation, and when you actually wanted a pipeline. |
+| 5.6 | 24 | Strategy | done | *Behavioural.* Cache eviction, tying forward to the LRU problem in Part 2. Class diagram. Trap: strategies needing different inputs rebuild the fat interface from 3.4. |
+| 5.7 | 25 | State | done | *Behavioural.* Order lifecycle. Uses a state-transition diagram rather than a class diagram. Who owns transitions, and stateless states as shared instances. |
+| 5.8 | 26 | Decorator | done | *Structural.* HTTP client with logging, retries and caching. Wrapping-chain diagram. Order as behaviour; Decorator versus Proxy. |
+| 5.9 | 27 | The rest, at a glance | done | Five worth a proper look (Adapter, Command, Chain of Responsibility, Template Method, Composite) plus eight one-liners. Framed as recognition, not memorisation. |
 | 6.1 | 28 | A framework for any LLD problem | todo | The repeatable sequence with timeboxes: clarify, actors, entities, relationships, interfaces, walk a flow, absorb the follow-up. |
 
 **Chapter 5 ordering rationale.** Creational, then behavioural, then structural. That grouping

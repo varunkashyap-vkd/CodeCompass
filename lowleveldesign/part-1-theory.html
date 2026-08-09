@@ -2089,6 +2089,613 @@ else                       notifier = new PushNotifier(fcmToken);</code></pre>
       <span class="page__num">Page 21 of 28</span>
     </footer>
   </section>
+  <!-- ============================================================
+       Page 22 — 5.4 Builder
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 5</strong> · The patterns that actually come up</span>
+      <span>Creational · Section 5.4</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">5.4</span>Builder</h1>
+
+      <p class="lead">
+        Reach for a builder when constructing an object has become harder than using it.
+      </p>
+
+      <div class="section">
+        <h2>The signal</h2>
+        <div class="code-block code-block--bad">
+          <p class="label">What does this call actually say?</p>
+          <pre><code>new HttpRequest(url, null, null, 30, true, false, 3);</code></pre>
+        </div>
+        <p>
+          Three problems at once. Half the arguments are optional and passed as <code>null</code>,
+          two adjacent booleans mean entirely different things, and swapping them compiles
+          perfectly. The usual reflex — one more constructor overload — makes it worse, because
+          now there are five constructors and the reader has to find the right one.
+        </p>
+      </div>
+
+      <div class="section">
+        <div class="code-block code-block--good">
+          <p class="label">Better</p>
+          <pre><code>HttpRequest request = HttpRequest.builder(url)
+        .header("Accept", "application/json")
+        .timeout(Duration.ofSeconds(30))
+        .retries(3)
+        .build();</code></pre>
+        </div>
+
+        <p>
+          Every value is named at the call site, optional things can simply be left out, and the
+          builder holds sensible defaults so callers only state what differs.
+        </p>
+
+        <div class="code-block code-block--good">
+          <p class="label">The mechanics</p>
+          <pre><code>static class Builder {
+    private final String url;
+    private Duration timeout = Duration.ofSeconds(10);   <span class="c">// sensible default</span>
+
+    Builder timeout(Duration timeout) {
+        this.timeout = timeout;
+        return this;                                     <span class="c">// enables chaining</span>
+    }
+
+    HttpRequest build() {
+        if (url == null) throw new IllegalArgumentException("url required");
+        return new HttpRequest(this);
+    }
+}</code></pre>
+        </div>
+
+        <p>
+          <code>build()</code> is where validation belongs. It is the last moment at which you can
+          still refuse to produce an object that should not exist — and refusing there is far
+          cheaper than discovering the problem three layers away.
+        </p>
+
+        <p class="caption u-mt-4">
+          <strong>Shows up in:</strong> pizza and burger ordering, HTTP requests and client
+          configuration, query builders, test data setup, notification composers.
+        </p>
+      </div>
+
+      <div class="section note">
+        <p class="label">Builder or Factory?</p>
+        <p>
+          They answer different questions, and candidates mix them up constantly. A factory
+          decides <em>which class</em> to instantiate. A builder assembles <em>one</em> complicated
+          object step by step. If the type is already known and only the configuration is
+          complex, you want a builder.
+        </p>
+        <p>
+          The trap is reaching for one too early. Three required fields and no optional ones is a
+          constructor, and wrapping it in a builder adds ceremony without removing confusion.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 22 of 28</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 23 — 5.5 Observer
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 5</strong> · The patterns that actually come up</span>
+      <span>Behavioural · Section 5.5</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">5.5</span>Observer</h1>
+
+      <p class="lead">
+        One thing changes and several unrelated things need to know. Observer arranges that
+        without the changing thing knowing who cares.
+      </p>
+
+      <div class="section">
+        <h2>The signal</h2>
+        <div class="code-block code-block--bad">
+          <p class="label">A method that grows a line per feature</p>
+          <pre><code>void place(Order order) {
+    repo.save(order);
+    mailer.sendConfirmation(order);   <span class="c">// added last month</span>
+    analytics.track(order);           <span class="c">// added last week</span>
+    warehouse.reserve(order);         <span class="c">// added yesterday</span>
+}</code></pre>
+        </div>
+        <p>
+          Placing an order is one responsibility; telling four systems about it is another. Every
+          new consumer edits this method, and <code>OrderService</code> slowly accumulates a
+          dependency on everything in the codebase.
+        </p>
+      </div>
+
+      <div class="section">
+        <figure class="diagram">
+          <svg viewBox="0 0 430 140" role="img" aria-label="OrderService notifies many OrderListeners, implemented by Mailer and Analytics">
+            <rect class="d-box d-box--accent" x="10" y="14" width="130" height="36" rx="4" />
+            <text class="d-name" x="75" y="37">OrderService</text>
+
+            <rect class="d-box" x="200" y="14" width="150" height="36" rx="4" />
+            <text class="d-stereo" x="275" y="29">&#171;interface&#187;</text>
+            <text class="d-name" x="275" y="43">OrderListener</text>
+
+            <line class="d-line" x1="142" y1="32" x2="194" y2="32" />
+            <path class="d-line" d="M188,28 L196,32 L188,36" />
+            <text class="d-label" x="150" y="26">notifies *</text>
+
+            <rect class="d-box" x="170" y="104" width="110" height="28" rx="4" />
+            <text class="d-name" x="225" y="122">Mailer</text>
+
+            <rect class="d-box" x="300" y="104" width="110" height="28" rx="4" />
+            <text class="d-name" x="355" y="122">Analytics</text>
+
+            <path class="d-line" d="M225,104 L225,88 L355,88 L355,104" />
+            <line class="d-line" x1="275" y1="88" x2="275" y2="62" />
+            <polygon class="d-head" points="275,50 269,62 281,62" />
+          </svg>
+          <figcaption>The subject knows the interface. It never learns who is listening.</figcaption>
+        </figure>
+
+        <div class="code-block code-block--good">
+          <p class="label">Better</p>
+          <pre><code>class OrderService {
+    private final List&lt;OrderListener&gt; listeners = new ArrayList&lt;&gt;();
+
+    void place(Order order) {
+        repo.save(order);
+        listeners.forEach(listener -&gt; listener.onPlaced(order));
+    }
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="section note">
+        <p class="label">The trap</p>
+        <p>
+          Listeners that register and never unregister. A long-lived subject holding references to
+          short-lived listeners is a memory leak, and it is the most common defect this pattern
+          introduces. Decide early who removes them.
+        </p>
+        <p>
+          Also decide what happens when one listener throws — does the rest of the chain still
+          run? And if listener B must run after A, Observer is the wrong tool; you wanted a
+          pipeline.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 23 of 28</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 24 — 5.6 Strategy
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 5</strong> · The patterns that actually come up</span>
+      <span>Behavioural · Section 5.6</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">5.6</span>Strategy</h1>
+
+      <p class="lead">
+        The workhorse of LLD interviews. When an interviewer asks you to make something
+        pluggable, this is almost always the shape they have in mind — and you have already met it
+        three times, in <strong>2.4</strong>, <strong>3.2</strong> and <strong>4.2</strong>.
+      </p>
+
+      <div class="section">
+        <h2>The signal</h2>
+        <p>
+          One decision inside an otherwise stable object keeps changing: how to price, how to
+          rank, how to evict, how to charge. The surrounding code is settled; only that one step
+          varies. Pull the step behind an interface and let it be supplied from outside.
+        </p>
+
+        <figure class="diagram">
+          <svg viewBox="0 0 430 140" role="img" aria-label="Cache uses an EvictionPolicy interface implemented by LruPolicy and MruPolicy">
+            <rect class="d-box d-box--accent" x="10" y="14" width="110" height="36" rx="4" />
+            <text class="d-name" x="65" y="37">Cache</text>
+
+            <rect class="d-box" x="180" y="14" width="150" height="36" rx="4" />
+            <text class="d-stereo" x="255" y="29">&#171;interface&#187;</text>
+            <text class="d-name" x="255" y="43">EvictionPolicy</text>
+
+            <line class="d-line" x1="122" y1="32" x2="174" y2="32" />
+            <path class="d-line" d="M168,28 L176,32 L168,36" />
+            <text class="d-label" x="134" y="26">uses</text>
+
+            <rect class="d-box" x="150" y="104" width="120" height="28" rx="4" />
+            <text class="d-name" x="210" y="122">LruPolicy</text>
+
+            <rect class="d-box" x="290" y="104" width="120" height="28" rx="4" />
+            <text class="d-name" x="350" y="122">MruPolicy</text>
+
+            <path class="d-line" d="M210,104 L210,88 L350,88 L350,104" />
+            <line class="d-line" x1="255" y1="88" x2="255" y2="62" />
+            <polygon class="d-head" points="255,50 249,62 261,62" />
+          </svg>
+          <figcaption>Swapping LRU for MRU becomes a constructor argument, not a rewrite.</figcaption>
+        </figure>
+
+        <div class="code-block code-block--good">
+          <p class="label">The shape</p>
+          <pre><code>class Cache {
+    private final EvictionPolicy policy;
+
+    Cache(EvictionPolicy policy) { this.policy = policy; }
+
+    void put(String key, Node value) {
+        if (isFull()) entries.remove(policy.evict(entries));
+        entries.put(key, value);
+    }
+}</code></pre>
+        </div>
+
+        <p class="caption u-mt-4">
+          <strong>Shows up in:</strong> cache eviction, pricing and discounts, ranking and
+          matching, payment methods, compression and serialisation formats.
+        </p>
+      </div>
+
+      <div class="section note">
+        <p class="label">The trap</p>
+        <p>
+          A strategy that needs different inputs per implementation. The interface grows
+          parameters that only one implementation reads, and you have rebuilt the fat interface
+          from <strong>3.4</strong>. Pass a strategy what it needs, never the whole context.
+        </p>
+        <p>
+          If the object also decides <em>when</em> to switch strategy — rather than being handed
+          one — you are looking at State instead, which is the next page.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 24 of 28</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 25 — 5.7 State
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 5</strong> · The patterns that actually come up</span>
+      <span>Behavioural · Section 5.7</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">5.7</span>State</h1>
+
+      <p class="lead">
+        State is Strategy that swaps itself. Same structure, different control: the client picks a
+        strategy, whereas a state decides what the next state will be.
+      </p>
+
+      <div class="section">
+        <h2>The signal</h2>
+        <div class="code-block code-block--bad">
+          <p class="label">And the same shape again in cancel, refund and deliver</p>
+          <pre><code>void ship() {
+    if      (status == PLACED) status = SHIPPED;
+    else if (status == PAID)   status = SHIPPED;
+    else throw new IllegalStateException(status.name());
+}</code></pre>
+        </div>
+        <p>
+          The transition rules are smeared across every method, so no single place answers "what
+          can happen next?". Adding a status means auditing all of them, and missing one produces
+          a bug nobody finds until production.
+        </p>
+      </div>
+
+      <div class="section">
+        <figure class="diagram">
+          <svg viewBox="0 0 470 126" role="img" aria-label="Order state machine: Placed to Paid to Shipped to Delivered, with Placed to Cancelled">
+            <text class="d-label" x="111" y="14" text-anchor="middle">pay</text>
+            <text class="d-label" x="231" y="14" text-anchor="middle">ship</text>
+            <text class="d-label" x="351" y="14" text-anchor="middle">deliver</text>
+
+            <rect class="d-box d-box--accent" x="5" y="20" width="95" height="26" rx="4" />
+            <text class="d-name" x="52" y="37">Placed</text>
+
+            <rect class="d-box" x="125" y="20" width="95" height="26" rx="4" />
+            <text class="d-name" x="172" y="37">Paid</text>
+
+            <rect class="d-box" x="245" y="20" width="95" height="26" rx="4" />
+            <text class="d-name" x="292" y="37">Shipped</text>
+
+            <rect class="d-box" x="365" y="20" width="95" height="26" rx="4" />
+            <text class="d-name" x="412" y="37">Delivered</text>
+
+            <line class="d-line" x1="100" y1="33" x2="119" y2="33" />
+            <path class="d-line" d="M114,29 L121,33 L114,37" />
+            <line class="d-line" x1="220" y1="33" x2="239" y2="33" />
+            <path class="d-line" d="M234,29 L241,33 L234,37" />
+            <line class="d-line" x1="340" y1="33" x2="359" y2="33" />
+            <path class="d-line" d="M354,29 L361,33 L354,37" />
+
+            <rect class="d-box" x="5" y="88" width="95" height="26" rx="4" />
+            <text class="d-name" x="52" y="105">Cancelled</text>
+
+            <line class="d-line" x1="52" y1="46" x2="52" y2="82" />
+            <path class="d-line" d="M48,77 L52,84 L56,77" />
+            <text class="d-label" x="60" y="68">cancel</text>
+          </svg>
+          <figcaption>Draw this first. The class structure follows from it almost mechanically.</figcaption>
+        </figure>
+
+        <div class="code-block code-block--good">
+          <p class="label">Each state knows only its own legal moves</p>
+          <pre><code>class Placed implements OrderState {
+    public OrderState pay()    { return new Paid(); }
+    public OrderState cancel() { return new Cancelled(); }
+    public OrderState ship()   { throw new IllegalStateException("pay first"); }
+}</code></pre>
+        </div>
+
+        <p class="caption u-mt-4">
+          <strong>Shows up in:</strong> vending machines, ATMs, elevators, order lifecycles,
+          traffic lights, document approval, media players.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>Who decides the transition?</h2>
+        <p>
+          Two defensible answers, and you should say which you chose. Either each state returns
+          the next one, as above, which keeps the rules with the state that owns them — or the
+          context asks the state what is allowed and performs the move itself, which centralises
+          logging and validation at the cost of a little indirection.
+        </p>
+        <p>
+          What loses marks is doing both, so that half the transitions live in the states and half
+          in the context.
+        </p>
+      </div>
+
+      <div class="section note">
+        <p class="label">The trap</p>
+        <p>
+          Two states and one transition is an <code>if</code>, not a pattern. And if your states
+          hold no data of their own, allocating a new one per transition is waste — make them
+          enum constants or shared instances.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 25 of 28</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 26 — 5.8 Decorator
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 5</strong> · The patterns that actually come up</span>
+      <span>Structural · Section 5.8</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">5.8</span>Decorator</h1>
+
+      <p class="lead">
+        Add behaviour to individual objects at runtime by wrapping them, rather than baking it in
+        by subclassing.
+      </p>
+
+      <div class="section">
+        <h2>The signal</h2>
+        <p>
+          Optional behaviours that combine. You need logging, retries and caching on an HTTP
+          client — sometimes all three, sometimes one, and the order matters. Subclassing gives a
+          class per combination, which is the multiplication problem from <strong>4.2</strong>
+          in its purest form.
+        </p>
+
+        <figure class="diagram">
+          <svg viewBox="0 0 470 148" role="img" aria-label="LoggingClient wraps RetryingClient wraps BasicClient, all implementing HttpClient">
+            <rect class="d-box" x="170" y="10" width="130" height="32" rx="4" />
+            <text class="d-stereo" x="235" y="24">&#171;interface&#187;</text>
+            <text class="d-name" x="235" y="37">HttpClient</text>
+
+            <rect class="d-box d-box--accent" x="5" y="95" width="140" height="28" rx="4" />
+            <text class="d-name" x="75" y="113">LoggingClient</text>
+
+            <rect class="d-box d-box--accent" x="165" y="95" width="140" height="28" rx="4" />
+            <text class="d-name" x="235" y="113">RetryingClient</text>
+
+            <rect class="d-box" x="325" y="95" width="140" height="28" rx="4" />
+            <text class="d-name" x="395" y="113">BasicClient</text>
+
+            <path class="d-line" d="M75,95 L75,75 L395,75 L395,95" />
+            <line class="d-line" x1="235" y1="95" x2="235" y2="75" />
+            <line class="d-line" x1="235" y1="75" x2="235" y2="56" />
+            <polygon class="d-head" points="235,44 229,56 241,56" />
+
+            <line class="d-line" x1="147" y1="109" x2="161" y2="109" />
+            <path class="d-line" d="M156,105 L163,109 L156,113" />
+            <line class="d-line" x1="307" y1="109" x2="321" y2="109" />
+            <path class="d-line" d="M316,105 L323,109 L316,113" />
+
+            <text class="d-label" x="154" y="139" text-anchor="middle">wraps</text>
+            <text class="d-label" x="314" y="139" text-anchor="middle">wraps</text>
+          </svg>
+          <figcaption>Every box is an <code>HttpClient</code>, so callers cannot tell how deep the stack goes.</figcaption>
+        </figure>
+
+        <div class="code-block code-block--good">
+          <p class="label">A decorator holds the thing it decorates</p>
+          <pre><code>class RetryingClient implements HttpClient {
+    private final HttpClient delegate;
+
+    public Response send(Request request) {
+        for (int attempt = 0; attempt &lt; 3; attempt++) {
+            try { return delegate.send(request); }
+            catch (IOException retryable) { }
+        }
+        throw new IllegalStateException("retries exhausted");
+    }
+}</code></pre>
+        </div>
+
+        <p class="caption u-mt-4">
+          <strong>Shows up in:</strong> Java's own I/O streams, HTTP client middleware, coffee and
+          pizza add-ons, UI borders and scrollbars, pricing with optional extras.
+        </p>
+      </div>
+
+      <div class="section note">
+        <p class="label">The trap</p>
+        <p>
+          Order is behaviour, not detail. Logging outside retries records one call; logging inside
+          records three. If you cannot say which you want, you do not yet understand the
+          requirement.
+        </p>
+        <p>
+          Do not confuse it with Proxy, which has the identical shape and a different purpose:
+          a proxy controls <em>access</em> to the thing, a decorator adds <em>behaviour</em> to it.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 26 of 28</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 27 — 5.9 The rest, at a glance
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 5</strong> · The patterns that actually come up</span>
+      <span>Section 5.9</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">5.9</span>The rest, at a glance</h1>
+
+      <p class="lead">
+        The seven before this carry most interviews. These are the ones worth recognising when
+        somebody else says the name.
+      </p>
+
+      <div class="section">
+        <h2>Worth a proper look eventually</h2>
+        <table class="table table--rowhead">
+          <thead>
+            <tr>
+              <th>Pattern</th>
+              <th>Reach for it when</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Adapter</td>
+              <td>A third-party class does the right job with the wrong interface, and you cannot change it.</td>
+            </tr>
+            <tr>
+              <td>Command</td>
+              <td>An action must be stored, queued, logged or undone — so it has to become an object.</td>
+            </tr>
+            <tr>
+              <td>Chain of Responsibility</td>
+              <td>A request passes through handlers until one deals with it: middleware, approvals, cash dispensing.</td>
+            </tr>
+            <tr>
+              <td>Template Method</td>
+              <td>The steps of an algorithm are fixed but individual steps vary. The one pattern that needs inheritance.</td>
+            </tr>
+            <tr>
+              <td>Composite</td>
+              <td>Individual items and groups of items must be treated identically — file systems, menus, org charts.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <h2>Recognise the name, move on</h2>
+        <table class="table table--rowhead">
+          <tbody>
+            <tr>
+              <td>Facade</td>
+              <td>One simple entry point in front of a complicated subsystem.</td>
+            </tr>
+            <tr>
+              <td>Proxy</td>
+              <td>Same interface as the real thing, but controls access to it — lazy loading, permissions, caching.</td>
+            </tr>
+            <tr>
+              <td>Abstract Factory</td>
+              <td>Creates families of related objects that must be used together.</td>
+            </tr>
+            <tr>
+              <td>Mediator</td>
+              <td>Objects talk through a hub instead of to each other. Chat rooms, air traffic control.</td>
+            </tr>
+            <tr>
+              <td>Flyweight</td>
+              <td>Thousands of near-identical objects share their common state to save memory.</td>
+            </tr>
+            <tr>
+              <td>Memento</td>
+              <td>Capture an object's state so it can be restored later. Undo stacks.</td>
+            </tr>
+            <tr>
+              <td>Prototype</td>
+              <td>New objects are made by copying an existing one rather than constructing from scratch.</td>
+            </tr>
+            <tr>
+              <td>Iterator, Visitor</td>
+              <td>Traverse a structure without exposing it; add operations to it without editing it.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="section note">
+        <p class="label">How much of this to learn</p>
+        <p>
+          Recognition is enough for everything on this page. If an interviewer says "could you use
+          a Chain of Responsibility here?", you need to know what they are describing and whether
+          it fits — not to have memorised a class diagram.
+        </p>
+        <p>
+          The five in the first table are the ones most likely to come up unprompted, and Chain of
+          Responsibility in particular is under-taught relative to how often it is the right
+          answer. Learn those properly once the seven main patterns are second nature.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 27 of 28</span>
+    </footer>
+  </section>
 
 </body>
 
