@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CodeCompass</title>
+  <link rel="stylesheet" href="lowleveldesign/assets/fonts.css" />
+  <style>
+    :root {
+      --ink: #1A1735;
+      --ink-soft: #4B5563;
+      --ink-faint: #8B8AA0;
+      --primary: #8A2BE2;
+      --primary-dark: #5B21B6;
+      --accent: #A855F7;
+      --paper: #FFFFFF;
+      --surface: #FAF8FD;
+      --rule: #E7E3F0;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--paper);
+      padding: 64px 24px;
+    }
+
+    .wrap { max-width: 640px; margin: 0 auto; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      margin-bottom: 40px;
+    }
+
+    .brand__mark {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .brand__mark::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      background: var(--paper);
+      transform: rotate(45deg);
+      border-radius: 1px;
+    }
+
+    h1 {
+      font-size: 34px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+    }
+
+    .tagline {
+      margin-top: 12px;
+      font-size: 17px;
+      color: var(--ink-soft);
+      max-width: 30em;
+    }
+
+    h2 {
+      margin: 48px 0 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .item {
+      display: block;
+      padding: 16px 18px;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      text-decoration: none;
+      color: inherit;
+      background: var(--paper);
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .item + .item { margin-top: 10px; }
+
+    .item:hover {
+      border-color: var(--accent);
+      background: var(--surface);
+    }
+
+    .item__title { font-weight: 600; }
+
+    .item__meta {
+      margin-top: 3px;
+      font-size: 13px;
+      color: var(--ink-soft);
+    }
+
+    .item__links { margin-top: 10px; font-size: 13px; }
+
+    .item__links span { color: var(--primary-dark); font-weight: 500; }
+
+    .pdf-link {
+      display: inline-block;
+      margin-top: 10px;
+      font-size: 13px;
+      color: var(--primary-dark);
+      text-decoration: none;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .pdf-link:hover { border-bottom-color: var(--accent); }
+
+    .soon {
+      margin-top: 24px;
+      padding: 16px 18px;
+      border: 1px dashed var(--rule);
+      border-radius: 6px;
+      color: var(--ink-faint);
+      font-size: 14px;
+    }
+
+    footer {
+      margin-top: 56px;
+      padding-top: 20px;
+      border-top: 1px solid var(--rule);
+      font-size: 13px;
+      color: var(--ink-faint);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <span class="brand__mark" aria-hidden="true"></span>
+      CodeCompass
+    </div>
+
+    <h1>Structured preparation for software engineering interviews.</h1>
+    <p class="tagline">
+      Printable guides built around understanding rather than memorisation. Read them in the
+      browser, or export any of them to PDF.
+    </p>
+
+    <h2>The LLD Runbook</h2>
+    <a class="item" href="lowleveldesign/part-1-theory.html">
+      <div class="item__title">Part 1 — Theory and Principles</div>
+      <div class="item__meta">
+        OOP, SOLID, the patterns that actually come up, and a framework for solving any low level
+        design problem.
+      </div>
+      <div class="item__links">
+        <span>Read online</span>
+      </div>
+    </a>
+    <a class="pdf-link" href="lowleveldesign/part-1-theory.pdf">Download as PDF</a>
+
+    <div class="soon">
+      Part 2 — Problems · in progress
+    </div>
+
+    <footer>
+      CodeCompass · Edition 1 · 2026
+    </footer>
+  </div>
+</body>
+
+</html>
