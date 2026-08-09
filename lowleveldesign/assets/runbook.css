@@ -164,6 +164,12 @@ h1 {
   margin-bottom: var(--s-5);
 }
 
+/* Section number shares the h1 size; only weight and colour separate it. */
+.page-title__num {
+  color: var(--primary);
+  margin-right: var(--s-4);
+}
+
 .page-title::after {
   content: "";
   display: block;
@@ -293,6 +299,10 @@ strong {
   height: 1px;
   background: var(--rule);
   margin: var(--s-6) 0;
+}
+
+.u-mt-4 {
+  margin-top: var(--s-4);
 }
 
 /* ============================================================
