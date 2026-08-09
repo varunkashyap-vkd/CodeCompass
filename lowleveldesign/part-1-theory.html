@@ -1006,6 +1006,480 @@ class Upi implements PaymentMethod {
       <span class="page__num">Page 10 of 26</span>
     </footer>
   </section>
+  <!-- ============================================================
+       Page 11 — 3.1 Single Responsibility
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 3</strong> · SOLID, with the bad code shown first</span>
+      <span>Section 3.1</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">3.1</span>Single Responsibility</h1>
+
+      <p class="lead">
+        Usually taught as "a class should do one thing", which is useless in practice — everyone
+        believes their class does one thing.
+      </p>
+
+      <div class="section">
+        <h2>What it actually says</h2>
+        <p>
+          The sharper phrasing is that a class should have <strong>one reason to change</strong>.
+          Not one method, not one job in some vague sense: one source of future change requests.
+          Two things belong in the same class when they will always change together, and belong
+          apart when they change for different reasons at different times.
+        </p>
+        <p class="aside">
+          The test I actually use: <em>who files the bug report?</em> If finance asks for a tax
+          change and marketing asks for a wording change, and both edits land in the same file,
+          that file has two responsibilities.
+        </p>
+      </div>
+
+      <div class="section">
+        <div class="code-block code-block--bad">
+          <p class="label">Anti-pattern</p>
+          <pre><code>class Invoice {
+    Money subtotal()          { ... }
+    Money tax()               { ... }   <span class="c">// finance changes this</span>
+    byte[] toPdf()            { ... }   <span class="c">// design changes this</span>
+    void email(Customer c)    { ... }   <span class="c">// marketing changes this</span>
+    void save()               { ... }   <span class="c">// infrastructure changes this</span>
+}</code></pre>
+        </div>
+
+        <p>
+          Four departments, one file. Every release, four different people touch it for unrelated
+          reasons, and each of them risks breaking the other three.
+        </p>
+
+        <div class="code-block code-block--good">
+          <p class="label">Better</p>
+          <pre><code>class Invoice {                          <span class="c">// what an invoice IS</span>
+    Money subtotal()               { ... }
+    Money total(TaxPolicy policy)  { ... }
+}
+
+class InvoicePdfRenderer { byte[] render(Invoice invoice)      { ... } }
+class InvoiceMailer      { void send(Invoice invoice, Customer to) { ... } }
+class InvoiceRepository  { void save(Invoice invoice)          { ... } }</code></pre>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>Common mistakes</h2>
+        <ul class="list">
+          <li>
+            <strong>Splitting by line count.</strong> A long class is not automatically a
+            violation, and a short one is not automatically fine.
+          </li>
+          <li>
+            <strong>Over-splitting.</strong> Eight classes to follow one flow is its own failure.
+            SRP is about axes of change, not about making files small.
+          </li>
+        </ul>
+      </div>
+      <div class="section note">
+        <p class="label">What the interviewer is checking</p>
+        <p>
+          Not whether you can split a class — anyone can split a class. Whether you can say why
+          the lines are where they are. "These two always change together, that one changes for a
+          different reason" is the sentence that turns an arbitrary split into a design.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 11 of 26</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 12 — 3.2 Open/Closed
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 3</strong> · SOLID, with the bad code shown first</span>
+      <span>Section 3.2</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">3.2</span>Open/Closed</h1>
+
+      <p class="lead">
+        "Open for extension, closed for modification" is the most quoted and least understood
+        line in SOLID. Read literally it says never edit your code, which is absurd.
+      </p>
+
+      <div class="section">
+        <h2>What it actually says</h2>
+        <p>
+          Pick the axis along which you know the system will vary, and put a seam there. New
+          variations of that <em>known kind</em> should arrive as new code, while the code that
+          already works and is already tested stays untouched.
+        </p>
+        <p>
+          The honest part that gets left out: you cannot be open to everything at once. Choosing
+          which axis to protect <em>is</em> the design decision. Guess right and change is cheap
+          forever. Guess wrong and you have paid for indirection that never pays you back.
+        </p>
+        <p class="aside">
+          Ask yourself: <em>what will the next ten feature requests have in common?</em> If the
+          answer is "another payment type" or "another discount", that is your axis.
+        </p>
+      </div>
+
+      <div class="section">
+        <div class="code-block code-block--bad">
+          <p class="label">Anti-pattern</p>
+          <pre><code>class Checkout {
+    Money discount(Cart cart, String code) {
+        if (code.equals("FLAT10"))   return Money.of(10);
+        if (code.equals("PCT20"))    return cart.total().percent(20);
+        if (code.equals("FREESHIP")) return cart.shipping();
+        return Money.ZERO;
+    }
+}</code></pre>
+        </div>
+
+        <p>
+          Every campaign the marketing team dreams up means editing — and re-testing — a class
+          that is on the critical path of taking money.
+        </p>
+
+        <div class="code-block code-block--good">
+          <p class="label">Better</p>
+          <pre><code>interface Discount {
+    Money apply(Cart cart);
+}
+
+class PercentOff implements Discount {
+    private final int percent;
+    public Money apply(Cart cart) { return cart.total().percent(percent); }
+}
+
+class Checkout {
+    Money discount(Cart cart, Discount discount) { return discount.apply(cart); }
+}</code></pre>
+        </div>
+
+        <p class="caption u-mt-4">
+          This is the same move as <strong>2.4</strong>, and it is the skeleton of the Strategy
+          pattern in <strong>5.2</strong>. Three ideas, one shape.
+        </p>
+      </div>
+      <div class="section">
+        <h2>Common mistakes</h2>
+        <ul class="list">
+          <li>
+            <strong>A seam for an axis that never varies.</strong> Speculative flexibility is the
+            most expensive kind of wrong guess: you pay the indirection cost every time someone
+            reads the code, and collect nothing.
+          </li>
+          <li>
+            <strong>Reading it as "never edit existing code".</strong> Bug fixes modify code.
+            The principle is about absorbing <em>new variations</em> without reopening what works.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 12 of 26</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 13 — 3.3 Liskov Substitution
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 3</strong> · SOLID, with the bad code shown first</span>
+      <span>Section 3.3</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">3.3</span>Liskov Substitution</h1>
+
+      <p class="lead">
+        The formal statement scares people off. The practical version is short: if code works
+        with a base type, it must keep working when handed any subtype — without being told
+        which one it got.
+      </p>
+
+      <div class="section">
+        <h2>What it actually says</h2>
+        <p>
+          Inheritance is a promise made to <em>callers</em>, not a convenience for implementers.
+          When you extend a type you inherit its guarantees, and you are not allowed to quietly
+          take any of them away.
+        </p>
+        <p class="aside">
+          A subtype may accept more than the base and guarantee more than the base.
+          It may never accept less or guarantee less. <strong>Do more, never less.</strong>
+        </p>
+      </div>
+
+      <div class="section">
+        <div class="code-block code-block--bad">
+          <p class="label">Anti-pattern</p>
+          <pre><code>class Document {
+    void save() { writeToDisk(); }
+}
+
+class ReadOnlyDocument extends Document {
+    @Override void save() {
+        throw new UnsupportedOperationException();
+    }
+}</code></pre>
+        </div>
+
+        <p>
+          Now every loop of the form <code>for (Document d : docs) d.save();</code> is a runtime
+          bomb, and the caller has no way to know before it goes off. The subtype took away a
+          guarantee the base had made.
+        </p>
+
+        <div class="code-block code-block--good">
+          <p class="label">Better</p>
+          <pre><code>interface Document {
+    String content();
+}
+
+interface WritableDocument extends Document {
+    void save();
+}</code></pre>
+        </div>
+
+        <p>
+          The distinction moves into the type system. Code that needs to save asks for a
+          <code>WritableDocument</code>, and a read-only document simply cannot be passed to it.
+        </p>
+      </div>
+
+      <div class="section note">
+        <p class="label">How violations show up in review</p>
+        <p>
+          Look for callers that must know the concrete type — an <code>instanceof</code> check
+          before a polymorphic call, or a <code>try/catch</code> wrapped around one "just in case".
+          Both mean substitution has already failed, whatever the class diagram claims.
+        </p>
+      </div>
+      <div class="section">
+        <h2>Common mistakes</h2>
+        <ul class="list">
+          <li>
+            <strong>A subtype that rejects input the base accepted.</strong> If the base allows a
+            null discount and your subclass throws on it, callers written against the base are
+            now wrong through no fault of their own.
+          </li>
+          <li>
+            <strong>Throwing something new.</strong> An exception the base never declared is a
+            broken promise, even when the signature still compiles.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 13 of 26</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 14 — 3.4 Interface Segregation
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 3</strong> · SOLID, with the bad code shown first</span>
+      <span>Section 3.4</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">3.4</span>Interface Segregation</h1>
+
+      <p class="lead">
+        No class should be forced to depend on methods it does not use. It is the smallest of
+        the five principles and the easiest to check — you can usually spot a violation by
+        scrolling.
+      </p>
+
+      <div class="section">
+        <h2>What it actually says</h2>
+        <p>
+          A wide interface hurts twice. Implementers are forced to supply methods that make no
+          sense for them, and callers end up depending on capabilities they never invoke — so a
+          change to a method you don't use can still force you to recompile, retest, and
+          occasionally rewrite.
+        </p>
+        <p class="aside">
+          The giveaway is an <code>@Override</code> with an empty body or a thrown exception.
+          Every one of those is the type system telling you the interface is too wide.
+        </p>
+      </div>
+
+      <div class="section">
+        <div class="code-block code-block--bad">
+          <p class="label">Anti-pattern</p>
+          <pre><code>interface Job {
+    void start();
+    void pause();
+    void resume();
+    void cancel();
+}
+
+class ReportJob implements Job {
+    public void start()  { ... }
+    public void pause()  { }        <span class="c">// nothing sensible to do</span>
+    public void resume() { }
+    public void cancel() { throw new UnsupportedOperationException(); }
+}</code></pre>
+        </div>
+
+        <div class="code-block code-block--good">
+          <p class="label">Better</p>
+          <pre><code>interface Job         { void start(); }
+interface Pausable    { void pause(); void resume(); }
+interface Cancellable { void cancel(); }
+
+class ReportJob implements Job                 { ... }
+class ExportJob implements Job, Cancellable    { ... }</code></pre>
+        </div>
+
+        <p>
+          Each job now declares exactly what it can do, and scheduling code that only ever
+          cancels can ask for <code>Cancellable</code> and ignore the rest.
+        </p>
+      </div>
+
+      <div class="section note">
+        <p class="label">Worth noticing</p>
+        <p>
+          The bad version above is also a Liskov violation — <code>cancel()</code> throwing is the
+          exact failure from <strong>3.3</strong>. That is not a coincidence. Fat interfaces are
+          the usual cause of broken substitution, so segregating them tends to fix both at once.
+        </p>
+      </div>
+      <div class="section">
+        <h2>One mistake worth naming</h2>
+        <p>
+          Segregate by <strong>role</strong>, not by implementation. Creating one interface per
+          concrete class — <code>ReportJobInterface</code>, <code>ExportJobInterface</code> — looks
+          like segregation and achieves nothing. The question is what a <em>caller</em> needs, not
+          who happens to implement it.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 14 of 26</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 15 — 3.5 Dependency Inversion
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 3</strong> · SOLID, with the bad code shown first</span>
+      <span>Section 3.5</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">3.5</span>Dependency Inversion</h1>
+
+      <p class="lead">
+        Two things get confused here. Dependency inversion is not dependency injection, and it
+        is not "use interfaces everywhere". Injection is a technique; inversion is a direction.
+      </p>
+
+      <div class="section">
+        <h2>What it actually says</h2>
+        <p>
+          High-level policy — the code expressing what your product does — should not depend on
+          low-level detail such as a database, an HTTP client or a file format. Both should
+          depend on an abstraction instead.
+        </p>
+        <p>
+          The half that candidates almost always miss is <em>who owns the abstraction</em>. The
+          interface belongs to the module that <strong>needs</strong> it, not the one that
+          implements it. That ownership flip is the inversion; without it you have merely added
+          an interface and pointed the same arrow through it.
+        </p>
+      </div>
+
+      <div class="section">
+        <div class="code-block code-block--bad">
+          <p class="label">Anti-pattern</p>
+          <pre><code>class OrderService {
+    private final MySqlOrderRepository repo = new MySqlOrderRepository();
+
+    void place(Order order) { repo.insert(order); }
+}</code></pre>
+        </div>
+
+        <p>
+          Order policy now depends on MySQL. You cannot test placing an order without a database,
+          and swapping the store means editing business logic.
+        </p>
+
+        <div class="code-block code-block--good">
+          <p class="label">Better</p>
+          <pre><code>interface OrderRepository {          <span class="c">// declared beside OrderService</span>
+    void save(Order order);
+}
+
+class OrderService {
+    private final OrderRepository repo;
+
+    OrderService(OrderRepository repo) { this.repo = repo; }
+
+    void place(Order order) { repo.save(order); }
+}</code></pre>
+        </div>
+
+        <p>
+          <code>MySqlOrderRepository</code> now implements an interface defined by the domain, so
+          the dependency arrow runs from detail toward policy. Assembly happens once, at the edge
+          of the application, where <code>main</code> or a configuration class wires the concrete
+          pieces together.
+        </p>
+      </div>
+      <div class="section">
+        <h2>Common mistakes</h2>
+        <ul class="list">
+          <li>
+            <strong><code>new</code> inside a policy class.</strong> Every <code>new</code> on a
+            collaborator is a decision you can no longer change from the outside.
+          </li>
+          <li>
+            <strong>Putting the interface in the infrastructure package.</strong> If the detail
+            owns the abstraction, nothing was inverted — you added a file and kept the arrow.
+          </li>
+        </ul>
+      </div>
+
+      <div class="section note">
+        <p class="label">What the interviewer is checking</p>
+        <p>
+          The fastest signal is testability. "How would you unit test this?" is really asking
+          whether your dependencies can be replaced. If the answer needs a running database, the
+          arrow is pointing the wrong way.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 15 of 26</span>
+    </footer>
+  </section>
 
 </body>
 

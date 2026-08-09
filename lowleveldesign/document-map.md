@@ -88,11 +88,11 @@ The `of 26` is deliberate. It bounds the document so it never feels open-ended.
 | 2.2 | 8 | Abstraction | done | Hiding decisions, not data. SMTP leaking into OrderService. Interface versus abstract class. Naming the technology as the leak tell. |
 | 2.3 | 9 | Inheritance | done | `Stack extends ArrayList` inherits the whole API. Composition fix. The three conditions for inheriting. |
 | 2.4 | 10 | Polymorphism | done | The growing switch and its siblings. PaymentMethod interface. When a switch is still right. Forward links to 3.2 and 5.2. |
-| 3.1 | 11 | Single Responsibility | todo | "One reason to change." God-class anti-pattern, the fix, and the opposite failure of splitting too far. |
-| 3.2 | 12 | Open/Closed | todo | Extension without modification. Enum-plus-switch refactored toward Strategy. Forward reference to 5.2. |
-| 3.3 | 13 | Liskov Substitution | todo | Subtype contracts and preconditions. A realistic violation, not the Rectangle/Square cliché. |
-| 3.4 | 14 | Interface Segregation | todo | Fat interfaces forcing empty implementations. Role interfaces as the fix. |
-| 3.5 | 15 | Dependency Inversion | todo | Depend on abstractions. Constructor injection. Wiring at the edge, not in the middle. |
+| 3.1 | 11 | Single Responsibility | done | "One reason to change", framed as *who files the bug report*. Invoice with four departments' concerns. Over-splitting as the opposite failure. |
+| 3.2 | 12 | Open/Closed | done | Choosing the axis of variation is the design decision. Discount code if-chain to a `Discount` interface. Speculative seams as the cost. |
+| 3.3 | 13 | Liskov Substitution | done | "Do more, never less." `ReadOnlyDocument` throwing on `save()`; fixed by splitting the contract into `WritableDocument`. |
+| 3.4 | 14 | Interface Segregation | done | Fat `Job` interface forcing empty overrides. Role interfaces as the fix. Explicit link back to the 3.3 violation. |
+| 3.5 | 15 | Dependency Inversion | done | Inversion is a direction, not injection. The abstraction must be owned by the module that needs it. Testability as the interview signal. |
 | 4.1 | 16 | KISS, DRY and YAGNI | todo | The three restraint principles, plus the honest counterpoint that DRY is the most over-applied idea in LLD. |
 | 4.2 | 17 | Composition over inheritance | todo | The same requirement solved both ways, side by side, with the extension test applied to each. |
 | 4.3 | 18 | Interfaces and immutability | todo | Program to interfaces; favour immutability. Value objects, defensive copies, thread safety by construction. |
