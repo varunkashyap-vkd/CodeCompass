@@ -625,6 +625,387 @@
       <span class="page__num">Page 6 of 26</span>
     </footer>
   </section>
+  <!-- ============================================================
+       Page 7 — 2.1 Encapsulation
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 2</strong> · Object orientation, reconsidered</span>
+      <span>Section 2.1</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">2.1</span>Encapsulation</h1>
+
+      <p class="lead">
+        Encapsulation is not "make fields private and add getters". It is deciding who is
+        allowed to change state, and then refusing everyone else.
+      </p>
+
+      <div class="section">
+        <p>
+          The useful question is never <em>what is the visibility of this field</em>. It is
+          <em>what does this class promise about itself, and could a caller break that promise?</em>
+          A cart whose total can disagree with its items is broken no matter how private the
+          fields are.
+        </p>
+
+        <div class="code-block code-block--bad">
+          <p class="label">Anti-pattern</p>
+          <pre><code>class Cart {
+    public List&lt;Item&gt; items = new ArrayList&lt;&gt;();
+    public Money total;                 <span class="c">// who keeps this in sync?</span>
+}</code></pre>
+        </div>
+
+        <div class="code-block code-block--good">
+          <p class="label">Better</p>
+          <pre><code>class Cart {
+    private final List&lt;Item&gt; items = new ArrayList&lt;&gt;();
+
+    void add(Item item) { items.add(item); }
+
+    List&lt;Item&gt; items() { return List.copyOf(items); }   <span class="c">// no outside mutation</span>
+
+    Money total() {                                     <span class="c">// derived, never stale</span>
+        return items.stream().map(Item::price)
+                    .reduce(Money.ZERO, Money::add);
+    }
+}</code></pre>
+        </div>
+
+        <p>
+          Two decisions did the work. The total is computed rather than stored, so there is no
+          second copy of the truth to fall out of step. And the list is handed out as a copy, so
+          a caller holding a reference cannot quietly add to it.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>Common mistakes</h2>
+        <ul class="list">
+          <li>
+            <strong>Getter and setter for every field.</strong> A private field with a public
+            setter is a public field with extra typing. Ask what the setter protects.
+          </li>
+          <li>
+            <strong>Returning the internal collection.</strong> The most common one. It hands
+            every caller a key to your state.
+          </li>
+          <li>
+            <strong>Validating in the caller.</strong> If the object can be constructed in an
+            invalid state, someone eventually will.
+          </li>
+        </ul>
+      </div>
+
+      <div class="section note">
+        <p class="label">What the interviewer is checking</p>
+        <p>
+          Whether you can name the invariant out loud. "A cart's total must always equal the sum
+          of its items" is the sentence that justifies every access decision on the page. Say it
+          and the design explains itself; skip it and you are just guessing at keywords.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 7 of 26</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 8 — 2.2 Abstraction
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 2</strong> · Object orientation, reconsidered</span>
+      <span>Section 2.2</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">2.2</span>Abstraction</h1>
+
+      <p class="lead">
+        Encapsulation hides state. Abstraction hides decisions — it stops callers from knowing
+        <em>how</em> something is done, so you can change your mind later.
+      </p>
+
+      <div class="section">
+        <div class="code-block code-block--bad">
+          <p class="label">Anti-pattern</p>
+          <pre><code>class OrderService {
+    void place(Order order) {
+        SmtpClient smtp = new SmtpClient("smtp.internal", 587);
+        smtp.send(order.customerEmail(), "Order placed");
+    }
+}</code></pre>
+        </div>
+
+        <p>
+          Nothing here is wrong until the day you add SMS. Then <code>OrderService</code> — a class
+          about orders — has to be edited because of a messaging decision. It knows a hostname
+          and a port number, and neither has anything to do with placing an order.
+        </p>
+
+        <div class="code-block code-block--good">
+          <p class="label">Better</p>
+          <pre><code>interface Notifier {
+    void notify(Customer to, String message);
+}
+
+class OrderService {
+    private final Notifier notifier;
+
+    OrderService(Notifier notifier) { this.notifier = notifier; }
+
+    void place(Order order) {
+        notifier.notify(order.customer(), "Order placed");
+    }
+}</code></pre>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>How a leaking abstraction announces itself</h2>
+        <p>
+          Watch the names. The moment a technology appears in the contract — <code>sendEmail()</code>,
+          <code>getConnection()</code>, <code>toJson()</code> — the abstraction has failed, because
+          every caller now depends on the choice you were trying to hide.
+        </p>
+      </div>
+      <div class="section">
+        <h2>Interface or abstract class</h2>
+        <table class="table table--rowhead">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Use it when</th>
+              <th>Cost</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Interface</td>
+              <td>You need a contract and nothing more. This is the default.</td>
+              <td>No shared code; each implementation stands alone.</td>
+            </tr>
+            <tr>
+              <td>Abstract class</td>
+              <td>Subclasses genuinely share state or a fixed algorithm skeleton.</td>
+              <td>Spends the one inheritance slot and couples subclasses to the base.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <h2>Common mistakes</h2>
+        <ul class="list">
+          <li>
+            <strong>An interface with one implementation, added "for flexibility".</strong>
+            If no second implementation is coming, that is indirection, not abstraction.
+          </li>
+          <li>
+            <strong>Methods only one implementation can honour.</strong> The rest throw, and the
+            contract was a lie.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 8 of 26</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 9 — 2.3 Inheritance
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 2</strong> · Object orientation, reconsidered</span>
+      <span>Section 2.3</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">2.3</span>Inheritance</h1>
+
+      <p class="lead">
+        Inheritance is the most over-used relationship in LLD interviews. It buys you code reuse
+        and charges you coupling, and candidates rarely price the second half.
+      </p>
+
+      <div class="section">
+        <div class="code-block code-block--bad">
+          <p class="label">Anti-pattern</p>
+          <pre><code>class Stack extends ArrayList&lt;String&gt; {
+    void push(String s) { add(s); }
+    String pop() { return remove(size() - 1); }
+}</code></pre>
+        </div>
+
+        <p>
+          This compiles, passes a quick test, and is broken. <code>Stack</code> did not inherit
+          two useful methods — it inherited the <em>entire</em> <code>ArrayList</code> API. A caller
+          can now write <code>stack.add(0, "x")</code> and insert at the bottom, or call
+          <code>clear()</code>, or index into the middle. The one thing a stack promises is the
+          one thing this class cannot enforce.
+        </p>
+
+        <div class="code-block code-block--good">
+          <p class="label">Better</p>
+          <pre><code>class Stack {
+    private final List&lt;String&gt; items = new ArrayList&lt;&gt;();
+
+    void push(String s) { items.add(s); }
+
+    String pop() {
+        if (items.isEmpty()) throw new NoSuchElementException();
+        return items.remove(items.size() - 1);
+    }
+}</code></pre>
+        </div>
+
+        <p>
+          Same reuse, none of the exposure. The list is now a private implementation detail
+          rather than a public inheritance contract.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>When inheritance is genuinely right</h2>
+        <p>
+          All three have to hold, not just the first:
+        </p>
+        <ul class="list">
+          <li>The relationship is a real <em>is-a</em>, and callers will substitute the subtype for the base.</li>
+          <li>The base was designed for extension — stable, documented, and yours to change.</li>
+          <li>The subclass weakens no guarantee the base makes.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h2>Common mistakes</h2>
+        <ul class="list">
+          <li>
+            <strong>Inheriting for reuse rather than substitutability.</strong> If you never treat
+            the subtype as the base, you wanted a field, not a parent.
+          </li>
+          <li>
+            <strong>Overriding a method to throw.</strong> <code>UnsupportedOperationException</code>
+            is an admission that the hierarchy is wrong.
+          </li>
+        </ul>
+      </div>
+
+      <div class="section note">
+        <p class="label">What the interviewer is checking</p>
+        <p>
+          Whether <code>extends</code> is your reflex. Reaching for composition first, and giving a
+          reason when you do inherit, separates people who learned OOP from people who have
+          maintained it. If you inherit, say which guarantee the base makes and why your subclass
+          keeps it.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 9 of 26</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 10 — 2.4 Polymorphism
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 2</strong> · Object orientation, reconsidered</span>
+      <span>Section 2.4</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">2.4</span>Polymorphism</h1>
+
+      <p class="lead">
+        Textbooks explain polymorphism with animals making sounds. In an interview its value is
+        far more concrete: it is how you delete a conditional that would otherwise grow forever.
+      </p>
+
+      <div class="section">
+        <div class="code-block code-block--bad">
+          <p class="label">Anti-pattern</p>
+          <pre><code>Money fee(Payment p) {
+    switch (p.type()) {
+        case CARD:   return p.amount().percent(2);
+        case UPI:    return Money.ZERO;
+        case WALLET: return p.amount().percent(1);
+    }
+    throw new IllegalArgumentException(p.type().name());
+}</code></pre>
+        </div>
+
+        <p>
+          The problem is not this method. It is that a codebase like this never has only one —
+          there is a matching switch for settlement time, another for refund rules, another for
+          the receipt label. Adding a payment type means finding all of them, and the compiler
+          will not tell you when you miss one.
+        </p>
+
+        <div class="code-block code-block--good">
+          <p class="label">Better</p>
+          <pre><code>interface PaymentMethod {
+    Money fee(Money amount);
+}
+
+class Card implements PaymentMethod {
+    public Money fee(Money amount) { return amount.percent(2); }
+}
+
+class Upi implements PaymentMethod {
+    public Money fee(Money amount) { return Money.ZERO; }
+}</code></pre>
+        </div>
+
+        <p>
+          Adding a wallet is now a new file rather than an edit to four existing ones. That is
+          the Open/Closed Principle arriving early — we come back to it in <strong>3.2</strong>,
+          and it is the backbone of the Strategy pattern in <strong>5.2</strong>.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>When a switch is the right answer</h2>
+        <p>
+          On a closed set that genuinely will not grow — days of the week, HTTP methods — a
+          switch is clearer than four classes. Replacing every conditional with a type hierarchy
+          is its own failure mode, and an experienced interviewer will read it as over-engineering.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>Common mistakes</h2>
+        <ul class="list">
+          <li>
+            <strong><code>instanceof</code> chains.</strong> The same growing conditional wearing
+            a disguise. If you are asking what type something is, the type should be deciding.
+          </li>
+          <li>
+            <strong>Logic living in the caller.</strong> Data-only classes with all the behaviour
+            outside them means polymorphism has nowhere to happen.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 10 of 26</span>
+    </footer>
+  </section>
 
 </body>
 

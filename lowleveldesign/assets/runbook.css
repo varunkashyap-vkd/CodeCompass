@@ -258,10 +258,11 @@ strong {
 .list li::before {
   content: "";
   position: absolute;
-  left: 0;
-  top: 0.6em;
-  width: 6px;
-  height: 1px;
+  left: 2px;
+  top: 0.52em;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
   background: var(--primary);
 }
 
@@ -422,6 +423,41 @@ pre code {
   border-radius: var(--radius-sm);
   padding: 2px 6px;
   background: var(--paper);
+}
+
+/* Comments are the only coloured token; see style-reference.md section 7. */
+pre .c {
+  color: var(--ink-faint);
+  font-style: italic;
+}
+
+.code-block {
+  border-left: 2px solid var(--rule-strong);
+  padding-left: 10px;
+}
+
+.code-block + .code-block {
+  margin-top: var(--s-4);
+}
+
+.code-block .label {
+  margin-bottom: var(--s-2);
+}
+
+.code-block--bad {
+  border-left-color: var(--bad);
+}
+
+.code-block--bad .label {
+  color: var(--bad);
+}
+
+.code-block--good {
+  border-left-color: var(--good);
+}
+
+.code-block--good .label {
+  color: var(--good);
 }
 
 /* ============================================================

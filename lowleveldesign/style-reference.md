@@ -97,6 +97,7 @@ printed size, given for reference only.
 - Bold within body text uses weight 600 and stays `--ink`. Bold is for terms, not enthusiasm.
 - Body text is always left-aligned and never justified — justification creates rivers at this measure.
 - Paragraphs are capped at four lines. Beyond that, convert to a list.
+- List markers are 4px purple bullets, not dashes. A dash reads as a diff marker next to code.
 
 ---
 
@@ -202,6 +203,13 @@ Maximum **two** tinted or bordered blocks per page. More turns the page into a d
   `--ink-faint` italic, everything else `--ink`. Never colour more than three token types.
 - Comparison blocks stack or sit side by side with a `--bad` / `--good` left edge and an
   `h4` micro-label (`ANTI-PATTERN` / `BETTER`). No red or green fills beyond `--bad-bg` / `--good-bg`.
+
+**Stacking beats columns.** Side-by-side code halves the measure to roughly 40 characters, which
+forces unnatural line breaks in Java. Stack an `ANTI-PATTERN` block above a `BETTER` block, each
+with a 2px coloured left edge, and let prose between them explain the change.
+
+**Tint budget.** A `pre` background does not count toward the two-block tint limit in section 6.
+A code-heavy page may carry two code blocks plus one `.note`; beyond that, drop the note.
 
 **Repo chip:** inline element, 11px, mono, `--primary-dark` text, 1px `--rule` border,
 radius 3px, padding `2px 6px` — used for "full implementation" links.

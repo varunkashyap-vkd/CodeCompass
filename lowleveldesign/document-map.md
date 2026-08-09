@@ -84,10 +84,10 @@ The `of 26` is deliberate. It bounds the document so it never feels open-ended.
 | 1.1 | 4 | What LLD actually is | done | Definition as modelling plus defending. Where it shows up. What changes by level. |
 | 1.2 | 5 | Four rounds that get confused | done | DSA / LLD / machine coding / HLD table. The gear shift. Where the LLD–HLD line sits. |
 | 1.3 | 6 | What's actually being evaluated | done | Five scorecard items. How strong DSA candidates lose. What a good sentence sounds like. |
-| 2.1 | 7 | Encapsulation | todo | Who is allowed to mutate state. Public-field example, the fix, and why getters and setters on everything misses the point. |
-| 2.2 | 8 | Abstraction | todo | Hiding decisions, not just data. Interface versus abstract class. How a leaking abstraction reveals itself. |
-| 2.3 | 9 | Inheritance | todo | is-a versus has-a. Fragile base class. The narrow cases where inheritance is genuinely right. |
-| 2.4 | 10 | Polymorphism | todo | Dispatch replacing conditionals. The growing switch statement as a design smell. Compile-time versus runtime. |
+| 2.1 | 7 | Encapsulation | done | Who is allowed to mutate state. Cart example: derived totals and defensive copies. Naming the invariant. |
+| 2.2 | 8 | Abstraction | done | Hiding decisions, not data. SMTP leaking into OrderService. Interface versus abstract class. Naming the technology as the leak tell. |
+| 2.3 | 9 | Inheritance | done | `Stack extends ArrayList` inherits the whole API. Composition fix. The three conditions for inheriting. |
+| 2.4 | 10 | Polymorphism | done | The growing switch and its siblings. PaymentMethod interface. When a switch is still right. Forward links to 3.2 and 5.2. |
 | 3.1 | 11 | Single Responsibility | todo | "One reason to change." God-class anti-pattern, the fix, and the opposite failure of splitting too far. |
 | 3.2 | 12 | Open/Closed | todo | Extension without modification. Enum-plus-switch refactored toward Strategy. Forward reference to 5.2. |
 | 3.3 | 13 | Liskov Substitution | todo | Subtype contracts and preconditions. A realistic violation, not the Rectangle/Square cliché. |
