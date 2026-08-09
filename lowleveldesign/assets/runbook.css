@@ -346,6 +346,15 @@ strong {
   width: 22%;
 }
 
+/* Secondary line inside a row-head cell, e.g. an acronym expansion. */
+.table__sub {
+  display: block;
+  margin-top: 1px;
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  color: var(--ink-soft);
+}
+
 /* ============================================================
    Notes — left accent, minimal fill
    ============================================================ */

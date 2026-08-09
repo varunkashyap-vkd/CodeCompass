@@ -1507,25 +1507,25 @@ class OrderService {
         <table class="table table--rowhead">
           <thead>
             <tr>
-              <th></th>
-              <th>Guards against</th>
+              <th>Principle</th>
+              <th>What it says</th>
               <th>Over-applied, it becomes</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>KISS</td>
-              <td>A solution more elaborate than the problem it solves.</td>
+              <td>KISS<span class="table__sub">Keep It Simple, Stupid</span></td>
+              <td>Choose the simplest design that fully solves the problem actually in front of you.</td>
               <td>Refusing structure the problem genuinely needs, until everything lives in one method.</td>
             </tr>
             <tr>
-              <td>DRY</td>
-              <td>The same decision written in two places, so one gets updated and the other quietly does not.</td>
+              <td>DRY<span class="table__sub">Don't Repeat Yourself</span></td>
+              <td>Every piece of knowledge should have one authoritative home, so a change lands in exactly one place.</td>
               <td>Merging code that merely looks alike, welding together things that needed to evolve apart.</td>
             </tr>
             <tr>
-              <td>YAGNI</td>
-              <td>Building for requirements nobody has actually stated.</td>
+              <td>YAGNI<span class="table__sub">You Aren't Gonna Need It</span></td>
+              <td>Don't build it until a real requirement asks for it.</td>
               <td>Ignoring a change you already know is coming, and paying to retrofit it.</td>
             </tr>
           </tbody>
