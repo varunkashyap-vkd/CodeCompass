@@ -93,9 +93,9 @@ The `of 26` is deliberate. It bounds the document so it never feels open-ended.
 | 3.3 | 13 | Liskov Substitution | done | "Do more, never less." `ReadOnlyDocument` throwing on `save()`; fixed by splitting the contract into `WritableDocument`. |
 | 3.4 | 14 | Interface Segregation | done | Fat `Job` interface forcing empty overrides. Role interfaces as the fix. Explicit link back to the 3.3 violation. |
 | 3.5 | 15 | Dependency Inversion | done | Inversion is a direction, not injection. The abstraction must be owned by the module that needs it. Testability as the interview signal. |
-| 4.1 | 16 | KISS, DRY and YAGNI | todo | The three restraint principles, plus the honest counterpoint that DRY is the most over-applied idea in LLD. |
-| 4.2 | 17 | Composition over inheritance | todo | The same requirement solved both ways, side by side, with the extension test applied to each. |
-| 4.3 | 18 | Interfaces and immutability | todo | Program to interfaces; favour immutability. Value objects, defensive copies, thread safety by construction. |
+| 4.1 | 16 | KISS, DRY and YAGNI | done | Framed as restraint heuristics, scored silently rather than asked by name. Guards-against/over-applied table. DRY as duplicated knowledge not text. The OCP-versus-YAGNI tension and how to resolve it aloud. |
+| 4.2 | 17 | Composition over inheritance | done | The argument is arithmetic: two axes multiply under inheritance, add under composition. Report format x destination. When inheritance still wins. |
+| 4.3 | 18 | Interfaces and immutability | done | Depend on the weakest type that works (distinct from creating interfaces, cf. 2.2). Value objects. Deep versus shallow immutability; entities are not value objects. |
 | 5.1 | 19 | Choosing a pattern | todo | Symptom-to-pattern decision map. Explicit warning against pattern-dropping. Sets up the chapter. |
 | 5.2 | 20 | Strategy | todo | Intent, class diagram, short snippet, interview usage, common mistakes. |
 | 5.3 | 21 | Factory | todo | Same template. Factory method versus abstract factory, and when the distinction matters. |

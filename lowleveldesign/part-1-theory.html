@@ -1480,6 +1480,307 @@ class OrderService {
       <span class="page__num">Page 15 of 26</span>
     </footer>
   </section>
+  <!-- ============================================================
+       Page 16 — 4.1 KISS, DRY and YAGNI
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 4</strong> · Principles that keep designs small</span>
+      <span>Section 4.1</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">4.1</span>KISS, DRY and YAGNI</h1>
+
+      <p class="lead">
+        Chapter 3 was about adding structure. This one is the counterweight — three habits that
+        tell you when to stop.
+      </p>
+
+      <div class="section">
+        <p>
+          These are rarely asked by name. No interviewer opens with "what is YAGNI?" They are
+          scored silently instead: someone notices that you did not build a plugin architecture
+          for a parking lot, and that observation quietly becomes "pragmatic, would ship".
+        </p>
+
+        <table class="table table--rowhead">
+          <thead>
+            <tr>
+              <th></th>
+              <th>Guards against</th>
+              <th>Over-applied, it becomes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>KISS</td>
+              <td>A solution more elaborate than the problem it solves.</td>
+              <td>Refusing structure the problem genuinely needs, until everything lives in one method.</td>
+            </tr>
+            <tr>
+              <td>DRY</td>
+              <td>The same decision written in two places, so one gets updated and the other quietly does not.</td>
+              <td>Merging code that merely looks alike, welding together things that needed to evolve apart.</td>
+            </tr>
+            <tr>
+              <td>YAGNI</td>
+              <td>Building for requirements nobody has actually stated.</td>
+              <td>Ignoring a change you already know is coming, and paying to retrofit it.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="section">
+        <h2>The one that does real damage</h2>
+        <p>
+          DRY causes more bad designs than the other two combined, because it is misremembered as
+          "no two pieces of code may look the same".
+        </p>
+
+        <div class="code-block code-block--bad">
+          <p class="label">Looks like duplication</p>
+          <pre><code>class SignupValidator    { boolean valid(String email) { return email.contains("@"); } }
+class NewsletterValidator{ boolean valid(String email) { return email.contains("@"); } }</code></pre>
+        </div>
+
+        <p>
+          Extract a shared base class and you have just coupled signup policy to newsletter
+          policy. Two months later signup must reject free email domains — and now you are
+          unpicking an abstraction that never should have existed. The code was identical by
+          coincidence, not because it expressed the same rule.
+        </p>
+
+        <p class="aside">
+          DRY is about duplicated <strong>knowledge</strong>, not duplicated <strong>text</strong>.
+          The test: if this rule changes, must both places change? If they would change
+          independently, leave them alone.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>How this shows up in the room</h2>
+        <ul class="list">
+          <li>A configuration-driven rules engine for a problem that has three rules.</li>
+          <li>A base class extracted because two methods happened to look similar.</li>
+          <li>A caching layer, a thread pool and a retry policy nobody asked for.</li>
+        </ul>
+      </div>
+      <div class="section note">
+        <p class="label">When these fight chapter 3</p>
+        <p>
+          Open/Closed says put a seam where the system will vary. YAGNI says do not build for
+          requirements nobody has stated. Both are right, and on any given decision they point in
+          opposite directions.
+        </p>
+        <p>
+          The resolution is to say it out loud: add the seam when you can <em>name</em> the second
+          case, and write the simple version when you cannot. "I'd keep this a switch until we have
+          a second payment type, then it becomes a Strategy" is a stronger answer than either
+          principle recited on its own.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 16 of 26</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 17 — 4.2 Composition over inheritance
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 4</strong> · Principles that keep designs small</span>
+      <span>Section 4.2</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">4.2</span>Composition over inheritance</h1>
+
+      <p class="lead">
+        Section 2.3 argued that inheritance is over-used and showed how it leaks. This is the
+        positive case — what to reach for instead, and why it keeps working as requirements pile up.
+      </p>
+
+      <div class="section">
+        <h2>The argument is arithmetic</h2>
+        <p>
+          A class hierarchy can only encode one axis of variation cleanly. The moment a second
+          axis appears, you are not adding classes — you are multiplying them.
+        </p>
+
+        <div class="code-block code-block--bad">
+          <p class="label">Two axes, one hierarchy</p>
+          <pre><code>class CsvEmailReport extends Report { ... }
+class CsvS3Report    extends Report { ... }
+class PdfEmailReport extends Report { ... }
+class PdfS3Report    extends Report { ... }   <span class="c">// add JSON: six. add FTP: nine.</span></code></pre>
+        </div>
+
+        <p>
+          Format and destination are independent choices, but the hierarchy forces every
+          combination to exist as its own class. Each new format multiplies by the number of
+          destinations, and the shared code inside them starts getting copied.
+        </p>
+
+        <div class="code-block code-block--good">
+          <p class="label">Two axes, two abstractions</p>
+          <pre><code>class Report {
+    private final Formatter formatter;
+    private final Destination destination;
+
+    Report(Formatter formatter, Destination destination) {
+        this.formatter = formatter;
+        this.destination = destination;
+    }
+
+    void publish(Data data) {
+        destination.send(formatter.format(data));
+    }
+}</code></pre>
+        </div>
+
+        <p class="aside">
+          With inheritance you <strong>multiply</strong>. With composition you <strong>add</strong>.
+          Adding JSON is one new class, and it works with every destination that already exists.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>What it costs</h2>
+        <p>
+          Composition is not free. Somebody has to assemble the pieces, so object creation gets
+          wordier and one more indirection sits between the caller and the work. That price is
+          worth paying when the axes are genuinely independent, and not worth paying for a single
+          fixed variation — which is exactly the judgement <strong>4.1</strong> is about.
+        </p>
+        <p class="caption u-mt-4">
+          This shape returns twice: as the Strategy pattern in <strong>5.2</strong>, and as
+          Decorator in <strong>5.6</strong>.
+        </p>
+      </div>
+      <div class="section">
+        <h2>When inheritance still wins</h2>
+        <p>
+          "Prefer composition" is a default, not a prohibition. Inheritance earns its place when
+          the subtype is a genuine specialisation that callers will pass anywhere the base is
+          expected, and when the base is stable, documented and yours to change.
+        </p>
+        <p>
+          Template Method — a base class that fixes the steps of an algorithm and lets subclasses
+          fill in individual ones — is the one common pattern that genuinely depends on
+          inheritance. It appears in <strong>5.7</strong>.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 17 of 26</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 18 — 4.3 Interfaces and immutability
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Chapter 4</strong> · Principles that keep designs small</span>
+      <span>Section 4.3</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">4.3</span>Interfaces and immutability</h1>
+
+      <p class="lead">
+        Two defaults worth adopting. Neither is dramatic on its own, and together they remove a
+        whole category of bug from a design.
+      </p>
+
+      <div class="section">
+        <h2>Program to interfaces</h2>
+        <p>
+          This is about what you <em>depend on</em>, not about creating more interfaces — that
+          distinction matters, because <strong>2.2</strong> warned against inventing an interface
+          per class. Here the rule is narrower: declare things by the weakest type that does the
+          job.
+        </p>
+
+        <div class="code-block code-block--good">
+          <p class="label">Depend on the contract, not the implementation</p>
+          <pre><code>List&lt;Order&gt; orders = new ArrayList&lt;&gt;();      <span class="c">// not ArrayList&lt;Order&gt; orders</span>
+
+void audit(Collection&lt;Order&gt; orders) { ... }   <span class="c">// I only need to iterate</span></code></pre>
+        </div>
+
+        <p>
+          Widening the parameter to <code>Collection</code> costs nothing and immediately makes the
+          method usable with a set. Narrowing it to <code>ArrayList</code> gains nothing and rules
+          out every other caller.
+        </p>
+      </div>
+
+      <div class="section">
+        <h2>Favour immutability</h2>
+        <p>
+          An object that cannot change cannot be corrupted, cannot surprise a caller who stored a
+          reference to it, is thread-safe with no effort, and is safe to use as a map key. Very
+          few design decisions pay that well for so little.
+        </p>
+
+        <div class="code-block code-block--good">
+          <p class="label">A value object</p>
+          <pre><code>final class Money {
+    private final long amount;
+    private final Currency currency;
+
+    Money add(Money other) {                <span class="c">// returns a new value</span>
+        return new Money(amount + other.amount, currency);
+    }
+}</code></pre>
+        </div>
+
+        <p>
+          <code>Money</code>, <code>DateRange</code>, <code>Coordinates</code>, <code>Address</code> —
+          anything you would compare by value rather than identity is a candidate. Make them
+          immutable and equality, hashing and sharing all stop being questions you have to answer.
+        </p>
+      </div>
+
+      <div class="section note">
+        <p class="label">Cheap to say, hard to fake</p>
+        <p>
+          "I'll make <code>Money</code> immutable so arithmetic returns new values and equality is
+          safe" takes five seconds and signals more experience than most of what candidates
+          rehearse. It is the kind of remark that only comes from having been bitten.
+        </p>
+      </div>
+      <div class="section">
+        <h2>Common mistakes</h2>
+        <ul class="list">
+          <li>
+            <strong>Calling a class immutable because its fields are <code>final</code>.</strong>
+            A <code>final</code> reference to a mutable list is still mutable. The field cannot be
+            reassigned; the contents can be changed by anyone holding the same list.
+          </li>
+          <li>
+            <strong>Making everything immutable.</strong> Value objects want it. Entities with a
+            real lifecycle — an order that moves through states — do not, and forcing it there
+            produces copies nobody wanted to write.
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 1</span>
+      <span class="page__num">Page 18 of 26</span>
+    </footer>
+  </section>
 
 </body>
 
