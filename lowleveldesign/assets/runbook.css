@@ -470,6 +470,76 @@ pre .c {
 }
 
 /* ============================================================
+   UML diagrams — hand-authored inline SVG, no runtime rendering
+   ============================================================ */
+.diagram {
+  margin: var(--s-5) 0;
+}
+
+.diagram svg {
+  display: block;
+  width: 100%;
+  max-width: 470px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.diagram figcaption {
+  margin-top: var(--s-3);
+  font-size: var(--fs-caption);
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.d-box {
+  fill: var(--paper);
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+}
+
+.d-box--accent {
+  fill: var(--note-bg);
+  stroke: var(--primary);
+}
+
+.d-name {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  fill: var(--ink);
+  text-anchor: middle;
+}
+
+.d-stereo {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  fill: var(--ink-faint);
+  text-anchor: middle;
+}
+
+.d-label {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  fill: var(--ink-faint);
+}
+
+.d-line {
+  stroke: var(--ink-soft);
+  stroke-width: 1;
+  fill: none;
+}
+
+.d-line--dashed {
+  stroke-dasharray: 4 3;
+}
+
+.d-head {
+  fill: var(--paper);
+  stroke: var(--ink-soft);
+  stroke-width: 1;
+}
+
+/* ============================================================
    Contents
    ============================================================ */
 .toc__row {

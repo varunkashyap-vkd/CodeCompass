@@ -27,7 +27,7 @@ Two standalone PDFs, each self-contained and each within a 25-page budget.
 
 | | Pages | Purpose |
 |---|---|---|
-| **Part 1 — Theory and Principles** | 26 | Vocabulary, principles, patterns, and a solving framework. |
+| **Part 1 — Theory and Principles** | 28 | Vocabulary, principles, patterns, and a solving framework. |
 | **Part 2 — Problems** | 24 | Ten problems worked end to end, two pages each. |
 
 Part 1 is read once, front to back. Part 2 is the working half, and is where readers return.
@@ -57,9 +57,9 @@ Every content page carries three orientation signals:
 | Header, right | Section number | `Section 1.2` |
 | Title | Section number, then title | `1.2  Four rounds that get confused` |
 | Footer, left | Document and part | `CodeCompass · The LLD Runbook · Part 1` |
-| Footer, right | Absolute position | `Page 4 of 26` |
+| Footer, right | Absolute position | `Page 4 of 28` |
 
-The `of 26` is deliberate. It bounds the document so it never feels open-ended.
+The `of 28` is deliberate. It bounds the document so it never feels open-ended.
 
 ---
 
@@ -96,18 +96,25 @@ The `of 26` is deliberate. It bounds the document so it never feels open-ended.
 | 4.1 | 16 | KISS, DRY and YAGNI | done | Framed as restraint heuristics, scored silently rather than asked by name. Guards-against/over-applied table. DRY as duplicated knowledge not text. The OCP-versus-YAGNI tension and how to resolve it aloud. |
 | 4.2 | 17 | Composition over inheritance | done | The argument is arithmetic: two axes multiply under inheritance, add under composition. Report format x destination. When inheritance still wins. |
 | 4.3 | 18 | Interfaces and immutability | done | Depend on the weakest type that works (distinct from creating interfaces, cf. 2.2). Value objects. Deep versus shallow immutability; entities are not value objects. |
-| 5.1 | 19 | Choosing a pattern | todo | Symptom-to-pattern decision map. Explicit warning against pattern-dropping. Sets up the chapter. |
-| 5.2 | 20 | Strategy | todo | Intent, class diagram, short snippet, interview usage, common mistakes. |
-| 5.3 | 21 | Factory | todo | Same template. Factory method versus abstract factory, and when the distinction matters. |
-| 5.4 | 22 | Observer | todo | Same template. Push versus pull, and listener lifecycle. |
-| 5.5 | 23 | Singleton | todo | Same template. Thread safety, and why interviewers often treat it as a trap. |
-| 5.6 | 24 | Builder and Decorator | todo | Two patterns, one page. Builder for construction, Decorator for layered behaviour. Split if too tight. |
-| 5.7 | 25 | Runners-up and the rest | todo | Adapter, Command, Template, State in brief; remaining catalogue as one-line definitions. |
-| 6.1 | 26 | A framework for any LLD problem | todo | The repeatable sequence with timeboxes: clarify, actors, entities, relationships, interfaces, walk a flow, absorb the follow-up. |
+| 5.1 | 19 | Choosing a pattern | done | Symptom-to-pattern table covering all seven. The three groups. When the answer is no pattern at all, and why naming it is worth less than applying it. |
+| 5.2 | 20 | Singleton | done | *Creational.* Naive lazy init versus the holder idiom. Where it shows up. The trap: global mutable state; create one and inject it. |
+| 5.3 | 21 | Factory | done | *Creational.* Construction leaking into callers. UML diagram. The honest point that the switch is confined, not removed. Simple factory versus GoF Factory Method. |
+| 5.4 | 22 | Builder | todo | *Creational.* Telescoping constructors and optional parameters. Closes out object creation. |
+| 5.5 | 23 | Observer | todo | *Behavioural.* Push versus pull, listener lifecycle, and the leak nobody unregisters. |
+| 5.6 | 24 | Strategy | todo | *Behavioural.* The workhorse. Already set up by 2.4, 3.2 and 4.2, so this page can go deeper rather than re-explain. |
+| 5.7 | 25 | State | todo | *Behavioural.* Deliberately adjacent to Strategy: State is Strategy that swaps itself. Vending machine / order lifecycle. |
+| 5.8 | 26 | Decorator | todo | *Structural.* Builds directly on the composition arithmetic in 4.2. Layered behaviour without subclass explosion. |
+| 5.9 | 27 | The rest, at a glance | todo | Adapter, Command, Template Method, Chain of Responsibility, Composite, Facade, Proxy in brief; remaining catalogue as one-liners. |
+| 6.1 | 28 | A framework for any LLD problem | todo | The repeatable sequence with timeboxes: clarify, actors, entities, relationships, interfaces, walk a flow, absorb the follow-up. |
 
-**Budget note.** Pages 24 and 25 are the tightest. If either splits, Part 1 becomes 27 or 28
-pages and every later page number shifts — update this table, the contents page and every
-footer before touching anything else.
+**Chapter 5 ordering rationale.** Creational, then behavioural, then structural. That grouping
+happens to track familiarity almost exactly — creation patterns have one concern and are easier
+to explain — so the reader starts on ground they recognise. Strategy and State are kept adjacent
+because State is far easier to teach as "Strategy that swaps itself" than from scratch.
+
+**Why State is a full page.** The staple LLD prompts — vending machine, ATM, elevator, order
+lifecycle, traffic light — are all state machines. It earns more space than its usual
+runners-up billing.
 
 ---
 
@@ -171,3 +178,25 @@ discipline holds.
    every page in that part.
 5. Content briefs in the manifest are binding. If a page needs to cover something not in its
    brief, update the brief rather than quietly expanding the page.
+
+---
+
+## 7. Pattern page template (chapter 5)
+
+Sections 5.2 to 5.8 share one spine so the chapter reads as a reference rather than eight essays.
+
+| Block | Purpose | Approx. height |
+|---|---|---|
+| Title + category | `5.4 Builder`, with *Creational* in the header right | 85px |
+| Lead | Intent in plain language, never GoF phrasing | 65px |
+| **The signal** | The symptom in code that should make you reach for this. Comes first because interviews test recognition, not recall. | 110px |
+| Structure | Diagram **or** a skeleton snippet — whichever explains it faster | 150–200px |
+| Code | The decisive lines only, 12 maximum | 180px |
+| Where it shows up | Two to four named interview problems. A list where there is room, a single `.caption` line where there is not. | 40–90px |
+| The trap | The mistake that costs marks, or when not to use it at all | 110px |
+
+Total lands near 800px against 959px available, leaving normal slack.
+
+**Diagrams are optional.** Singleton is one box, so a diagram would be decoration. Factory,
+Observer, Strategy, State and Decorator earn one because structure is the hard part. Where a
+diagram is skipped, the code block absorbs the space.
