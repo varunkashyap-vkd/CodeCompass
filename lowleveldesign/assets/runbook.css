@@ -459,6 +459,64 @@ pre code {
   font-variant-numeric: tabular-nums;
 }
 
+/* ---------- Full index (front matter) ---------- */
+.index__chapter {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: var(--s-4);
+  padding-bottom: var(--s-2);
+  border-bottom: 1px solid var(--rule-strong);
+}
+
+.index__chapter:first-child {
+  margin-top: 0;
+}
+
+.index__chapter-num,
+.index__chapter-title {
+  font-size: var(--fs-h3);
+  font-weight: 700;
+}
+
+.index__chapter-num {
+  min-width: 16px;
+  color: var(--primary);
+}
+
+.index__chapter-note {
+  margin-left: auto;
+  font-size: var(--fs-caption);
+  font-weight: 400;
+  color: var(--ink-faint);
+}
+
+.index__row {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 0 4px 24px;
+  border-bottom: 1px solid var(--rule);
+  font-size: var(--fs-compact);
+}
+
+.index__num {
+  min-width: 26px;
+  color: var(--ink-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.index__dots {
+  flex: 1 1 auto;
+  border-bottom: 1px dotted var(--rule);
+  transform: translateY(-4px);
+}
+
+.index__page {
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+
 /* ============================================================
    Cover
    ============================================================ */

@@ -27,10 +27,14 @@ Two standalone PDFs, each self-contained and each within a 25-page budget.
 
 | | Pages | Purpose |
 |---|---|---|
-| **Part 1 — Theory and Principles** | 25 | Vocabulary, principles, patterns, and a solving framework. |
+| **Part 1 — Theory and Principles** | 26 | Vocabulary, principles, patterns, and a solving framework. |
 | **Part 2 — Problems** | 24 | Ten problems worked end to end, two pages each. |
 
 Part 1 is read once, front to back. Part 2 is the working half, and is where readers return.
+
+**Preview pages.** When these are sold as digital products, pages 1 and 2 (cover and contents)
+are the free preview. The contents page therefore has to be complete rather than summarised —
+it is what a buyer inspects before paying. Do not compress it back into a chapter list.
 
 ---
 
@@ -53,9 +57,9 @@ Every content page carries three orientation signals:
 | Header, right | Section number | `Section 1.2` |
 | Title | Section number, then title | `1.2  Four rounds that get confused` |
 | Footer, left | Document and part | `CodeCompass · The LLD Runbook · Part 1` |
-| Footer, right | Absolute position | `Page 4 of 25` |
+| Footer, right | Absolute position | `Page 4 of 26` |
 
-The `of 25` is deliberate. It bounds the document so it never feels open-ended.
+The `of 26` is deliberate. It bounds the document so it never feels open-ended.
 
 ---
 
@@ -74,34 +78,36 @@ The `of 25` is deliberate. It bounds the document so it never feels open-ended.
 
 | § | Page | Title | Status | Brief |
 |---|---|---|---|---|
-| — | 1 | Cover | done | Title, subtitle, positioning paragraph, author, edition. |
-| — | 2 | How to use this runbook | done | Framing, assumptions, exclusions, contents, note on code links. |
-| 1.1 | 3 | What LLD actually is | done | Definition as modelling plus defending. Where it shows up. What changes by level. |
-| 1.2 | 4 | Four rounds that get confused | done | DSA / LLD / machine coding / HLD table. The gear shift. Where the LLD–HLD line sits. |
-| 1.3 | 5 | What's actually being evaluated | done | Five scorecard items. How strong DSA candidates lose. What a good sentence sounds like. |
-| 2.1 | 6 | Encapsulation | todo | Who is allowed to mutate state. Public-field example, the fix, and why getters and setters on everything misses the point. |
-| 2.2 | 7 | Abstraction | todo | Hiding decisions, not just data. Interface versus abstract class. How a leaking abstraction reveals itself. |
-| 2.3 | 8 | Inheritance | todo | is-a versus has-a. Fragile base class. The narrow cases where inheritance is genuinely right. |
-| 2.4 | 9 | Polymorphism | todo | Dispatch replacing conditionals. The growing switch statement as a design smell. Compile-time versus runtime. |
-| 3.1 | 10 | Single Responsibility | todo | "One reason to change." God-class anti-pattern, the fix, and the opposite failure of splitting too far. |
-| 3.2 | 11 | Open/Closed | todo | Extension without modification. Enum-plus-switch refactored toward Strategy. Forward reference to 5.2. |
-| 3.3 | 12 | Liskov Substitution | todo | Subtype contracts and preconditions. A realistic violation, not the Rectangle/Square cliché. |
-| 3.4 | 13 | Interface Segregation | todo | Fat interfaces forcing empty implementations. Role interfaces as the fix. |
-| 3.5 | 14 | Dependency Inversion | todo | Depend on abstractions. Constructor injection. Wiring at the edge, not in the middle. |
-| 4.1 | 15 | KISS, DRY and YAGNI | todo | The three restraint principles, plus the honest counterpoint that DRY is the most over-applied idea in LLD. |
-| 4.2 | 16 | Composition over inheritance | todo | The same requirement solved both ways, side by side, with the extension test applied to each. |
-| 4.3 | 17 | Interfaces and immutability | todo | Program to interfaces; favour immutability. Value objects, defensive copies, thread safety by construction. |
-| 5.1 | 18 | Choosing a pattern | todo | Symptom-to-pattern decision map. Explicit warning against pattern-dropping. Sets up the chapter. |
-| 5.2 | 19 | Strategy | todo | Intent, class diagram, short snippet, interview usage, common mistakes. |
-| 5.3 | 20 | Factory | todo | Same template. Factory method versus abstract factory, and when the distinction matters. |
-| 5.4 | 21 | Observer | todo | Same template. Push versus pull, and listener lifecycle. |
-| 5.5 | 22 | Singleton | todo | Same template. Thread safety, and why interviewers often treat it as a trap. |
-| 5.6 | 23 | Builder and Decorator | todo | Two patterns, one page. Builder for construction, Decorator for layered behaviour. Split if too tight. |
-| 5.7 | 24 | Runners-up and the rest | todo | Adapter, Command, Template, State in brief; remaining catalogue as one-line definitions. |
-| 6.1 | 25 | A framework for any LLD problem | todo | The repeatable sequence with timeboxes: clarify, actors, entities, relationships, interfaces, walk a flow, absorb the follow-up. |
+| — | 1 | Cover | done | Title, subtitle, positioning paragraph, author, edition. **Preview page.** |
+| — | 2 | Contents | done | Full index: all six chapters, all 23 sections, grouped with page numbers. **Preview page.** |
+| — | 3 | How to use this runbook | done | Framing, assumptions, exclusions, three reading paths, note on code links. |
+| 1.1 | 4 | What LLD actually is | done | Definition as modelling plus defending. Where it shows up. What changes by level. |
+| 1.2 | 5 | Four rounds that get confused | done | DSA / LLD / machine coding / HLD table. The gear shift. Where the LLD–HLD line sits. |
+| 1.3 | 6 | What's actually being evaluated | done | Five scorecard items. How strong DSA candidates lose. What a good sentence sounds like. |
+| 2.1 | 7 | Encapsulation | todo | Who is allowed to mutate state. Public-field example, the fix, and why getters and setters on everything misses the point. |
+| 2.2 | 8 | Abstraction | todo | Hiding decisions, not just data. Interface versus abstract class. How a leaking abstraction reveals itself. |
+| 2.3 | 9 | Inheritance | todo | is-a versus has-a. Fragile base class. The narrow cases where inheritance is genuinely right. |
+| 2.4 | 10 | Polymorphism | todo | Dispatch replacing conditionals. The growing switch statement as a design smell. Compile-time versus runtime. |
+| 3.1 | 11 | Single Responsibility | todo | "One reason to change." God-class anti-pattern, the fix, and the opposite failure of splitting too far. |
+| 3.2 | 12 | Open/Closed | todo | Extension without modification. Enum-plus-switch refactored toward Strategy. Forward reference to 5.2. |
+| 3.3 | 13 | Liskov Substitution | todo | Subtype contracts and preconditions. A realistic violation, not the Rectangle/Square cliché. |
+| 3.4 | 14 | Interface Segregation | todo | Fat interfaces forcing empty implementations. Role interfaces as the fix. |
+| 3.5 | 15 | Dependency Inversion | todo | Depend on abstractions. Constructor injection. Wiring at the edge, not in the middle. |
+| 4.1 | 16 | KISS, DRY and YAGNI | todo | The three restraint principles, plus the honest counterpoint that DRY is the most over-applied idea in LLD. |
+| 4.2 | 17 | Composition over inheritance | todo | The same requirement solved both ways, side by side, with the extension test applied to each. |
+| 4.3 | 18 | Interfaces and immutability | todo | Program to interfaces; favour immutability. Value objects, defensive copies, thread safety by construction. |
+| 5.1 | 19 | Choosing a pattern | todo | Symptom-to-pattern decision map. Explicit warning against pattern-dropping. Sets up the chapter. |
+| 5.2 | 20 | Strategy | todo | Intent, class diagram, short snippet, interview usage, common mistakes. |
+| 5.3 | 21 | Factory | todo | Same template. Factory method versus abstract factory, and when the distinction matters. |
+| 5.4 | 22 | Observer | todo | Same template. Push versus pull, and listener lifecycle. |
+| 5.5 | 23 | Singleton | todo | Same template. Thread safety, and why interviewers often treat it as a trap. |
+| 5.6 | 24 | Builder and Decorator | todo | Two patterns, one page. Builder for construction, Decorator for layered behaviour. Split if too tight. |
+| 5.7 | 25 | Runners-up and the rest | todo | Adapter, Command, Template, State in brief; remaining catalogue as one-line definitions. |
+| 6.1 | 26 | A framework for any LLD problem | todo | The repeatable sequence with timeboxes: clarify, actors, entities, relationships, interfaces, walk a flow, absorb the follow-up. |
 
-**Budget note.** Pages 23 and 24 are the tightest. If either splits, Part 1 becomes 26 or 27
-pages and every later page number shifts — update this table before touching the HTML.
+**Budget note.** Pages 24 and 25 are the tightest. If either splits, Part 1 becomes 27 or 28
+pages and every later page number shifts — update this table, the contents page and every
+footer before touching anything else.
 
 ---
 
@@ -109,8 +115,8 @@ pages and every later page number shifts — update this table before touching t
 
 | § | Page | Title | Status | Brief |
 |---|---|---|---|---|
-| — | 1 | Cover | todo | Matches Part 1 cover, marked Part 2. |
-| — | 2 | How to read these problems | todo | The two-page anatomy explained, plus contents. |
+| — | 1 | Cover | todo | Matches Part 1 cover, marked Part 2. **Preview page.** |
+| — | 2 | Contents and how to read these problems | todo | Full index of all ten problems, plus the two-page anatomy explained. **Preview page.** |
 | P1 | 3–4 | LRU cache | blocked | Starts as DSA, becomes LLD when eviction must swap to MRU without a rewrite. **Needs the author's anecdote.** |
 | P2 | 5–6 | HashMap | blocked | Same shape: pluggable collision handling. **Needs the author's anecdote.** |
 | P3 | 7–8 | To be decided | todo | |
