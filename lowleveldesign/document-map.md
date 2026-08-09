@@ -27,7 +27,7 @@ Two standalone PDFs, each self-contained and each within a 25-page budget.
 
 | | Pages | Purpose |
 |---|---|---|
-| **Part 1 — Theory and Principles** | 28 | Vocabulary, principles, patterns, and a solving framework. |
+| **Part 1 — Theory and Principles** | 29 | Vocabulary, principles, patterns, and a solving framework. |
 | **Part 2 — Problems** | 24 | Ten problems worked end to end, two pages each. |
 
 Part 1 is read once, front to back. Part 2 is the working half, and is where readers return.
@@ -57,9 +57,9 @@ Every content page carries three orientation signals:
 | Header, right | Section number | `Section 1.2` |
 | Title | Section number, then title | `1.2  Four rounds that get confused` |
 | Footer, left | Document and part | `CodeCompass · The LLD Runbook · Part 1` |
-| Footer, right | Absolute position | `Page 4 of 28` |
+| Footer, right | Absolute position | `Page 4 of 29` |
 
-The `of 28` is deliberate. It bounds the document so it never feels open-ended.
+The `of 29` is deliberate. It bounds the document so it never feels open-ended.
 
 ---
 
@@ -105,7 +105,12 @@ The `of 28` is deliberate. It bounds the document so it never feels open-ended.
 | 5.7 | 25 | State | done | *Behavioural.* Order lifecycle. Uses a state-transition diagram rather than a class diagram. Who owns transitions, and stateless states as shared instances. |
 | 5.8 | 26 | Decorator | done | *Structural.* HTTP client with logging, retries and caching. Wrapping-chain diagram. Order as behaviour; Decorator versus Proxy. |
 | 5.9 | 27 | The rest, at a glance | done | Five worth a proper look (Adapter, Command, Chain of Responsibility, Template Method, Composite) plus eight one-liners. Framed as recognition, not memorisation. |
-| 6.1 | 28 | A framework for any LLD problem | todo | The repeatable sequence with timeboxes: clarify, actors, entities, relationships, interfaces, walk a flow, absorb the follow-up. |
+| 6.1 | 28 | A framework for any LLD problem | done | Five questions rather than steps, with a 45-minute timeline strip. Deliberately not a decision tree. The first sixty seconds, and where candidates overspend. |
+| 6.2 | 29 | When the requirement changes | done | Five shapes of follow-up, each mapped back to a chapter. Four moves when the change lands. Why admitting a design does not absorb a change outscores bluffing. Hands off to Part 2. |
+
+**Why chapter 6 is two pages.** The five questions are meant to be memorised; handling the
+follow-up is meant to be practised. Different jobs, and combining them compromised the first.
+The follow-up is also the reader's real pain point, and 1.3 already promises this payoff.
 
 **Chapter 5 ordering rationale.** Creational, then behavioural, then structural. That grouping
 happens to track familiarity almost exactly — creation patterns have one concern and are easier

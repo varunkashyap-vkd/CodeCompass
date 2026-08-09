@@ -355,6 +355,11 @@ strong {
   color: var(--ink-soft);
 }
 
+.table__num {
+  color: var(--primary);
+  margin-right: 6px;
+}
+
 /* ============================================================
    Notes — left accent, minimal fill
    ============================================================ */
@@ -610,7 +615,7 @@ pre .c {
   display: flex;
   align-items: baseline;
   gap: 8px;
-  padding: 4px 0 4px 24px;
+  padding: var(--s-1) 0 var(--s-1) 24px;
   border-bottom: 1px solid var(--rule);
   font-size: var(--fs-compact);
 }
