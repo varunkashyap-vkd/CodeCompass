@@ -507,6 +507,11 @@ pre .c {
   stroke: var(--primary);
 }
 
+/* Marks a part of the model that only appeared after the requirement changed. */
+.d-box--later {
+  stroke-dasharray: 4 3;
+}
+
 .d-name {
   font-family: var(--font-sans);
   font-size: 11px;

@@ -155,21 +155,38 @@ fourteen.
 3. Requirements — functional and non-functional, two columns
 4. Entities
 5. Class diagram
+6. Complexity and alternative design, two columns
 
 **Page 2 — the depth**
 
-6. Relationships
-7. Design patterns used
-8. Code sketch, with a repo link chip
-9. Complexity
-10. Follow-up questions
-11. Alternative design
-12. Common mistakes
-13. Interviewer's perspective, merged with the real interview story
-14. Forward or backward cross-reference to Part 1
+7. Relationships and patterns used, two columns
+8. **Before and after** — the first version with the rule baked in, then the version the
+   follow-up forced. Repo chip below.
+9. Follow-ups to expect
+10. Common mistakes
+11. Interviewer's perspective, merged with the real interview story
+12. Takeaway caption
 
-Roughly eight blocks per page, two to four lines each. The layout only works if that
-discipline holds.
+Roughly six blocks per page. The layout only works if that discipline holds.
+
+### Show the journey, not the destination
+
+**The most important rule on these pages.** The reader must see the design the candidate would
+actually write first, and then what the changed requirement did to it. Presenting the finished,
+seam-in-the-right-place model as though it arrived fully formed is dishonest and wastes the whole
+point of the problem.
+
+Two devices carry this, and both should be reused for every problem:
+
+- **A dashed diagram.** Anything the follow-up introduced gets `.d-box--later` and dashed
+  connectors, with the figcaption saying so outright. The class diagram then shows *both*
+  versions at once.
+- **A stacked before/after.** A short `code-block--bad` labelled as the first version, then a
+  `code-block--good` labelled as what the follow-up forced. Keep them structurally parallel so
+  the diff is obvious — in P1 exactly one line differs.
+
+Complexity sits on the left page because it follows from the data-structure choice, which is a
+design decision. That also frees the right page for the before/after pair.
 
 ### Measured budget, from P1
 

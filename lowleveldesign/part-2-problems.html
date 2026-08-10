@@ -153,7 +153,6 @@
         <ul class="list">
           <li>Am I right that this is a bounded in-memory cache keyed by user? <em>Say your interpretation out loud before you design to it.</em></li>
           <li>Does <code>get</code> count as a use? <em>Yes — and if you don't ask, ask yourself why you assumed it.</em></li>
-          <li>Fixed capacity, or resizable at runtime?</li>
           <li>Single-threaded? Say you're assuming so, and that you'll revisit it.</li>
           <li>Any expiry or time-to-live? Usually out of scope, but worth ten seconds to confirm.</li>
         </ul>
@@ -199,7 +198,7 @@
             <rect class="d-box" x="165" y="80" width="140" height="28" rx="4" />
             <text class="d-name" x="235" y="98">DoublyLinkedList</text>
 
-            <rect class="d-box" x="330" y="72" width="130" height="40" rx="4" />
+            <rect class="d-box d-box--later" x="330" y="72" width="130" height="40" rx="4" />
             <text class="d-stereo" x="395" y="87">&#171;interface&#187;</text>
             <text class="d-name" x="395" y="101">EvictionPolicy</text>
 
@@ -209,22 +208,42 @@
             <path class="d-line" d="M231,71 L235,78 L239,71" />
             <text class="d-label" x="145" y="56">owns</text>
 
-            <path class="d-line" d="M305,25 L395,25 L395,68" />
+            <path class="d-line d-line--dashed" d="M305,25 L395,25 L395,68" />
             <path class="d-line" d="M391,63 L395,70 L399,63" />
             <text class="d-label" x="320" y="20">uses</text>
 
-            <rect class="d-box" x="300" y="150" width="75" height="26" rx="4" />
+            <rect class="d-box d-box--later" x="300" y="150" width="75" height="26" rx="4" />
             <text class="d-name" x="337" y="167">LruPolicy</text>
 
-            <rect class="d-box" x="385" y="150" width="75" height="26" rx="4" />
+            <rect class="d-box d-box--later" x="385" y="150" width="75" height="26" rx="4" />
             <text class="d-name" x="422" y="167">MruPolicy</text>
 
-            <path class="d-line" d="M337,150 L337,136 L422,136 L422,150" />
-            <line class="d-line" x1="395" y1="136" x2="395" y2="126" />
+            <path class="d-line d-line--dashed" d="M337,150 L337,136 L422,136 L422,150" />
+            <line class="d-line d-line--dashed" x1="395" y1="136" x2="395" y2="126" />
             <polygon class="d-head" points="395,114 389,126 401,126" />
           </svg>
-          <figcaption>The map gives O(1) lookup; the list gives O(1) reordering. The policy decides which end to drop.</figcaption>
+          <figcaption>
+            The map gives O(1) lookup; the list gives O(1) reordering. Everything dashed is what the
+            follow-up added — my first version decided eviction inside <code>Cache</code>.
+          </figcaption>
         </figure>
+      </div>
+
+      <div class="section grid grid--2">
+        <div>
+          <h4>Complexity</h4>
+          <p class="compact">
+            <code>get</code> O(1) · <code>put</code> O(1) · space O(capacity). The map buys lookup;
+            the doubly linked list buys removal without a scan.
+          </p>
+        </div>
+        <div>
+          <h4>Alternative design</h4>
+          <p class="compact">
+            <code>LinkedHashMap</code> in access order does this in five lines — but it hard-codes
+            LRU, which is exactly what the follow-up attacks.
+          </p>
+        </div>
       </div>
     </div>
 
@@ -264,37 +283,32 @@
       </div>
 
       <div class="section">
-        <h4>The decisive part</h4>
-        <div class="code-block code-block--good">
-          <pre><code>void put(K key, V value) {
-    if (map.containsKey(key)) { refresh(key, value); return; }
+        <h4>What the follow-up actually changed</h4>
 
+        <div class="code-block code-block--bad">
+          <p class="label">First version — correct, and the rule is baked in</p>
+          <pre><code>Node victim = order.tail();              <span class="c">// "least recently used", decided right here</span>
+map.remove(victim.key);
+order.remove(victim);</code></pre>
+        </div>
+
+        <div class="code-block code-block--good">
+          <p class="label">After the follow-up — the rule becomes a collaborator</p>
+          <pre><code>void put(K key, V value) {
     if (map.size() == capacity) {
-        Node victim = policy.select(order);      <span class="c">// the only line that knows the rule</span>
-        map.remove(victim.key);                  <span class="c">// why Node stores its key</span>
+        Node victim = policy.select(order);  <span class="c">// the only line that changed</span>
+        map.remove(victim.key);
         order.remove(victim);
     }
     map.put(key, order.addFront(new Node(key, value)));
 }</code></pre>
         </div>
-        <p><span class="chip">github.com/varunkashyap-vkd/lld-runbook/lru-cache</span></p>
-      </div>
 
-      <div class="section grid grid--2">
-        <div>
-          <h4>Complexity</h4>
-          <p class="compact">
-            <code>get</code> O(1) · <code>put</code> O(1) · space O(capacity). The map buys lookup;
-            the doubly linked list buys removal without a scan.
-          </p>
-        </div>
-        <div>
-          <h4>Alternative design</h4>
-          <p class="compact">
-            <code>LinkedHashMap</code> in access order does this in five lines — but it hard-codes
-            LRU, which is exactly what the follow-up attacks.
-          </p>
-        </div>
+        <p class="caption u-mt-4">
+          One line at the call site, one interface with one method, and a constructor that accepts
+          it. Update path omitted for clarity.
+          <span class="chip">github.com/varunkashyap-vkd/lld-runbook/lru-cache</span>
+        </p>
       </div>
 
       <div class="section">
