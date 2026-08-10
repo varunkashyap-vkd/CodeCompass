@@ -15,7 +15,6 @@
 |---|---|
 | `document_structure.txt` | The original outline. Historical intent; superseded by this map. |
 | `style-reference.md` | Typography, colour, spacing, print rules. Non-negotiable. |
-| `interview-notes.md` | The author's raw interview experiences. Source material for the story blocks in Part 2. |
 | `part-1-theory.html` | All Part 1 pages, one file. |
 | `part-2-problems.html` | All Part 2 pages, one file. |
 | `tools/export-pdf.ps1` | The only supported PDF export path. |
@@ -129,9 +128,9 @@ runners-up billing.
 | § | Page | Title | Status | Brief |
 |---|---|---|---|---|
 | — | 1 | Cover | done | Matches Part 1 cover, marked Part 2. **Preview page.** |
-| — | 2 | Contents and how to read these problems | partial | Two-page anatomy is written. **The index of all ten problems is still missing** — the ~380px of slack on this page is reserved for it, and it must be added once the ten are fixed. **Preview page.** |
-| P1 | 3–4 | LRU cache | blocked | Design and depth pages are written. Strategy on eviction, with the MRU switch as the headline follow-up. **The story block on page 4 is a placeholder** awaiting `interview-notes.md` section B. Roughly 60px is reserved for it. |
-| P2 | 5–6 | HashMap | blocked | Same shape: pluggable collision handling. **Needs the author's anecdote** from `interview-notes.md` section C. |
+| — | 2 | Contents and how to read these problems | part | Two-page anatomy is written. **Still needs the index of ten problems**, which is blocked on choosing them. ~380px reserved. **Preview page.** |
+| P1 | 3–4 | LRU cache | done | Arrives disguised as a product requirement about checkout addresses — the words *cache* and *least recently used* never appear. Strategy on the eviction seam. Story: the MRU flip against hard-coded eviction. |
+| P2 | 5–6 | HashMap | blocked | Same shape: pluggable collision handling. **Needs section C of `interview-notes.md`.** |
 | P3 | 7–8 | To be decided | todo | |
 | P4 | 9–10 | To be decided | todo | |
 | P5 | 11–12 | To be decided | todo | |
@@ -171,6 +170,52 @@ fourteen.
 
 Roughly eight blocks per page, two to four lines each. The layout only works if that
 discipline holds.
+
+### Measured budget, from P1
+
+The right-hand page is the tight one. P1 landed at 44px slack with this distribution, which is
+a realistic target for every problem:
+
+| Block | Height |
+|---|---|
+| Title | 39px |
+| Relationships + Patterns (two columns) | 82px |
+| Code sketch + repo chip | 222px |
+| Complexity + Alternative (two columns) | 76px |
+| Follow-ups (**two** items, not three) | 72px |
+| Common mistakes (one `.compact` paragraph, not a list) | 57px |
+| Story block | 203px |
+| Takeaway caption | 34px |
+
+Three lessons worth carrying forward: keep the code sketch to about nine lines, write common
+mistakes as a single compact paragraph rather than a list, and budget roughly 200px for the
+story before writing anything else.
+
+### Voice and attribution
+
+From section A of `interview-notes.md`. These are binding on every story block.
+
+- **Never name a company.** "A big tech company", "a MAANG-scale company". Never "the SDE-II loop
+  at <name>" — say "an SDE-II loop at a big tech company".
+- **Level context:** SDE-II and SDE-III loops, three to seven years of experience.
+- **Voice for now:** the author's own experience as a candidate. Later problems may add an
+  interviewer's-side perspective, but the first set should be things he faced himself.
+- **Recurring phrases**, to use sparingly and naturally rather than in every problem:
+  "a couple of things", "let's start with the basics", and "if you take one thing from this".
+  The last one is already the closing caption of P1 and pairs with Part 1's usage.
+- Rough and specific beats polished. Keep the fumble in — the panic in P1 is the point of the
+  story, not a blemish to edit out.
+
+### Story block shape
+
+Two paragraphs inside a `.note`, plus a `.caption` takeaway *outside* it.
+
+1. **The setup and the false sense of security** — what the round appeared to be, and why that
+   read was wrong.
+2. **The change, the exposure, the recovery** — what the interviewer asked, what broke, what it
+   cost to fix, and what the feedback actually rewarded.
+
+The takeaway caption is the generalisable lesson, addressed to the reader rather than narrated.
 
 ---
 

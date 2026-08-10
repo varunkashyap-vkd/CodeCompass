@@ -138,20 +138,21 @@
       <div class="section">
         <h4>Problem statement</h4>
         <p>
-          Design a cache with a fixed capacity that supports <code>get</code> and <code>put</code>.
-          When the cache is full, the least recently used entry is evicted to make room.
+          “We show a user's saved delivery address on the checkout page, and it needs to load in
+          near real time. The user base is large. We care most about the people who come back
+          often — for everyone else, being a little slower is acceptable.”
         </p>
         <p class="caption u-mt-4">
-          This one usually arrives as a data structures question. It becomes a design question the
-          moment the interviewer changes the eviction rule.
+          That is close to how it was actually put to me. Notice that the words <em>cache</em> and
+          <em>least recently used</em> never appear. Hearing them anyway is the first half of the test.
         </p>
       </div>
 
       <div class="section">
         <h4>Clarifying questions</h4>
         <ul class="list">
+          <li>Am I right that this is a bounded in-memory cache keyed by user? <em>Say your interpretation out loud before you design to it.</em></li>
           <li>Does <code>get</code> count as a use? <em>Yes — and if you don't ask, ask yourself why you assumed it.</em></li>
-          <li>Is a miss an exception or a sentinel? Changes the signature, not the design.</li>
           <li>Fixed capacity, or resizable at runtime?</li>
           <li>Single-threaded? Say you're assuming so, and that you'll revisit it.</li>
           <li>Any expiry or time-to-live? Usually out of scope, but worth ten seconds to confirm.</li>
@@ -251,14 +252,13 @@
           <ul class="list">
             <li><code>Cache</code> owns the map and the list outright.</li>
             <li>The policy is handed in, not created — that is what makes it swappable.</li>
-            <li>The policy touches the list only. It never sees the map.</li>
           </ul>
         </div>
         <div>
           <h4>Patterns used</h4>
           <ul class="list">
             <li><strong>Strategy</strong> for eviction — the only pattern this problem needs.</li>
-            <li>A <strong>Factory</strong> only if policies come from config.</li>
+            <li>A <strong>Factory</strong> only if policies arrive from config.</li>
           </ul>
         </div>
       </div>
@@ -267,12 +267,8 @@
         <h4>The decisive part</h4>
         <div class="code-block code-block--good">
           <pre><code>void put(K key, V value) {
-    if (map.containsKey(key)) {
-        Node node = map.get(key);
-        node.value = value;
-        order.moveToFront(node);
-        return;
-    }
+    if (map.containsKey(key)) { refresh(key, value); return; }
+
     if (map.size() == capacity) {
         Node victim = policy.select(order);      <span class="c">// the only line that knows the rule</span>
         map.remove(victim.key);                  <span class="c">// why Node stores its key</span>
@@ -295,8 +291,8 @@
         <div>
           <h4>Alternative design</h4>
           <p class="compact">
-            <code>LinkedHashMap</code> in access order with <code>removeEldestEntry</code> does this
-            in five lines — but it hard-codes LRU, which is what the follow-up attacks.
+            <code>LinkedHashMap</code> in access order does this in five lines — but it hard-codes
+            LRU, which is exactly what the follow-up attacks.
           </p>
         </div>
       </div>
@@ -304,27 +300,41 @@
       <div class="section">
         <h4>Follow-ups to expect</h4>
         <ul class="list">
-          <li><strong>"Make it most recently used instead."</strong> The one this problem exists for. Behind an interface it is a new class; without one, a rewrite.</li>
-          <li><strong>"Now LFU."</strong> Harder — say plainly that the interface holds but the structure behind it does not.</li>
-          <li><strong>"Make it thread-safe."</strong> Name what you'd guard and what it costs.</li>
+          <li><strong>“Make it most recently used instead.”</strong> The one this problem exists for. Behind an interface it is a new class; without one, a rewrite.</li>
+          <li><strong>“Now make it LFU.”</strong> Say plainly that the interface holds but the structure behind it does not.</li>
         </ul>
       </div>
 
       <div class="section">
         <h4>Common mistakes</h4>
-        <ul class="list">
-          <li>A singly linked list — removal becomes O(n) and the point is lost.</li>
-          <li>Forgetting that <code>get</code> reorders. The most common correctness bug here.</li>
-          <li>No key inside the node, so eviction cannot clean up the map.</li>
-        </ul>
+        <p class="compact">
+          A singly linked list, so removal becomes O(n) and the point is lost · forgetting that
+          <code>get</code> reorders, the most common correctness bug here · no key inside the node,
+          so eviction cannot clean up the map.
+        </p>
       </div>
 
       <div class="section note">
-        <p class="label">Interviewer's perspective · real interview story</p>
-        <p class="caption">
-          [ Placeholder — to be written from <code>interview-notes.md</code>, section B. ]
+        <p class="label">Interviewer's perspective · the round I nearly lost</p>
+        <p>
+          I was told to expect an LLD round, then the interviewer arrived with a live code editor
+          — so I quietly decided it was really a DSA round. I recognised the shape, wrote a working
+          cache well inside the time, and we tested it together. It was correct.
+        </p>
+        <p>
+          Then he moved the requirement: what if product wants this faster for the people who use
+          us <em>least</em>? Eviction was hard-coded inside my cache class — there was nothing to
+          swap. What saved me was having twenty-five minutes left. I said so, took two minutes, and
+          came back with the policy behind an interface. When he asked what a third policy would
+          cost, the answer was one class and about five lines. The feedback was about adapting to
+          change, not about caches.
         </p>
       </div>
+
+      <p class="caption u-mt-4">
+        If you take one thing from this problem: it is only easy until the requirement moves. In an
+        LLD round, write the first version as though the rule will change — because it will.
+      </p>
     </div>
 
     <footer class="page__foot">
