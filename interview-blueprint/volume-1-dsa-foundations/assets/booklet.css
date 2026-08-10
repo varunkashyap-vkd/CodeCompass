@@ -1,0 +1,255 @@
+/* ============================================================
+   The Interview Blueprint — Booklet Styles
+   CodeCompass premium purple theme (see /AI_CONTEXT.md)
+   Shared across every A4 printable page in this volume.
+   ============================================================ */
+
+/* ---------- Design tokens ---------- */
+:root {
+  --primary: #8A2BE2;
+  --primary-dark: #5B21B6;
+  --accent: #A855F7;
+  --lavender-bg: #F7F2FB;
+  --white: #FFFFFF;
+  --text-dark: #1A1735;
+  --text-secondary: #4B5563;
+  --border-light: #E9D5FF;
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --shadow-sm: 0 1px 3px rgba(26, 23, 53, 0.06);
+  --shadow-md: 0 8px 24px rgba(91, 33, 182, 0.10);
+
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --gradient: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+}
+
+/* ---------- Reset ---------- */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: #E5E7EB;
+  font-family: var(--font-sans);
+  color: var(--text-dark);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ============================================================
+   A4 Page Frame
+   210mm x 297mm, single printable sheet.
+   ============================================================ */
+.page {
+  position: relative;
+  width: 210mm;
+  height: 297mm;
+  margin: 24px auto;
+  padding: 18mm 16mm;
+  background: var(--white);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ---------- Shared page furniture ---------- */
+.page__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: var(--text-secondary);
+}
+
+.page__brand-mark {
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--gradient);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--white);
+  font-size: 15px;
+  box-shadow: var(--shadow-sm);
+}
+
+.page__footer {
+  margin-top: auto;
+  padding-top: 10mm;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 11px;
+  color: var(--text-secondary);
+  border-top: 1px solid var(--border-light);
+}
+
+.page__footer strong {
+  color: var(--primary-dark);
+  font-weight: 600;
+}
+
+/* ============================================================
+   Cover Page
+   ============================================================ */
+.cover {
+  justify-content: space-between;
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(168, 85, 247, 0.10) 0%, rgba(168, 85, 247, 0) 55%),
+    radial-gradient(90% 80% at 0% 100%, rgba(138, 43, 226, 0.08) 0%, rgba(138, 43, 226, 0) 50%),
+    var(--white);
+}
+
+.cover__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cover__volume-tag {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+  padding: 7px 14px;
+  border: 1px solid var(--border-light);
+  border-radius: 999px;
+  background: var(--lavender-bg);
+}
+
+.cover__hero {
+  margin-top: 6mm;
+}
+
+.cover__eyebrow {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+}
+
+.cover__title {
+  margin-top: 14px;
+  font-size: 58px;
+  line-height: 1.03;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-dark);
+}
+
+.cover__title .accent {
+  background: var(--gradient);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cover__subtitle {
+  margin-top: 16px;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--primary-dark);
+}
+
+.cover__rule {
+  width: 72px;
+  height: 4px;
+  margin: 26px 0;
+  border-radius: 999px;
+  background: var(--gradient);
+}
+
+/* ---------- Cover narrative ---------- */
+.cover__body {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  max-width: 148mm;
+}
+
+.cover__lede {
+  font-size: 19px;
+  line-height: 1.5;
+  color: var(--text-dark);
+  font-weight: 500;
+}
+
+.cover__lede strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+
+/* Highlighted principle card */
+.cover__principle {
+  align-self: flex-start;
+  padding: 20px 24px;
+  background: var(--lavender-bg);
+  border: 1px solid var(--border-light);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow-sm);
+}
+
+.cover__principle p {
+  font-size: 18px;
+  line-height: 1.7;
+  font-weight: 600;
+  color: var(--text-dark);
+}
+
+.cover__principle .accent {
+  color: var(--primary);
+}
+
+.cover__mission {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  max-width: 120mm;
+}
+
+/* ============================================================
+   Print rules
+   ============================================================ */
+@page {
+  size: A4 portrait;
+  margin: 14mm;
+}
+
+@media print {
+  html,
+  body {
+    background: var(--white);
+  }
+
+  .page {
+    width: auto;
+    height: auto;
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .page,
+  .cover__principle,
+  .page__footer {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}

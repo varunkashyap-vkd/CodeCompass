@@ -1,7 +1,7 @@
 # The LLD Runbook — Document Map
 
-> **How to use this file:** This is the structural source of truth for the runbook. Attach it,
-> together with `style-reference.md`, at the start of any session that builds or edits pages.
+> **How to use this file:** This is the structural source of truth for the runbook. Begin future
+> sessions from `lowleveldesign/context/starter.md`, which loads this map in the right context.
 >
 > To commission work, name a **section number** — "build 5.4" — not a page number. Section
 > numbers are stable; page numbers shift whenever a page is added or split.
@@ -13,22 +13,25 @@
 
 | File | Role |
 |---|---|
-| `document_structure.txt` | The original outline. Historical intent; superseded by this map. |
-| `style-reference.md` | Typography, colour, spacing, print rules. Non-negotiable. |
-| `part-1-theory.html` | All Part 1 pages, one file. |
-| `part-2-problems.html` | All Part 2 pages, one file. |
-| `tools/export-pdf.ps1` | The only supported PDF export path. |
+| `lowleveldesign/context/document-structure.txt` | The original outline. Historical intent; superseded by this map. |
+| `lowleveldesign/context/style-reference.md` | Typography, colour, spacing, print rules. Non-negotiable. |
+| `lowleveldesign/context/part-2-problem-blueprint.md` | Content contract for every Part 2 case study. Attach when commissioning or building a problem. |
+| `lowleveldesign/context/interview-notes.md` | Author-supplied factual material for personal Part 2 stories. |
+| `lowleveldesign/part-1-theory.html` | All Part 1 pages, one file. |
+| `lowleveldesign/part-2-problems.html` | All Part 2 pages, one file. |
+| `lowleveldesign/tools/export-pdf.ps1` | The only supported PDF export path. |
 
 ---
 
 ## 1. Product shape
 
-Two standalone PDFs, each self-contained and each within a 25-page budget.
+Two standalone PDFs, each self-contained. Part 2 is allowed to be longer because its job is to
+teach complete interview case studies rather than summarise reference material.
 
 | | Pages | Purpose |
 |---|---|---|
 | **Part 1 — Theory and Principles** | 29 | Vocabulary, principles, patterns, and a solving framework. |
-| **Part 2 — Problems** | 24 | Ten problems worked end to end, two pages each. |
+| **Part 2 — Problems** | Provisional: 35–37 | Ten interview case studies worked chronologically. Three pages by default; a fourth only when the teaching work earns it. |
 
 Part 1 is read once, front to back. Part 2 is the working half, and is where readers return.
 
@@ -105,8 +108,8 @@ The `of 29` is deliberate. It bounds the document so it never feels open-ended.
 | 5.7 | 25 | State | done | *Behavioural.* Order lifecycle. Uses a state-transition diagram rather than a class diagram. Who owns transitions, and stateless states as shared instances. |
 | 5.8 | 26 | Decorator | done | *Structural.* HTTP client with logging, retries and caching. Wrapping-chain diagram. Order as behaviour; Decorator versus Proxy. |
 | 5.9 | 27 | The rest, at a glance | done | Five worth a proper look (Adapter, Command, Chain of Responsibility, Template Method, Composite) plus eight one-liners. Framed as recognition, not memorisation. |
-| 6.1 | 28 | A framework for any LLD problem | done | Five questions rather than steps, with a 45-minute timeline strip. Deliberately not a decision tree. The first sixty seconds, and where candidates overspend. |
-| 6.2 | 29 | When the requirement changes | done | Five shapes of follow-up, each mapped back to a chapter. Four moves when the change lands. Why admitting a design does not absorb a change outscores bluffing. Hands off to Part 2. |
+| 6.1 | 28 | A framework for any LLD problem | done | Five questions rather than steps, with a 45-minute timeline strip. Deliberately not a decision tree. The first sixty seconds, where candidates overspend, and Question 5 proved with a flow plus a boundary/invariant check. |
+| 6.2 | 29 | When the requirement changes | done | Five shapes of follow-up, each mapped back to a chapter. Four moves when the change lands. Why admitting a design does not absorb a change outscores bluffing. Hands off to Part 2, where the same questions and moves are visibly reused. |
 
 **Why chapter 6 is two pages.** The five questions are meant to be memorised; handling the
 follow-up is meant to be practised. Different jobs, and combining them compromised the first.
@@ -125,49 +128,43 @@ runners-up billing.
 
 ## 5. Part 2 — Problems
 
+> **Part 2 is being restructured.** Existing page numbers after the cover are not authoritative
+> until the ten commissioning briefs establish whether each problem needs three or four pages.
+> Use `lowleveldesign/context/part-2-problem-blueprint.md` for the content structure. Update this table with exact page
+> ranges before rebuilding the HTML.
+
 | § | Page | Title | Status | Brief |
 |---|---|---|---|---|
 | — | 1 | Cover | done | Matches Part 1 cover, marked Part 2. **Preview page.** |
-| — | 2 | Contents and how to read these problems | part | Two-page anatomy is written. **Still needs the index of ten problems**, which is blocked on choosing them. ~380px reserved. **Preview page.** |
-| P1 | 3–4 | LRU cache | done | Arrives disguised as a product requirement about checkout addresses — the words *cache* and *least recently used* never appear. Strategy on the eviction seam. Story: the MRU flip against hard-coded eviction. |
-| P2 | 5–6 | HashMap | blocked | Same shape: pluggable collision handling. **Needs section C of `interview-notes.md`.** |
-| P3 | 7–8 | To be decided | todo | |
-| P4 | 9–10 | To be decided | todo | |
-| P5 | 11–12 | To be decided | todo | |
-| P6 | 13–14 | To be decided | todo | |
-| P7 | 15–16 | To be decided | todo | |
-| P8 | 17–18 | To be decided | todo | |
-| P9 | 19–20 | To be decided | todo | |
-| P10 | 21–22 | To be decided | todo | |
-| — | 23 | Pattern-to-problem cheat sheet | todo | Which pattern showed up where, as a one-page revision aid. |
-| — | 24 | Where to go next | todo | Closing guidance and practice sequencing. |
+| — | TBD | Contents and how to use the case studies | draft | Complete ten-problem index plus an explicit bridge from Part 1 sections 6.1 and 6.2. **Preview content.** |
+| P1 | TBD | LRU cache | rewrite | Personal interview case: disguised checkout-address cache, baseline LRU derivation, operation traces, hard-coded eviction exposed by MRU, Strategy refactor, and honest LFU limit. Page count decided by its commissioning brief. |
+| P2 | TBD | HashMap | blocked | Personal interview case centred on collision handling. **Needs section C of `lowleveldesign/context/interview-notes.md` before its page count or transformation can be locked.** |
+| P3 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
+| P4 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
+| P5 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
+| P6 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
+| P7 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
+| P8 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
+| P9 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
+| P10 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
+| — | TBD | Pattern-to-problem cheat sheet | todo | Which pattern showed up where and which framework question exposed it. |
+| — | TBD | Where to go next | todo | Closing guidance and practice sequencing. |
 
-### Problem page template
+### Problem case-study contract
 
-Every problem uses the same two-page anatomy. The original outline listed sixteen blocks;
-requirements were merged into one, and the two interviewer-facing blocks into one, leaving
-fourteen.
+Every problem uses the chronology and definition of done in `lowleveldesign/context/part-2-problem-blueprint.md`.
+The five questions from Part 1 section 6.1 are the visible navigation system; the changed
+requirement follows the four moves from section 6.2.
 
-**Page 1 — the design**
+Every case study receives three pages by default:
 
-1. Problem statement
-2. Clarifying questions
-3. Requirements — functional and non-functional, two columns
-4. Entities
-5. Class diagram
-6. Complexity and alternative design, two columns
+1. **Enter the interview** — prompt, first response, clarification dialogue, assumptions and scope.
+2. **Build and prove the design** — entities, ownership, invariants, diagram, traces, Java and complexity.
+3. **Move the requirement** — impact, before/after design, debrief, alternatives and practice.
 
-**Page 2 — the depth**
-
-7. Relationships and patterns used, two columns
-8. **Before and after** — the first version with the rule baked in, then the version the
-   follow-up forced. Repo chip below.
-9. Follow-ups to expect
-10. Common mistakes
-11. Interviewer's perspective, merged with the real interview story
-12. Takeaway caption
-
-Roughly six blocks per page. The layout only works if that discipline holds.
+A fourth page is allowed only when it has a distinct teaching job: a substantial authentic story,
+a separate operation trace, two independent mechanisms, a structural follow-up, or a material
+non-functional concern. Fame and problem order are not reasons to add a page.
 
 ### Show the journey, not the destination
 
@@ -188,29 +185,9 @@ Two devices carry this, and both should be reused for every problem:
 Complexity sits on the left page because it follows from the data-structure choice, which is a
 design decision. That also frees the right page for the before/after pair.
 
-### Measured budget, from P1
-
-The right-hand page is the tight one. P1 landed at 44px slack with this distribution, which is
-a realistic target for every problem:
-
-| Block | Height |
-|---|---|
-| Title | 39px |
-| Relationships + Patterns (two columns) | 82px |
-| Code sketch + repo chip | 222px |
-| Complexity + Alternative (two columns) | 76px |
-| Follow-ups (**two** items, not three) | 72px |
-| Common mistakes (one `.compact` paragraph, not a list) | 57px |
-| Story block | 203px |
-| Takeaway caption | 34px |
-
-Three lessons worth carrying forward: keep the code sketch to about nine lines, write common
-mistakes as a single compact paragraph rather than a list, and budget roughly 200px for the
-story before writing anything else.
-
 ### Voice and attribution
 
-From section A of `interview-notes.md`. These are binding on every story block.
+From section A of `lowleveldesign/context/interview-notes.md`. These are binding on every story block.
 
 - **Never name a company.** "A big tech company", "a MAANG-scale company". Never "the SDE-II loop
   at <name>" — say "an SDE-II loop at a big tech company".
@@ -223,16 +200,12 @@ From section A of `interview-notes.md`. These are binding on every story block.
 - Rough and specific beats polished. Keep the fumble in — the panic in P1 is the point of the
   story, not a blemish to edit out.
 
-### Story block shape
+### Story integration
 
-Two paragraphs inside a `.note`, plus a `.caption` takeaway *outside* it.
-
-1. **The setup and the false sense of security** — what the round appeared to be, and why that
-   read was wrong.
-2. **The change, the exposure, the recovery** — what the interviewer asked, what broke, what it
-   cost to fix, and what the feedback actually rewarded.
-
-The takeaway caption is the generalisable lesson, addressed to the reader rather than narrated.
+The personal story is the spine of an authentic case, not a detachable note near the end. Setup,
+false confidence, design choices, changed requirement, exposure, recovery and feedback must appear
+where they happened in the chronology. The final takeaway addresses the reader and generalises the
+lesson without rewriting the story.
 
 ---
 

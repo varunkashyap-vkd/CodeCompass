@@ -1,6 +1,6 @@
 /* ============================================================
    The LLD Runbook — print stylesheet
-   Implements lowleveldesign/style-reference.md.
+  Implements lowleveldesign/context/style-reference.md.
    Do not introduce sizes, colours or gaps outside those scales.
    ============================================================ */
 
@@ -439,7 +439,7 @@ pre code {
   background: var(--paper);
 }
 
-/* Comments are the only coloured token; see style-reference.md section 7. */
+/* Comments are the only coloured token; see context/style-reference.md section 7. */
 pre .c {
   color: var(--ink-faint);
   font-style: italic;
