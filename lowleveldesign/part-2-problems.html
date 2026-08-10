@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The LLD Runbook — Part 2: Problems</title>
+  <link rel="stylesheet" href="assets/fonts.css" />
+  <link rel="stylesheet" href="assets/runbook.css" />
+</head>
+
+<body>
+
+  <!-- ============================================================
+       Page 1 — Cover
+       ============================================================ -->
+  <section class="page cover">
+    <header class="cover__top">
+      <div class="brand">
+        <span class="brand__mark" aria-hidden="true"></span>
+        CodeCompass
+      </div>
+      <span class="cover__part">Part 2 · Problems</span>
+    </header>
+
+    <div>
+      <p class="cover__eyebrow">Low Level Design</p>
+      <h1 class="cover__title">The LLD <span class="accent">Runbook</span></h1>
+      <p class="cover__subtitle">Ten problems, worked the way you would actually solve them.</p>
+
+      <div class="cover__rule"></div>
+
+      <div class="cover__lede">
+        <p>
+          Part 1 gave you the vocabulary. This is where it earns its keep. Each problem runs
+          end to end in two pages — the questions worth asking, the model that follows, and the
+          follow-up the interviewer is waiting to spring.
+        </p>
+        <p>
+          Attempt each one before reading the answer. The value is not in the solutions; it is in
+          finding out where your instincts differ from them.
+        </p>
+      </div>
+    </div>
+
+    <div class="cover__meta">
+      <div>
+        <div class="cover__author">Varun Kashyap</div>
+        <div>Part 2 of 2 · Problems</div>
+      </div>
+      <div>Edition 1 · 2026</div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Page 2 — How to read these problems
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span>Front matter</span>
+      <span><strong>The LLD Runbook</strong> · Part 2</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title">How to read these problems</h1>
+
+      <p class="lead">
+        Every problem takes exactly two pages and the two pages always do the same two jobs.
+        Once you know the shape, you can find any part of any problem without hunting.
+      </p>
+
+      <div class="section grid grid--2">
+        <div>
+          <h4>Left page — the design</h4>
+          <ul class="list">
+            <li><strong>Problem statement</strong> as an interviewer would give it, ambiguity intact.</li>
+            <li><strong>Clarifying questions</strong> worth asking, and which ones actually change the design.</li>
+            <li><strong>Requirements</strong>, functional and non-functional, separated.</li>
+            <li><strong>Entities</strong> — the nouns that survive scrutiny.</li>
+            <li><strong>Class diagram</strong> of the model those nouns produce.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Right page — the depth</h4>
+          <ul class="list">
+            <li><strong>Relationships</strong> and the <strong>patterns</strong> that fell out of them.</li>
+            <li><strong>Code sketch</strong> of the decisive part, with full source linked.</li>
+            <li><strong>Complexity</strong>, then the <strong>follow-ups</strong> to expect.</li>
+            <li><strong>Alternative design</strong> — the other defensible answer.</li>
+            <li><strong>Common mistakes</strong>, and what the interviewer is really watching.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>How to actually use them</h2>
+        <p>
+          Read the problem statement and the clarifying questions, then stop. Give yourself
+          fifteen minutes and a blank page before you read another word. What you are training is
+          the sequence from <strong>6.1</strong>, and you cannot train it by reading someone
+          else's finished answer.
+        </p>
+        <p>
+          When you do read on, compare structure rather than names. If your classes differ from
+          mine but your seam is in the same place, you have the right answer. If your seam is
+          somewhere else, work out which of us guessed the axis better — sometimes it will be you.
+        </p>
+      </div>
+
+      <div class="section note">
+        <p class="label">Every problem ends with the follow-up</p>
+        <p>
+          That is deliberate, and it mirrors the round itself. The design is the setup; the change
+          in requirements is where the marks are. If you only have time to study half of each
+          problem, study the right-hand page.
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
+      <span class="page__num">Page 2 of 24</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 3 — P1 LRU Cache, the design
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Problem 1</strong> · LRU Cache</span>
+      <span>The design · 1 of 2</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">P1</span>LRU Cache</h1>
+
+      <div class="section">
+        <h4>Problem statement</h4>
+        <p>
+          Design a cache with a fixed capacity that supports <code>get</code> and <code>put</code>.
+          When the cache is full, the least recently used entry is evicted to make room.
+        </p>
+        <p class="caption u-mt-4">
+          This one usually arrives as a data structures question. It becomes a design question the
+          moment the interviewer changes the eviction rule.
+        </p>
+      </div>
+
+      <div class="section">
+        <h4>Clarifying questions</h4>
+        <ul class="list">
+          <li>Does <code>get</code> count as a use? <em>Yes — and if you don't ask, ask yourself why you assumed it.</em></li>
+          <li>Is a miss an exception or a sentinel? Changes the signature, not the design.</li>
+          <li>Fixed capacity, or resizable at runtime?</li>
+          <li>Single-threaded? Say you're assuming so, and that you'll revisit it.</li>
+          <li>Any expiry or time-to-live? Usually out of scope, but worth ten seconds to confirm.</li>
+        </ul>
+      </div>
+
+      <div class="section grid grid--2">
+        <div>
+          <h4>Functional</h4>
+          <ul class="list">
+            <li><code>get(key)</code> returns the value and marks it most recently used.</li>
+            <li><code>put(key, value)</code> inserts or updates, and marks it most recently used.</li>
+            <li>At capacity, <code>put</code> evicts the least recently used entry first.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Non-functional</h4>
+          <ul class="list">
+            <li>Both operations in O(1) — this is the whole point of the problem.</li>
+            <li>Memory bounded by capacity, not by total keys ever seen.</li>
+            <li>Eviction order must be exact, not approximate.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h4>Entities</h4>
+        <p>
+          <code>Node</code> holding key, value and both links · <code>DoublyLinkedList</code>
+          maintaining recency order · a map from key to node for constant-time lookup ·
+          <code>Cache</code> coordinating the two · <code>EvictionPolicy</code>, the seam.
+        </p>
+      </div>
+
+      <div class="section">
+        <figure class="diagram">
+          <svg viewBox="0 0 470 190" role="img" aria-label="Cache owns a hash map and a doubly linked list, and uses an EvictionPolicy implemented by LruPolicy and MruPolicy">
+            <rect class="d-box d-box--accent" x="165" y="10" width="140" height="30" rx="4" />
+            <text class="d-name" x="235" y="29">Cache</text>
+
+            <rect class="d-box" x="10" y="80" width="130" height="28" rx="4" />
+            <text class="d-name" x="75" y="98">Map&lt;K, Node&gt;</text>
+
+            <rect class="d-box" x="165" y="80" width="140" height="28" rx="4" />
+            <text class="d-name" x="235" y="98">DoublyLinkedList</text>
+
+            <rect class="d-box" x="330" y="72" width="130" height="40" rx="4" />
+            <text class="d-stereo" x="395" y="87">&#171;interface&#187;</text>
+            <text class="d-name" x="395" y="101">EvictionPolicy</text>
+
+            <path class="d-line" d="M235,40 L235,60 L75,60 L75,76" />
+            <path class="d-line" d="M71,71 L75,78 L79,71" />
+            <line class="d-line" x1="235" y1="40" x2="235" y2="76" />
+            <path class="d-line" d="M231,71 L235,78 L239,71" />
+            <text class="d-label" x="145" y="56">owns</text>
+
+            <path class="d-line" d="M305,25 L395,25 L395,68" />
+            <path class="d-line" d="M391,63 L395,70 L399,63" />
+            <text class="d-label" x="320" y="20">uses</text>
+
+            <rect class="d-box" x="300" y="150" width="75" height="26" rx="4" />
+            <text class="d-name" x="337" y="167">LruPolicy</text>
+
+            <rect class="d-box" x="385" y="150" width="75" height="26" rx="4" />
+            <text class="d-name" x="422" y="167">MruPolicy</text>
+
+            <path class="d-line" d="M337,150 L337,136 L422,136 L422,150" />
+            <line class="d-line" x1="395" y1="136" x2="395" y2="126" />
+            <polygon class="d-head" points="395,114 389,126 401,126" />
+          </svg>
+          <figcaption>The map gives O(1) lookup; the list gives O(1) reordering. The policy decides which end to drop.</figcaption>
+        </figure>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
+      <span class="page__num">Page 3 of 24</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 4 — P1 LRU Cache, the depth
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span><strong>Problem 1</strong> · LRU Cache</span>
+      <span>The depth · 2 of 2</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">P1</span>LRU Cache, in depth</h1>
+
+      <div class="section grid grid--2">
+        <div>
+          <h4>Relationships</h4>
+          <ul class="list">
+            <li><code>Cache</code> owns the map and the list outright.</li>
+            <li>The policy is handed in, not created — that is what makes it swappable.</li>
+            <li>The policy touches the list only. It never sees the map.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Patterns used</h4>
+          <ul class="list">
+            <li><strong>Strategy</strong> for eviction — the only pattern this problem needs.</li>
+            <li>A <strong>Factory</strong> only if policies come from config.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="section">
+        <h4>The decisive part</h4>
+        <div class="code-block code-block--good">
+          <pre><code>void put(K key, V value) {
+    if (map.containsKey(key)) {
+        Node node = map.get(key);
+        node.value = value;
+        order.moveToFront(node);
+        return;
+    }
+    if (map.size() == capacity) {
+        Node victim = policy.select(order);      <span class="c">// the only line that knows the rule</span>
+        map.remove(victim.key);                  <span class="c">// why Node stores its key</span>
+        order.remove(victim);
+    }
+    map.put(key, order.addFront(new Node(key, value)));
+}</code></pre>
+        </div>
+        <p><span class="chip">github.com/varunkashyap-vkd/lld-runbook/lru-cache</span></p>
+      </div>
+
+      <div class="section grid grid--2">
+        <div>
+          <h4>Complexity</h4>
+          <p class="compact">
+            <code>get</code> O(1) · <code>put</code> O(1) · space O(capacity). The map buys lookup;
+            the doubly linked list buys removal without a scan.
+          </p>
+        </div>
+        <div>
+          <h4>Alternative design</h4>
+          <p class="compact">
+            <code>LinkedHashMap</code> in access order with <code>removeEldestEntry</code> does this
+            in five lines — but it hard-codes LRU, which is what the follow-up attacks.
+          </p>
+        </div>
+      </div>
+
+      <div class="section">
+        <h4>Follow-ups to expect</h4>
+        <ul class="list">
+          <li><strong>"Make it most recently used instead."</strong> The one this problem exists for. Behind an interface it is a new class; without one, a rewrite.</li>
+          <li><strong>"Now LFU."</strong> Harder — say plainly that the interface holds but the structure behind it does not.</li>
+          <li><strong>"Make it thread-safe."</strong> Name what you'd guard and what it costs.</li>
+        </ul>
+      </div>
+
+      <div class="section">
+        <h4>Common mistakes</h4>
+        <ul class="list">
+          <li>A singly linked list — removal becomes O(n) and the point is lost.</li>
+          <li>Forgetting that <code>get</code> reorders. The most common correctness bug here.</li>
+          <li>No key inside the node, so eviction cannot clean up the map.</li>
+        </ul>
+      </div>
+
+      <div class="section note">
+        <p class="label">Interviewer's perspective · real interview story</p>
+        <p class="caption">
+          [ Placeholder — to be written from <code>interview-notes.md</code>, section B. ]
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
+      <span class="page__num">Page 4 of 24</span>
+    </footer>
+  </section>
+
+</body>
+
+</html>

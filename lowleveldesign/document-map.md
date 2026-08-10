@@ -15,6 +15,7 @@
 |---|---|
 | `document_structure.txt` | The original outline. Historical intent; superseded by this map. |
 | `style-reference.md` | Typography, colour, spacing, print rules. Non-negotiable. |
+| `interview-notes.md` | The author's raw interview experiences. Source material for the story blocks in Part 2. |
 | `part-1-theory.html` | All Part 1 pages, one file. |
 | `part-2-problems.html` | All Part 2 pages, one file. |
 | `tools/export-pdf.ps1` | The only supported PDF export path. |
@@ -127,10 +128,10 @@ runners-up billing.
 
 | § | Page | Title | Status | Brief |
 |---|---|---|---|---|
-| — | 1 | Cover | todo | Matches Part 1 cover, marked Part 2. **Preview page.** |
-| — | 2 | Contents and how to read these problems | todo | Full index of all ten problems, plus the two-page anatomy explained. **Preview page.** |
-| P1 | 3–4 | LRU cache | blocked | Starts as DSA, becomes LLD when eviction must swap to MRU without a rewrite. **Needs the author's anecdote.** |
-| P2 | 5–6 | HashMap | blocked | Same shape: pluggable collision handling. **Needs the author's anecdote.** |
+| — | 1 | Cover | done | Matches Part 1 cover, marked Part 2. **Preview page.** |
+| — | 2 | Contents and how to read these problems | partial | Two-page anatomy is written. **The index of all ten problems is still missing** — the ~380px of slack on this page is reserved for it, and it must be added once the ten are fixed. **Preview page.** |
+| P1 | 3–4 | LRU cache | blocked | Design and depth pages are written. Strategy on eviction, with the MRU switch as the headline follow-up. **The story block on page 4 is a placeholder** awaiting `interview-notes.md` section B. Roughly 60px is reserved for it. |
+| P2 | 5–6 | HashMap | blocked | Same shape: pluggable collision handling. **Needs the author's anecdote** from `interview-notes.md` section C. |
 | P3 | 7–8 | To be decided | todo | |
 | P4 | 9–10 | To be decided | todo | |
 | P5 | 11–12 | To be decided | todo | |
