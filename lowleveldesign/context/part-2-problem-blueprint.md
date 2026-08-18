@@ -54,11 +54,45 @@ The case study is chronological. Do not present the final extensible class diagr
 explain afterward that the initial design was different. The reader must experience the baseline
 before seeing the pressure that changes it.
 
-Use three distinct voices deliberately:
+### The narrator
 
-- **First person** for verified experience: “I assumed…”, “I asked…”, “I changed…”.
-- **Technical exposition** for reasoning: “The map provides…”, “This invariant ensures…”.
-- **Second person** for coaching: “In your interview, state this assumption aloud.”
+Part 1 works because one person is walking the reader through it, arguing, conceding, and
+occasionally telling them off. Part 2 must be the **same narrator at a different distance**: Part 1
+is him at the whiteboard, Part 2 is him in the room, remembering — and then turning to the reader
+to say what it means. Same diction, same restraint, same willingness to say the uncomfortable thing.
+
+Three registers carry it:
+
+- **First person, past tense** for verified experience: “I assumed…”, “I asked…”, “I changed…”.
+- **Neutral exposition, present tense** for reasoning: “The map holds nodes, not values…”.
+- **Second person, present tense** for coaching: “In your interview, say this out loud.”
+
+**Braid them; never segregate them.** The failure mode is putting each register in its own
+container — story in the lead, exposition in the tables, coaching in the closing caption — which
+reads as three authors rather than one narrator. The working pattern, repeated down every page:
+
+> **What happened** (first person) → **the artifact** (table, diagram or code) → **what it means for
+> you** (second person).
+
+The third move is the narrator's signature and the one most easily lost. No table, diagram or code
+block stands alone: something before it says why the reader is about to look at it, and something
+after it says what to take from it. This is also where the author's recurring phrases belong —
+“a couple of things”, “let's start with the basics”, “if you take one thing from this” — used
+sparingly, and never more than one per page.
+
+**Tense marks the boundary.** What happened is past, because it is over. What the design is
+remains present, because it is still true. “I mapped keys to nodes” and “the map has to hold nodes,
+not values” belong in the same paragraph and in different tenses. Collapsing both into one tense is
+what makes technical writing sound authorless.
+
+**The narrator has memory, not foresight.** He may say what he did and what he was thinking at the
+time. He may not hint at what it is about to cost. “I said nothing would change — the most
+expensive sentence of the round” spends page C's reversal on page B and lets the reader feel
+knowing instead of caught. Hindsight is a page C privilege.
+
+**He is allowed to be wrong.** Part 1's narrator carries authority because the theory is settled.
+Part 2's earns it by being wrong first and recovering in view. An admitted misjudgement is worth
+more than a paragraph of correct analysis, and it is never edited into something more flattering.
 
 Short interviewer/candidate dialogue is encouraged when the wording changes the design. Do not
 invent quotations, outcomes, emotions, or company details. Label the provenance of every case:
@@ -84,9 +118,14 @@ compressing the interview narrative.
 
 | Page | Job | Framework coverage |
 |---|---|---|
-| **A — Enter the interview** | Prompt, first response, clarification dialogue, assumptions, scope, functional and non-functional requirements. End with the agreed problem. | Question 1, opening of Question 2 |
+| **A — Enter the interview** | Prompt, first response, clarification dialogue, assumptions, scope, functional and non-functional requirements. Ends with the agreed problem and nothing derived from it. | Question 1 |
 | **B — Build and prove the design** | Entity discovery, responsibilities, invariants, APIs, baseline diagram, operation trace, decisive Java, complexity. | Questions 2, 3, 4 and 5 |
 | **C — Move the requirement** | Exact follow-up, exposed weakness, before/after design and code, what changes and stays stable, alternatives, mistakes, interviewer perspective, practice prompts, takeaway. | Section 6.2 follow-up |
+
+Page A stops before entity discovery on purpose. The reader must reach the end of it holding
+exactly what the candidate held — prompt, clarifications, agreed scope — so the invitation to
+attempt the problem is real rather than decorative. Naming the surviving entities on page A gives
+the answer away and removes the only place the reader can usefully stop.
 
 ### Four-page case study
 
@@ -111,7 +150,120 @@ class diagram, return to three pages.
 
 ---
 
-## 5. Required content
+## 5. The case page template
+
+Part 1 chapter 5 reads as one voice because every pattern page is built against the block spine in
+`lowleveldesign/context/document-map.md` section 7. This section is the Part 2 equivalent, and it
+is binding for the same reason: ten case studies assembled from a content checklist will read as
+ten different documents no matter how good each one is in isolation.
+
+Heights are approximate and assume the 959px live area of an A4 `.page__body`. Target 40–160px of
+slack. Where a problem has nothing to put in an optional block, cut it and let the neighbours
+breathe rather than inventing filler. Every page spends about 70px on the masthead before its own
+blocks begin; the tables below start after it.
+
+### The rule that matters most: prose carries the page
+
+A Part 1 page averages **two or three structural blocks** — a table, a diagram, a code block, a
+note — and the narrator argues in plain paragraphs between every one of them. Every table and
+diagram is introduced by a sentence that says why the reader is about to look at it, or followed
+by one that says what it proved.
+
+A Part 2 page must do the same. Six labelled containers stacked with no connective text is the
+single reliable way to make a case study feel assembled instead of told. Before adding a block,
+ask whether two sentences would carry it better; for entity lists, rejected nouns, scope notes and
+alternatives, they almost always do.
+
+Hard limits per page: at most **four** structural blocks, at most **two** tables, and never a table
+that opens a section without a sentence in front of it. **No two structural blocks may sit
+adjacent** — two containers touching with nothing between them is where the narrator of section 3
+disappears.
+
+The block heights below exclude the narrator. Reserve roughly **100–120px per page** for the
+sentences that introduce and resolve the artifacts, and treat it as spent before layout begins.
+When a page overruns, cut a block, a table row, or an optional slot. **The narrator's lines are cut
+last**, which is the opposite of what happens naturally under page-fit pressure.
+
+### The masthead: problem in the title, page in the deck
+
+Every page of a case carries the **same** `h1` — the problem number and name, `P1  LRU Cache` —
+and puts that page's own narrative title in a `.case-deck` standfirst directly beneath the title
+rule. Part 2 is the half readers return to, and they navigate by problem rather than by narrative
+beat; a reader who opens the book anywhere in a case must be told which problem they are in without
+having to decode the running head.
+
+The narrative titles still matter and still have to be good — they are what makes the case read as
+a story rather than four filed sections. They simply must not outrank their own subject. So the
+rules from before still bind, one level down:
+
+- The deck makes a claim about its page. "The model" and "The change" are drawer labels and repeat
+  the leg already named in the running header.
+- The register is Part 1's: "Two structures, one promise", "What six calls proved", "The question
+  after the code worked".
+
+The running head carries `.case-id` on every page of a case, one ink step darker than ordinary page
+furniture, for the reader flipping rather than reading.
+
+### Framework markers rank above body text
+
+The five questions are the spine of the product, so a `.qtag` sits at `h3` size in full ink, in
+sentence case, with the question number in purple. Two settings are wrong and both have been tried:
+an `h2` with a rule beneath chops the page into a form, and a 10px micro-label ranks the marker
+*below* the prose around it, so the promised link back to section 6.1 gets missed. `h3` with no rule
+is the setting that reads as a marker rather than a field.
+
+### Page A — Enter the interview
+
+The reader is put in the chair. They finish this page with the problem and no solution.
+
+| Block | Purpose | Approx. height |
+|---|---|---|
+| Lead | The round as it was set up, and the reading the candidate took. Ends on whatever footing the story needs, including a false one. | 70px |
+| **The prompt** (`.brief`) | Close to the wording actually used. The only block on this page that must be verbatim in spirit. | 110px |
+| The first sixty seconds | What was actually said aloud, quoted. This is Question 1 answered by demonstration rather than by heading. | 130px |
+| What I asked, and why it mattered | Three clarifications maximum, each with the design decision it settled. Introduced by prose. | 160px |
+| The turn that sets up the case *(optional)* | The misread, the assumption, or the constraint that the follow-up will later punish. Only where the story has one. | 90px |
+| Scope agreed | Assumptions, in scope, out of scope. One compact paragraph or caption, not a grid. | 90px |
+| **Your turn** | The stop line: how long to spend and what to produce before turning the page. | 60px |
+
+### Page B — Build and prove the design
+
+The design the candidate actually wrote, presented with confidence. Where the baseline contains
+the flaw the follow-up will expose, show it plainly and **do not foreshadow it**. The reader is
+meant to share the candidate's false summit; a page that hints at the trap throws away the
+reversal on page C.
+
+| Block | Purpose | Approx. height |
+|---|---|---|
+| Title | The promise the model has to keep | 70px |
+| Lead | The one or two guarantees everything else follows from | 60px |
+| Entities, kept and dropped | Question 2, in prose. Name what survived, then name the false nouns and why they went. | 100px |
+| Ownership and invariants | Question 3. Row-head table, four rows or fewer, closed by a one-line invariant caption. | 200px |
+| **Baseline diagram** | Question 3 and 4. No dashed elements — the evolved design does not exist yet. | 170px |
+| Trace | Question 5. Five or six calls with concrete values, complexity derived in the closing caption. | 200px |
+| The honest axis, and the other answer | Question 4 answered truthfully in two or three sentences, plus the standard library or alternative approach. No heading of its own. | 100px |
+
+### Page C — Move the requirement
+
+| Block | Purpose | Approx. height |
+|---|---|---|
+| Title | What the follow-up actually tested | 70px |
+| Lead | The false summit, then the moment it ended | 60px |
+| **The follow-up** (`.brief`) | The changed requirement, close to how it was phrased | 90px |
+| The two minutes | The recovery, in prose. The four moves from section 6.2 appear as sentences the reader could say aloud, not as an abstract numbered list beside code that repeats them. | 150px |
+| **Before / after** | Structurally parallel excerpts, `code-block--bad` then `code-block--good`. The diff should be readable at a glance. | 220px |
+| Evolved diagram | Dashed for genuinely later elements only. Skip it where Part 1 already showed this exact structure and spend the space on cost instead. | 170px |
+| What it cost, and where it stops | Rewiring cost in concrete terms, the limit of the evolved design, repo chip. | 100px |
+| Debrief and takeaway | What the interviewer was probing, practice prompts, one generalisable line. | 90px |
+
+The climax of a case cannot be a pattern name. Part 1 already taught the patterns, so a case whose
+payoff is "the answer is Strategy" has delivered nothing the reader did not already own. The payoff
+is the recovery: how the missing seam was found under time pressure, the sentence that named it,
+and what the rewiring actually cost.
+
+---
+
+## 6. Required content
 
 Every problem must contain the following, but these are ingredients rather than fourteen isolated
 boxes.
@@ -172,7 +324,7 @@ Then show:
 
 ---
 
-## 6. Code and diagram rules
+## 7. Code and diagram rules
 
 The body of the document must contain enough Java to explain the mechanism without becoming a code
 dump.
@@ -194,7 +346,7 @@ Diagrams must preserve chronology:
 
 ---
 
-## 7. Drafting workflow for each problem
+## 8. Drafting workflow for each problem
 
 Do not begin page layout from a topic name alone. Build the problem in this order:
 
@@ -210,15 +362,18 @@ Do not begin page layout from a topic name alone. Build the problem in this orde
 6. **Choose three or four pages.** Apply the criteria in section 4 and record the reason in
    `lowleveldesign/context/document-map.md`.
 7. **Update the map first.** Lock title, page allocation, story source, transformation, and brief.
-8. **Build the HTML.** Preserve the shared visual system, but let the narrative determine section
-   boundaries.
-9. **Review content before fit.** Check chronology, technical accuracy, framework coverage, and
-   authenticity before cutting for A4.
-10. **Validate the artifact.** Check page fit, rendered diagrams, links, fonts, and PDF export.
+8. **Write the pages as prose.** Draft each page in Markdown against its block spine in section 5,
+   including the sentences that introduce every table and diagram. A page that does not read well
+   as plain text will not be rescued by markup.
+9. **Build the HTML.** Preserve the shared visual system and the section 5 block order. Cut an
+   optional block rather than exceeding the page.
+10. **Review content before fit.** Check chronology, technical accuracy, framework coverage, and
+    authenticity before cutting for A4.
+11. **Validate the artifact.** Check page fit, rendered diagrams, links, fonts, and PDF export.
 
 ---
 
-## 8. Problem commissioning brief
+## 9. Problem commissioning brief
 
 Copy and complete this block before starting a new problem:
 
@@ -262,7 +417,7 @@ Why the fourth page is earned, if applicable:
 
 ---
 
-## 9. Definition of done
+## 10. Definition of done
 
 A problem is not done until all of these are true:
 
@@ -279,11 +434,19 @@ A problem is not done until all of these are true:
 - [ ] The reader can understand the solution without opening the repository.
 - [ ] Practice prompts make the problem reusable after the first read.
 - [ ] The content passes technical review before it is compressed for page fit.
+- [ ] Every page follows its block spine in section 5, with no more than four structural blocks.
+- [ ] Every table and diagram is introduced or resolved by a sentence of prose.
+- [ ] No two structural blocks sit adjacent on any page.
+- [ ] Each page turns to the reader at least twice, not only in its closing caption.
+- [ ] The story is past tense and the design is present tense.
+- [ ] The narrator never anticipates the follow-up before page C.
+- [ ] Every page title makes a claim rather than repeating the running header.
+- [ ] Page A ends at an honest stopping point, before anything is derived.
 - [ ] Every page fits A4 and passes the shared pre-flight checklist.
 
 ---
 
-## 10. Anti-patterns
+## 11. Anti-patterns
 
 Reject a draft when it does any of the following:
 
@@ -297,3 +460,11 @@ Reject a draft when it does any of the following:
 - Invents dialogue or personal detail to make a representative scenario sound authentic.
 - Adds a fourth page that contains no distinct teaching job.
 - Cuts the interview story first when the page overflows.
+- Stacks labelled blocks with no argument between them, so the narrator disappears.
+- Quarantines each voice in its own container — story in the lead, exposition in the tables,
+  coaching in the closing caption — so the page reads as three authors.
+- Lets the narrator show hindsight before page C.
+- Cuts the narrator's connective sentences to make a page fit.
+- Titles a page with the name of its leg, which the running header already carries.
+- Foreshadows the weakness on page B and spends the reversal before page C.
+- Ends the case on a pattern name that Part 1 already taught.

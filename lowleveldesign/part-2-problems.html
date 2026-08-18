@@ -26,19 +26,21 @@
     <div>
       <p class="cover__eyebrow">Low Level Design</p>
       <h1 class="cover__title">The LLD <span class="accent">Runbook</span></h1>
-      <p class="cover__subtitle">Ten problems, worked the way you would actually solve them.</p>
+      <p class="cover__subtitle">Ten rounds, from the first sentence to the follow-up.</p>
 
       <div class="cover__rule"></div>
 
       <div class="cover__lede">
         <p>
-          Part 1 gave you the vocabulary. This is where it earns its keep. Each problem runs
-          end to end in two pages — the questions worth asking, the model that follows, and the
-          follow-up the interviewer is waiting to spring.
+          Part 1 closed on the sentence this half exists to answer: the interviewer changes their
+          mind, and both of you find out what your design is made of. Every case here runs to that
+          moment, and then keeps going.
         </p>
         <p>
-          Attempt each one before reading the answer. The value is not in the solutions; it is in
-          finding out where your instincts differ from them.
+          You get the prompt as it was worded, the questions I asked, the design I actually wrote
+          — mistakes left in — and what happened when the requirement moved. Attempt each one
+          before you read on. The value isn't in my answer; it's in finding where your instincts
+          and mine part company.
         </p>
       </div>
     </div>
@@ -53,307 +55,554 @@
   </section>
 
   <!-- ============================================================
-       Page 2 — How to read these problems
+       Page 2 — Contents
        ============================================================ -->
   <section class="page">
     <header class="page__head">
       <span>Front matter</span>
-      <span><strong>The LLD Runbook</strong> · Part 2</span>
+      <span>Contents</span>
     </header>
 
     <div class="page__body">
-      <h1 class="page-title">How to read these problems</h1>
+      <h1 class="page-title">Contents</h1>
 
-      <p class="lead">
-        Every problem follows the same interview path, from the ambiguous prompt to the changed
-        requirement. The framework stays fixed; the page count follows the teaching work.
-      </p>
-
-      <div class="section grid grid--2">
-        <div>
-          <h4>Left page — the design</h4>
-          <ul class="list">
-            <li><strong>Problem statement</strong> as an interviewer would give it, ambiguity intact.</li>
-            <li><strong>Clarifying questions</strong> worth asking, and which ones actually change the design.</li>
-            <li><strong>Requirements</strong>, functional and non-functional, separated.</li>
-            <li><strong>Entities</strong> — the nouns that survive scrutiny.</li>
-            <li><strong>Class diagram</strong> of the model those nouns produce.</li>
-          </ul>
+      <div class="index index--cases">
+        <div class="index__chapter">
+          <span class="index__chapter-num">1</span>
+          <span class="index__chapter-title">Data structures under pressure</span>
+          <span class="index__chapter-note">Two rounds I sat in</span>
         </div>
-        <div>
-          <h4>Right page — the depth</h4>
-          <ul class="list">
-            <li><strong>Relationships</strong> and the <strong>patterns</strong> that fell out of them.</li>
-            <li><strong>Code sketch</strong> of the decisive part, with full source linked.</li>
-            <li><strong>Complexity</strong>, then the <strong>follow-ups</strong> to expect.</li>
-            <li><strong>Alternative design</strong> — the other defensible answer.</li>
-            <li><strong>Common mistakes</strong>, and what the interviewer is really watching.</li>
-          </ul>
+        <div class="index__row index__row--case">
+          <span class="index__num">P1</span>
+          <span class="index__case">
+            <span class="index__case-title">LRU Cache</span>
+            <span class="index__gloss">Correct code, thirty minutes early, and the question that came after it.</span>
+          </span>
+          <span class="index__dots"></span><span class="index__page">3–6</span>
+        </div>
+        <div class="index__row index__row--case">
+          <span class="index__num">P2</span>
+          <span class="index__case">
+            <span class="index__case-title">HashMap</span>
+            <span class="index__gloss">Storage and collisions, and which of the two the follow-up actually targets.</span>
+          </span>
+          <span class="index__dots"></span><span class="index__page">7–9</span>
+        </div>
+
+        <div class="index__chapter">
+          <span class="index__chapter-num">2</span>
+          <span class="index__chapter-title">Objects, state and rules</span>
+          <span class="index__chapter-note">Modelling and lifecycle</span>
+        </div>
+        <div class="index__row index__row--case">
+          <span class="index__num">P3</span>
+          <span class="index__case">
+            <span class="index__case-title">Parking lot</span>
+            <span class="index__gloss">The classic. Where the nouns mislead you, and where the rules belong.</span>
+          </span>
+          <span class="index__dots"></span><span class="index__page">10–12</span>
+        </div>
+        <div class="index__row index__row--case">
+          <span class="index__num">P4</span>
+          <span class="index__case">
+            <span class="index__case-title">Vending machine</span>
+            <span class="index__gloss">A state machine wearing a shopping cart's clothes.</span>
+          </span>
+          <span class="index__dots"></span><span class="index__page">13–15</span>
+        </div>
+        <div class="index__row index__row--case">
+          <span class="index__num">P5</span>
+          <span class="index__case">
+            <span class="index__case-title">Elevator system</span>
+            <span class="index__gloss">Scheduling as a policy, not an algorithm you hard-code on the whiteboard.</span>
+          </span>
+          <span class="index__dots"></span><span class="index__page">16–18</span>
+        </div>
+        <div class="index__row index__row--case">
+          <span class="index__num">P6</span>
+          <span class="index__case">
+            <span class="index__case-title">Snake and ladder</span>
+            <span class="index__gloss">Simple rules, until the board itself has to become data.</span>
+          </span>
+          <span class="index__dots"></span><span class="index__page">19–21</span>
+        </div>
+
+        <div class="index__chapter">
+          <span class="index__chapter-num">3</span>
+          <span class="index__chapter-title">Services and policies</span>
+          <span class="index__chapter-note">Extension under pressure</span>
+        </div>
+        <div class="index__row index__row--case">
+          <span class="index__num">P7</span>
+          <span class="index__case">
+            <span class="index__case-title">Rate limiter</span>
+            <span class="index__gloss">One interface, four algorithms, and the state they refuse to share.</span>
+          </span>
+          <span class="index__dots"></span><span class="index__page">22–24</span>
+        </div>
+        <div class="index__row index__row--case">
+          <span class="index__num">P8</span>
+          <span class="index__case">
+            <span class="index__case-title">Notification service</span>
+            <span class="index__gloss">Fan-out and retries, and the decision most candidates push one layer too low.</span>
+          </span>
+          <span class="index__dots"></span><span class="index__page">25–27</span>
+        </div>
+        <div class="index__row index__row--case">
+          <span class="index__num">P9</span>
+          <span class="index__case">
+            <span class="index__case-title">Splitwise</span>
+            <span class="index__gloss">Money, invariants, and why a balance must never be stored twice.</span>
+          </span>
+          <span class="index__dots"></span><span class="index__page">28–30</span>
+        </div>
+        <div class="index__row index__row--case">
+          <span class="index__num">P10</span>
+          <span class="index__case">
+            <span class="index__case-title">Logging framework</span>
+            <span class="index__gloss">The problem that looks like Decorator, and often isn't.</span>
+          </span>
+          <span class="index__dots"></span><span class="index__page">31–33</span>
+        </div>
+
+        <div class="index__chapter">
+          <span class="index__chapter-num">4</span>
+          <span class="index__chapter-title">Revision</span>
+          <span class="index__chapter-note">Reference</span>
+        </div>
+        <div class="index__row">
+          <span class="index__num index__num--dot" aria-hidden="true">&#8226;</span><span>Pattern-to-problem cheat sheet</span>
+          <span class="index__dots"></span><span class="index__page">34</span>
+        </div>
+        <div class="index__row">
+          <span class="index__num index__num--dot" aria-hidden="true">&#8226;</span><span>Where to go next</span>
+          <span class="index__dots"></span><span class="index__page">35</span>
         </div>
       </div>
 
-      <div class="section">
-        <h2>How to actually use them</h2>
-        <p>
-          Read the problem statement and the clarifying questions, then stop. Give yourself
-          fifteen minutes and a blank page before you read another word. What you are training is
-          the sequence from <strong>6.1</strong>, and you cannot train it by reading someone
-          else's finished answer.
-        </p>
-        <p>
-          When you do read on, compare structure rather than names. If your classes differ from
-          mine but your seam is in the same place, you have the right answer. If your seam is
-          somewhere else, work out which of us guessed the axis better — sometimes it will be you.
-        </p>
-      </div>
-
-      <div class="section note">
-        <p class="label">Every problem ends with the follow-up</p>
-        <p>
-          That is deliberate, and it mirrors the round itself. The design is the setup; the change
-          in requirements is where the marks are. If you only have time to study half of each
-          problem, study the right-hand page.
-        </p>
+      <div class="steps">
+        <h2>How to work a case</h2>
+        <div class="steps__row">
+          <div class="steps__item">
+            <span class="steps__num">Step 1</span>
+            <strong>Attempt</strong>Every case stops after the brief. Design it yourself before turning the page.
+          </div>
+          <div class="steps__item">
+            <span class="steps__num">Step 2</span>
+            <strong>Compare</strong>Check ownership, invariants and one full flow — not whether your class names matched mine.
+          </div>
+          <div class="steps__item">
+            <span class="steps__num">Step 3</span>
+            <strong>Adapt</strong>Answer the follow-up out loud before you read how I answered it.
+          </div>
+        </div>
       </div>
     </div>
 
     <footer class="page__foot">
       <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
-      <span class="page__num">Page 2 of 24</span>
+      <span class="page__num">Page 2 of 35</span>
     </footer>
   </section>
 
   <!-- ============================================================
-       Page 3 — P1 LRU Cache, the design
+       Page 3 — P1 LRU Cache, the brief
        ============================================================ -->
   <section class="page">
     <header class="page__head">
-      <span><strong>Problem 1</strong> · LRU Cache</span>
-      <span>The design · 1 of 2</span>
+      <span class="case-id"><strong>P1</strong> · LRU Cache</span>
+      <span>The brief · 1 of 4</span>
     </header>
 
     <div class="page__body">
       <h1 class="page-title"><span class="page-title__num">P1</span>LRU Cache</h1>
+      <p class="case-deck">The round I misread</p>
 
-      <div class="section">
-        <h4>Problem statement</h4>
-        <p>
-          “We show a user's saved delivery address on the checkout page, and it needs to load in
-          near real time. The user base is large. We care most about the people who come back
-          often — for everyone else, being a little slower is acceptable.”
-        </p>
-        <p class="caption u-mt-4">
-          That is close to how it was actually put to me. Notice that the words <em>cache</em> and
-          <em>least recently used</em> never appear. Hearing them anyway is the first half of the test.
-        </p>
-      </div>
+      <p class="lead">
+        The invite said low level design. The interviewer joined, shared a live code editor, and
+        read out a problem that never used the word cache once. I had about a minute to decide
+        what kind of round this was.
+      </p>
 
-      <div class="section">
-        <h4>Clarifying questions</h4>
-        <ul class="list">
-          <li>Am I right that this is a bounded in-memory cache keyed by user? <em>Say your interpretation out loud before you design to it.</em></li>
-          <li>Does <code>get</code> count as a use? <em>Yes — and if you don't ask, ask yourself why you assumed it.</em></li>
-          <li>Single-threaded? Say you're assuming so, and that you'll revisit it.</li>
-          <li>Any expiry or time-to-live? Usually out of scope, but worth ten seconds to confirm.</li>
-        </ul>
-      </div>
-
-      <div class="section grid grid--2">
-        <div>
-          <h4>Functional</h4>
-          <ul class="list">
-            <li><code>get(key)</code> returns the value and marks it most recently used.</li>
-            <li><code>put(key, value)</code> inserts or updates, and marks it most recently used.</li>
-            <li>At capacity, <code>put</code> evicts the least recently used entry first.</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Non-functional</h4>
-          <ul class="list">
-            <li>Both operations in O(1) — this is the whole point of the problem.</li>
-            <li>Memory bounded by capacity, not by total keys ever seen.</li>
-            <li>Eviction order must be exact, not approximate.</li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="section">
-        <h4>Entities</h4>
-        <p>
-          <code>Node</code> holding key, value and both links · <code>DoublyLinkedList</code>
-          maintaining recency order · a map from key to node for constant-time lookup ·
-          <code>Cache</code> coordinating the two · <code>EvictionPolicy</code>, the seam.
-        </p>
-      </div>
-
-      <div class="section">
-        <figure class="diagram">
-          <svg viewBox="0 0 470 190" role="img" aria-label="Cache owns a hash map and a doubly linked list, and uses an EvictionPolicy implemented by LruPolicy and MruPolicy">
-            <rect class="d-box d-box--accent" x="165" y="10" width="140" height="30" rx="4" />
-            <text class="d-name" x="235" y="29">Cache</text>
-
-            <rect class="d-box" x="10" y="80" width="130" height="28" rx="4" />
-            <text class="d-name" x="75" y="98">Map&lt;K, Node&gt;</text>
-
-            <rect class="d-box" x="165" y="80" width="140" height="28" rx="4" />
-            <text class="d-name" x="235" y="98">DoublyLinkedList</text>
-
-            <rect class="d-box d-box--later" x="330" y="72" width="130" height="40" rx="4" />
-            <text class="d-stereo" x="395" y="87">&#171;interface&#187;</text>
-            <text class="d-name" x="395" y="101">EvictionPolicy</text>
-
-            <path class="d-line" d="M235,40 L235,60 L75,60 L75,76" />
-            <path class="d-line" d="M71,71 L75,78 L79,71" />
-            <line class="d-line" x1="235" y1="40" x2="235" y2="76" />
-            <path class="d-line" d="M231,71 L235,78 L239,71" />
-            <text class="d-label" x="145" y="56">owns</text>
-
-            <path class="d-line d-line--dashed" d="M305,25 L395,25 L395,68" />
-            <path class="d-line" d="M391,63 L395,70 L399,63" />
-            <text class="d-label" x="320" y="20">uses</text>
-
-            <rect class="d-box d-box--later" x="300" y="150" width="75" height="26" rx="4" />
-            <text class="d-name" x="337" y="167">LruPolicy</text>
-
-            <rect class="d-box d-box--later" x="385" y="150" width="75" height="26" rx="4" />
-            <text class="d-name" x="422" y="167">MruPolicy</text>
-
-            <path class="d-line d-line--dashed" d="M337,150 L337,136 L422,136 L422,150" />
-            <line class="d-line d-line--dashed" x1="395" y1="136" x2="395" y2="126" />
-            <polygon class="d-head" points="395,114 389,126 401,126" />
-          </svg>
-          <figcaption>
-            The map gives O(1) lookup; the list gives O(1) reordering. Everything dashed is what the
-            follow-up added — my first version decided eviction inside <code>Cache</code>.
-          </figcaption>
-        </figure>
-      </div>
-
-      <div class="section grid grid--2">
-        <div>
-          <h4>Complexity</h4>
-          <p class="compact">
-            <code>get</code> O(1) · <code>put</code> O(1) · space O(capacity). The map buys lookup;
-            the doubly linked list buys removal without a scan.
+      <div class="brief">
+        <div class="brief__part">
+          <p class="label">What I was asked</p>
+          <p>
+            “We show a user's location and address on the checkout page, and it needs to be near
+            real time. The user base is large, so give priority to the people who come back often.
+            We can afford to be a little slower for everyone else.”
           </p>
         </div>
-        <div>
-          <h4>Alternative design</h4>
-          <p class="compact">
-            <code>LinkedHashMap</code> in access order does this in five lines — but it hard-codes
-            LRU, which is exactly what the follow-up attacks.
+        <div class="brief__part">
+          <p class="label">What I said back</p>
+          <p>
+            “This sounds like a cache. <em>Come back often</em> could mean lifetime visit count or
+            recent activity — I read it as recency, so I'd start with least-recently-used eviction
+            and a fixed capacity. Tell me if you meant frequency and I'll change the rule.”
           </p>
         </div>
+      </div>
+
+      <p>
+        I drew nothing. I repeated the problem back, named the shape I thought it had, and put one
+        assumption on the table — the opening move from section 6.1, more or less by reflex. That
+        last clause is the part worth stealing: naming the interpretation you <em>rejected</em>
+        costs four seconds and tells the interviewer you saw the ambiguity rather than missed it.
+      </p>
+
+      <h4 class="qtag u-mt-4"><span class="qtag__num">Q1</span>What am I actually building?</h4>
+      <p>
+        A couple of things needed pinning down before I wrote anything. I asked three, and only one
+        of them changed the design.
+      </p>
+
+      <table class="table table--rowhead u-mt-4">
+        <tbody>
+          <tr>
+            <td>Does a read count as a use?</td>
+            <td>Yes. <code>get</code> promotes the key it finds.</td>
+          </tr>
+          <tr>
+            <td>Bounded by entries or by memory?</td>
+            <td>Entries. Capacity is fixed when the cache is built, and never grows.</td>
+          </tr>
+          <tr>
+            <td>Does anything expire on its own?</td>
+            <td>No. An entry leaves only when a new one needs its place.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="u-mt-4">
+        The first row is the one that pays. If a read promotes the key, <code>get</code> is a
+        mutating operation — and that single fact decides your data structure before you have drawn
+        a box. The other two bound the problem without changing it.
+      </p>
+
+      <p>
+        We settled the rest out loud: single-threaded, exact recency rather than an approximation,
+        generic keys and values. Expiry, persistence, cache warming and anything distributed were
+        agreed out of scope. In a live-coding round, <em>say</em> the scope rather than typing it —
+        the editor is for code, and a comment block of assumptions reads as stalling.
+      </p>
+
+      <div class="note u-mt-4">
+        <p class="label">Your turn</p>
+        <p>
+          You now have exactly what I had: the prompt, three answers and the agreed scope. Give it
+          fifteen minutes before you turn the page. Write down the classes you would keep, the
+          public API, and one sentence on what you would allow to vary later. Not the
+          implementation — the shape.
+        </p>
       </div>
     </div>
 
     <footer class="page__foot">
       <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
-      <span class="page__num">Page 3 of 24</span>
+      <span class="page__num">Page 3 of 35</span>
     </footer>
   </section>
 
   <!-- ============================================================
-       Page 4 — P1 LRU Cache, the depth
+       Page 4 — P1 LRU Cache, the model
        ============================================================ -->
   <section class="page">
     <header class="page__head">
-      <span><strong>Problem 1</strong> · LRU Cache</span>
-      <span>The depth · 2 of 2</span>
+      <span class="case-id"><strong>P1</strong> · LRU Cache</span>
+      <span>The model · 2 of 4</span>
     </header>
 
     <div class="page__body">
-      <h1 class="page-title"><span class="page-title__num">P1</span>LRU Cache, in depth</h1>
+      <h1 class="page-title"><span class="page-title__num">P1</span>LRU Cache</h1>
+      <p class="case-deck">Two structures, one promise</p>
 
-      <div class="section grid grid--2">
-        <div>
-          <h4>Relationships</h4>
-          <ul class="list">
-            <li><code>Cache</code> owns the map and the list outright.</li>
-            <li>The policy is handed in, not created — that is what makes it swappable.</li>
-          </ul>
-        </div>
-        <div>
-          <h4>Patterns used</h4>
-          <ul class="list">
-            <li><strong>Strategy</strong> for eviction — the only pattern this problem needs.</li>
-            <li>A <strong>Factory</strong> only if policies arrive from config.</li>
-          </ul>
-        </div>
-      </div>
+      <p class="lead">
+        Everything below follows from one promise: find any key in constant time, and move it to
+        the front in constant time. Miss either half and this is just a slower map.
+      </p>
 
-      <div class="section">
-        <h4>What the follow-up actually changed</h4>
+      <h4 class="qtag"><span class="qtag__num">Q2</span>What are the things?</h4>
+      <p>
+        Three nouns from the prompt did not survive: <code>User</code>, <code>Address</code> and
+        <code>CheckoutPage</code>. They are the reason the cache exists, not parts of it, and
+        pulling them in would tie a general mechanism to one screen. Say your rejects out loud in
+        the room — discarding a plausible noun scores better than listing it.
+      </p>
 
-        <div class="code-block code-block--bad">
-          <p class="label">First version — correct, and the rule is baked in</p>
-          <pre><code>Node victim = order.tail();              <span class="c">// "least recently used", decided right here</span>
-map.remove(victim.key);
-order.remove(victim);</code></pre>
-        </div>
+      <h4 class="qtag u-mt-4"><span class="qtag__num">Q3</span>Who owns what?</h4>
+      <p>What remained, and what each one is answerable for:</p>
 
-        <div class="code-block code-block--good">
-          <p class="label">After the follow-up — the rule becomes a collaborator</p>
-          <pre><code>void put(K key, V value) {
-    if (map.size() == capacity) {
-        Node victim = policy.select(order);  <span class="c">// the only line that changed</span>
-        map.remove(victim.key);
-        order.remove(victim);
-    }
-    map.put(key, order.addFront(new Node(key, value)));
+      <table class="table table--rowhead u-mt-4">
+        <tbody>
+          <tr>
+            <td><code>Cache</code></td>
+            <td>Owns both structures and leaves them consistent after every call. Nothing outside it touches either one.</td>
+          </tr>
+          <tr>
+            <td><code>Map&lt;K, Node&gt;</code></td>
+            <td>Finds the node for a key. Mapping to values instead would force a scan to reorder.</td>
+          </tr>
+          <tr>
+            <td><code>RecencyList</code></td>
+            <td>Holds the order. Relinks a node it is handed, and never searches for one.</td>
+          </tr>
+          <tr>
+            <td><code>Node</code></td>
+            <td>Key, value, both links. It carries its own key so eviction can clean the index.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="u-mt-4">
+        Two invariants hold the whole thing up: <strong>every key has exactly one node, present in
+        both structures</strong>, and <strong>size never exceeds capacity</strong>. Name them while
+        you design. Every bug in this problem is one of the two breaking.
+      </p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 470 112" role="img" aria-label="Cache owns a map and a recency list, and both refer to the same nodes">
+          <rect class="d-box d-box--accent" x="160" y="2" width="150" height="28" rx="4" />
+          <text class="d-name" x="235" y="20">Cache&lt;K, V&gt;</text>
+          <line class="d-line" x1="235" y1="30" x2="235" y2="46" />
+          <line class="d-line" x1="75" y1="46" x2="395" y2="46" />
+          <line class="d-line" x1="75" y1="46" x2="75" y2="56" />
+          <line class="d-line" x1="395" y1="46" x2="395" y2="56" />
+          <text class="d-label" x="243" y="42">owns both</text>
+          <rect class="d-box" x="10" y="56" width="130" height="26" rx="4" />
+          <text class="d-name" x="75" y="73">Map&lt;K, Node&gt;</text>
+          <rect class="d-box" x="330" y="56" width="130" height="26" rx="4" />
+          <text class="d-name" x="395" y="73">RecencyList</text>
+          <rect class="d-box" x="165" y="86" width="140" height="24" rx="4" />
+          <text class="d-name" x="235" y="102">Node&lt;K, V&gt;</text>
+          <path class="d-line" d="M75,82 L75,98 L163,98" />
+          <path class="d-line" d="M395,82 L395,98 L307,98" />
+          <text class="d-label" x="82" y="94">indexes</text>
+          <text class="d-label" x="356" y="94">links</text>
+        </svg>
+        <figcaption>The design as I wrote it. <code>Cache</code> decides which node leaves.</figcaption>
+      </figure>
+
+      <p>
+        I wrote the signatures before any of the bodies. That is worth doing even when you are
+        typing rather than drawing, because it forces the ownership above to be a decision rather
+        than an accident.
+      </p>
+
+      <div class="code-block">
+        <p class="label">The public surface</p>
+        <pre><code>public class LruCache&lt;K, V&gt; {
+    private final Map&lt;K, Node&lt;K, V&gt;&gt; index;
+    private final RecencyList&lt;K, V&gt; order;
+    private final int capacity;
+
+    public V get(K key)             { <span class="c">/* promotes on a hit */</span> }
+    public void put(K key, V value) { <span class="c">/* evicts when full  */</span> }
 }</code></pre>
-        </div>
-
-        <p class="caption u-mt-4">
-          One line at the call site, one interface with one method, and a constructor that accepts
-          it. Update path omitted for clarity.
-          <span class="chip">github.com/varunkashyap-vkd/lld-runbook/lru-cache</span>
-        </p>
       </div>
 
-      <div class="section">
-        <h4>Follow-ups to expect</h4>
-        <ul class="list">
-          <li><strong>“Make it most recently used instead.”</strong> The one this problem exists for. Behind an interface it is a new class; without one, a rewrite.</li>
-          <li><strong>“Now make it LFU.”</strong> Say plainly that the interface holds but the structure behind it does not.</li>
-        </ul>
-      </div>
-
-      <div class="section">
-        <h4>Common mistakes</h4>
-        <p class="compact">
-          A singly linked list, so removal becomes O(n) and the point is lost · forgetting that
-          <code>get</code> reorders, the most common correctness bug here · no key inside the node,
-          so eviction cannot clean up the map.
-        </p>
-      </div>
-
-      <div class="section note">
-        <p class="label">Interviewer's perspective · the round I nearly lost</p>
-        <p>
-          I was told to expect an LLD round, then the interviewer arrived with a live code editor
-          — so I quietly decided it was really a DSA round. I recognised the shape, wrote a working
-          cache well inside the time, and we tested it together. It was correct.
-        </p>
-        <p>
-          Then he moved the requirement: what if product wants this faster for the people who use
-          us <em>least</em>? Eviction was hard-coded inside my cache class — there was nothing to
-          swap. What saved me was having twenty-five minutes left. I said so, took two minutes, and
-          came back with the policy behind an interface. When he asked what a third policy would
-          cost, the answer was one class and about five lines. The feedback was about adapting to
-          change, not about caches.
-        </p>
-      </div>
-
-      <p class="caption u-mt-4">
-        If you take one thing from this problem: it is only easy until the requirement moves. In an
-        LLD round, write the first version as though the rule will change — because it will.
+      <h4 class="qtag u-mt-4"><span class="qtag__num">Q4</span>What will change?</h4>
+      <p>
+        He asked what I thought would change. I said nothing — I had been asked for an LRU cache,
+        so <code>put</code> takes the tail and there is nothing to vary. I used the time I had left
+        to make the code clean.
       </p>
     </div>
 
     <footer class="page__foot">
       <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
-      <span class="page__num">Page 4 of 24</span>
+      <span class="page__num">Page 4 of 35</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 5 — P1 LRU Cache, the proof
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span class="case-id"><strong>P1</strong> · LRU Cache</span>
+      <span>The proof · 3 of 4</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">P1</span>LRU Cache</h1>
+      <p class="case-deck">What six calls proved</p>
+
+      <p class="lead">
+        The code was done well before time. He wanted to see it run, so we walked inputs through it
+        together in the editor rather than reading the implementation back.
+      </p>
+
+      <h4 class="qtag"><span class="qtag__num">Q5</span>Does it actually work?</h4>
+      <p>Capacity three, starting empty:</p>
+
+      <table class="table u-mt-4">
+        <thead>
+          <tr>
+            <th>Call</th>
+            <th>Returns</th>
+            <th>Order, most recent first</th>
+            <th>What happened</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>put(A, 1)</code></td><td>—</td><td><code>A</code></td><td>Added to both structures.</td></tr>
+          <tr><td><code>put(B, 2)</code></td><td>—</td><td><code>B, A</code></td><td>New entry becomes head.</td></tr>
+          <tr><td><code>put(C, 3)</code></td><td>—</td><td><code>C, B, A</code></td><td>Full. Nothing evicted yet.</td></tr>
+          <tr><td><code>get(A)</code></td><td><code>1</code></td><td><code>A, C, B</code></td><td>A read reorders.</td></tr>
+          <tr><td><code>put(D, 4)</code></td><td>—</td><td><code>D, A, C</code></td><td>Tail <code>B</code> leaves both.</td></tr>
+          <tr><td><code>put(A, 9)</code></td><td>—</td><td><code>A, D, C</code></td><td>Update in place.</td></tr>
+        </tbody>
+      </table>
+
+      <p class="u-mt-4">
+        Rows four and six are the ones to rehearse. The fourth proves a read is a write, which is
+        the clarification from the brief finally paying out. The sixth is the case candidates drop:
+        overwriting a key that already exists must not create a node and must not evict anything.
+        If your <code>put</code> inserts blindly, that is where it breaks, and it is usually the
+        first thing an interviewer tests.
+      </p>
+
+      <div class="code-block">
+        <p class="label">The branch row six exercises</p>
+        <pre><code>public void put(K key, V value) {
+    Node&lt;K, V&gt; hit = index.get(key);
+    if (hit != null) {
+        hit.value = value;
+        order.moveToFront(hit);
+        return;                  <span class="c">// no new node, nothing evicted</span>
+    }
+    if (index.size() == capacity) evictOne();
+    index.put(key, order.addFront(key, value));
+}</code></pre>
+      </div>
+
+      <p class="u-mt-4">
+        Derive the cost here, at the call site, rather than announcing Big-O at the end. Every line
+        above is one hashed lookup or a fixed number of pointer writes, so <code>get</code> and
+        <code>put</code> are both <strong>O(1) average</strong>, in <strong>O(capacity)</strong>
+        space for nodes held by two structures at once. The worst case belongs to the hash
+        function, not to this design — worth saying, because it shows you know which part you
+        control.
+      </p>
+
+      <p class="caption">
+        The two bugs that show up here are both invariant breaks: a <code>get</code> that returns
+        the value without reordering, which passes every test that ignores eviction order; and
+        eviction that cleans one structure and forgets the other, which is exactly why
+        <code>Node</code> carries its own key. An access-ordered <code>LinkedHashMap</code> avoids
+        both in about five lines — the right answer in production, the wrong one here, because it
+        hides the mechanism you were asked to demonstrate.
+      </p>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
+      <span class="page__num">Page 5 of 35</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 6 — P1 LRU Cache, the change
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span class="case-id"><strong>P1</strong> · LRU Cache</span>
+      <span>The change · 4 of 4</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">P1</span>LRU Cache</h1>
+      <p class="case-deck">The question after the code worked</p>
+
+      <p class="lead">
+        We finished the trace and the code was correct. That was the moment I relaxed, and the
+        moment the round actually began, with about thirty minutes still on the clock.
+      </p>
+
+      <div class="brief">
+        <p class="label">The follow-up</p>
+        <p>
+          “What happens to your code if tomorrow product wants it faster for the people who use it
+          <em>least</em>, rather than the most recent ones?”
+        </p>
+      </div>
+
+      <p>
+        I panicked, briefly and visibly, then stopped talking for two minutes — the best decision I
+        made in that round. Out of it came the four moves from section 6.2.
+        <strong>Restated:</strong> same storage, same API, a different entry chosen for eviction.
+        <strong>Located:</strong> one line inside <code>evictOne</code>, the one that takes the tail.
+        <strong>Separated:</strong> index, list and both O(1) guarantees untouched; only the choice
+        of victim moves. <strong>Admitted:</strong> the rule was hard-coded, so I said the design did
+        not absorb this — then described where it should have been swappable.
+      </p>
+
+      <p>
+        Making that one choice swappable is exactly what <strong>Strategy</strong> does, and I
+        justified it rather than just naming it. Section 5.6's signal is one decision that keeps
+        changing inside an otherwise settled object, which is exactly this shape. It is not State:
+        the cache is handed its policy and never switches on its own.
+      </p>
+
+      <div class="code-block code-block--bad">
+        <p class="label">Before — the rule is a line of code</p>
+        <pre><code>private void evictOne() {
+    Node&lt;K, V&gt; victim = order.last();          <span class="c">// "least recently used"</span>
+    order.remove(victim);
+    index.remove(victim.key);
+}</code></pre>
+      </div>
+      <div class="code-block code-block--good">
+        <p class="label">After — the rule is a collaborator</p>
+        <pre><code>private void evictOne() {
+    Node&lt;K, V&gt; victim = policy.select(order);  <span class="c">// tail for LRU, head for MRU</span>
+    order.remove(victim);
+    index.remove(victim.key);
+}</code></pre>
+      </div>
+
+      <p class="u-mt-4">
+        He asked what a third rule would cost. One new class, and four or five lines of wiring.
+      </p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 470 74" role="img" aria-label="Cache is handed an eviction policy interface implemented by an LRU and an MRU policy">
+          <rect class="d-box d-box--accent" x="30" y="4" width="130" height="28" rx="4" />
+          <text class="d-name" x="95" y="22">Cache&lt;K, V&gt;</text>
+          <rect class="d-box d-box--later" x="238" y="2" width="170" height="32" rx="4" />
+          <text class="d-stereo" x="323" y="15">&#171;interface&#187;</text>
+          <text class="d-name" x="323" y="29">EvictionPolicy</text>
+          <path class="d-line d-line--dashed" d="M160,18 L232,18" />
+          <path class="d-line" d="M226,14 L234,18 L226,22" />
+          <text class="d-label" x="170" y="13">who leaves?</text>
+          <polygon class="d-head" points="323,34 317,44 329,44" />
+          <path class="d-line d-line--dashed" d="M275,50 L275,44 L371,44 L371,50" />
+          <rect class="d-box d-box--later" x="232" y="50" width="86" height="22" rx="4" />
+          <text class="d-name" x="275" y="65">LruPolicy</text>
+          <rect class="d-box d-box--later" x="328" y="50" width="86" height="22" rx="4" />
+          <text class="d-name" x="371" y="65">MruPolicy</text>
+        </svg>
+        <figcaption>Dashed elements are what the follow-up added. Nothing else moved.</figcaption>
+      </figure>
+
+      <p>
+        Say the limit out loud too: LFU fits this interface but not this structure, because it needs
+        frequency counts the recency list never keeps.
+        <span class="chip">github.com/varunkashyap-vkd/lld-runbook/lru-cache</span>
+      </p>
+
+      <p class="caption u-mt-4">
+        <strong>What he was probing:</strong> not whether I could write an LRU cache, which took
+        fifteen minutes, but whether it would survive a product decision. <strong>Practise
+        next:</strong> make it thread-safe without breaking either invariant, then design LFU and
+        name what has to change. <strong>If you take one thing from this problem:</strong> a correct
+        first version is evidence, not the finish line.
+      </p>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
+      <span class="page__num">Page 6 of 35</span>
     </footer>
   </section>
 

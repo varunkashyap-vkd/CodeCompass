@@ -92,8 +92,13 @@ The goal is complete governing context, not maximum file volume.
 ## 4. Non-negotiable product decisions
 
 - The runbook is one HTML file per part, with one fixed A4 `.page` element per printed page.
-- Part 1 currently contains 29 pages.
-- Part 2 pagination is provisional until all ten problem briefs decide three versus four pages.
+- **Part 1 is frozen at 29 pages and signed off.** Do not edit `../part-1-theory.html`, the pattern
+  page template in section 7 of the map, or any Part 1 row or rationale. Part 2 work never justifies
+  a Part 1 edit; if Part 2 appears to need one, raise it with the author instead.
+- Part 2 case studies default to three pages — the brief, the model, the change — with the proof
+  split onto its own page when the trace and the class design will not share one.
+- `assets/runbook.css` is shared by both parts. Add new class names for Part 2 work rather than
+  changing rules Part 1 already uses.
 - Part 2 is an interview casebook, not a compressed answer catalogue.
 - Every Part 2 problem visibly applies the five questions from Part 1 section 6.1:
   1. What am I actually building?
@@ -106,8 +111,11 @@ The goal is complete governing context, not maximum file volume.
   2. Say where it lands.
   3. Say what changes and what remains stable.
   4. If it does not fit, say so and name the missing seam.
-- A Part 2 problem receives three pages by default. A fourth page must perform distinct teaching
+- A Part 2 problem receives three pages. A fourth page must perform distinct teaching
   work under the blueprint rubric; fame, ordering, and personal provenance do not earn space.
+- Every Part 2 page is built against the block spine in blueprint section 5. A page carries at most
+  four structural blocks and two tables, and the narrator argues in prose between them.
+- Part 2 page titles make a claim; the running header already names the leg of the case.
 - The baseline design must appear before the evolved design.
 - A pattern is introduced only after the narrative establishes the pressure that earns it.
 - Personal stories use only author-supplied facts. Never name a company.
@@ -207,13 +215,16 @@ Validate content and technical correctness before cutting words for page fit.
 Use the map for the live status; this section is a quick orientation and must be updated when the
 project crosses a major milestone.
 
-- Part 1 is complete at 29 pages.
+- Part 1 is complete at 29 pages and frozen.
 - Part 1 sections 6.1 and 6.2 establish the framework reused by Part 2.
-- Part 2 currently has a cover, introductory page, and a legacy two-page LRU draft.
-- The LRU problem is marked for rewrite under the new case-study blueprint.
+- Part 2 targets 35 pages: cover, contents, ten case studies, and two closing pages.
+- Built so far: cover, contents, and the LRU case study on pages 3–6.
+- LRU is a four-page case built against blueprint section 5. Its legs are the brief, the model,
+  the proof, and the change. It fits A4 and exports cleanly; it is pending author review.
+- Problem titles P3–P10 in the contents are placeholders until each brief is written.
 - HashMap is blocked on the author completing its interview notes.
-- Problems P3–P10 are not yet selected.
-- Part 2 page numbers and total are intentionally provisional.
+- Problems P3–P10 are not yet selected, and their contents grouping is provisional.
+- Part 2 page numbers beyond P1 are intentionally provisional.
 - The preview index cannot be finalised until the problem lineup and page allocations are locked.
 
 ---

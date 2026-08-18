@@ -31,7 +31,7 @@ teach complete interview case studies rather than summarise reference material.
 | | Pages | Purpose |
 |---|---|---|
 | **Part 1 — Theory and Principles** | 29 | Vocabulary, principles, patterns, and a solving framework. |
-| **Part 2 — Problems** | Provisional: 35–37 | Ten interview case studies worked chronologically. Three pages by default; a fourth only when the teaching work earns it. |
+| **Part 2 — Problems** | 35 | Ten interview case studies worked chronologically, three pages each except P1, plus cover, contents and two closing pages. |
 
 Part 1 is read once, front to back. Part 2 is the working half, and is where readers return.
 
@@ -51,6 +51,11 @@ it is what a buyer inspects before paying. Do not compress it back into a chapte
   chapter **in this file first**.
 
 ### Page furniture
+
+Part 2 replaces the section number with the problem number (`P1`) and names the leg of the case
+in the header right (`The model · 2 of 3`). Every page of a case repeats the problem name in the
+`h1` and carries that page's own narrative title in a `.case-deck` beneath it. Everything else
+matches.
 
 Every content page carries three orientation signals:
 
@@ -128,27 +133,48 @@ runners-up billing.
 
 ## 5. Part 2 — Problems
 
-> **Part 2 is being restructured.** Existing page numbers after the cover are not authoritative
-> until the ten commissioning briefs establish whether each problem needs three or four pages.
-> Use `lowleveldesign/context/part-2-problem-blueprint.md` for the content structure. Update this table with exact page
-> ranges before rebuilding the HTML.
+> **Titles P3–P10 are placeholders.** They are plausible LLD problems chosen so the contents page
+> reads as a finished index; each is replaced when its commissioning brief is written. Page ranges
+> assume the three-page default and are re-checked whenever a case is built.
 
 | § | Page | Title | Status | Brief |
 |---|---|---|---|---|
-| — | 1 | Cover | done | Matches Part 1 cover, marked Part 2. **Preview page.** |
-| — | TBD | Contents and how to use the case studies | draft | Complete ten-problem index plus an explicit bridge from Part 1 sections 6.1 and 6.2. **Preview content.** |
-| P1 | TBD | LRU cache | rewrite | Personal interview case: disguised checkout-address cache, baseline LRU derivation, operation traces, hard-coded eviction exposed by MRU, Strategy refactor, and honest LFU limit. Page count decided by its commissioning brief. |
-| P2 | TBD | HashMap | blocked | Personal interview case centred on collision handling. **Needs section C of `lowleveldesign/context/interview-notes.md` before its page count or transformation can be locked.** |
-| P3 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
-| P4 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
-| P5 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
-| P6 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
-| P7 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
-| P8 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
-| P9 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
-| P10 | TBD | To be decided | todo | Complete a commissioning brief before assigning pages. |
-| — | TBD | Pattern-to-problem cheat sheet | todo | Which pattern showed up where and which framework question exposed it. |
-| — | TBD | Where to go next | todo | Closing guidance and practice sequencing. |
+| — | 1 | Cover | done | Matches Part 1 cover, marked Part 2. Lede promises the follow-up moment Part 1 closes on. **Preview page.** |
+| — | 2 | Contents | done | Reuses Part 1's `.index` markup and rhythm so both parts read as one product. Four groups with right-aligned notes, exactly like Part 1's chapters. Each case row carries a one-line editorial gloss, because this is the page a buyer inspects before paying. Closes with the three-step “How to work a case” strip. Title is one word. **Preview page.** |
+| P1 | 3–6 | LRU cache | draft | Personal interview case in **four** pages, each titled *LRU Cache* with its own deck: (A) *The round I misread* — prompt, the exchange, three clarifications, scope, stop line; (B) *Two structures, one promise* — rejected nouns, ownership, invariants, baseline diagram, public API, and Q4 answered honestly; (C) *What six calls proved* — six-call trace, decisive mutation, complexity derived at the call site, edge cases; (D) *The question after the code worked* — MRU follow-up, the recovery, Strategy named and justified against section 5.6's signal (including why it is not State), before/after code, delta diagram, rewiring cost, LFU limit, debrief and takeaway. |
+| P2 | 7–9 | HashMap | blocked | Personal interview case centred on collision handling. **Needs section C of `lowleveldesign/context/interview-notes.md` before its transformation can be locked.** |
+| P3 | 10–12 | Parking lot | todo | Placeholder title. Complete a commissioning brief before building. |
+| P4 | 13–15 | Vending machine | todo | Placeholder title. Complete a commissioning brief before building. |
+| P5 | 16–18 | Elevator system | todo | Placeholder title. Complete a commissioning brief before building. |
+| P6 | 19–21 | Snake and ladder | todo | Placeholder title. Complete a commissioning brief before building. |
+| P7 | 22–24 | Rate limiter | todo | Placeholder title. Complete a commissioning brief before building. |
+| P8 | 25–27 | Notification service | todo | Placeholder title. Complete a commissioning brief before building. |
+| P9 | 28–30 | Splitwise | todo | Placeholder title. Complete a commissioning brief before building. |
+| P10 | 31–33 | Logging framework | todo | Placeholder title. Complete a commissioning brief before building. |
+| — | 34 | Pattern-to-problem cheat sheet | todo | Which pattern showed up where and which framework question exposed it. |
+| — | 35 | Where to go next | todo | Closing guidance and practice sequencing. |
+
+### Contents grouping
+
+The ten cases are grouped into three named bands plus revision, so the index carries Part 1's
+chapter rhythm rather than reading as a flat list of ten nouns:
+
+| Group | Note | Problems |
+|---|---|---|
+| 01 Data structures under pressure | Two rounds I sat in | P1, P2 |
+| 02 Objects, state and rules | Modelling and lifecycle | P3–P6 |
+| 03 Services and policies | Extension under pressure | P7–P10 |
+| 04 Revision | Reference | Cheat sheet, Where to go next |
+
+The first band is the two problems with author-supplied interview notes, which is why it opens the
+book. P3–P10 were reordered from their earlier sequence to fit these bands; the titles remain
+placeholders and the bands are provisional until the lineup is locked.
+
+**Why P1 earns a fourth page.** Two of the blueprint section 4 criteria are met, and the evidence
+is a measured overflow rather than a preference. The class design and the operation trace each need
+about 200px and compete for the same page; and the three-page version carried no Java at all, so
+the public API and the decisive mutation — both required content — had nowhere to go. Splitting
+the baseline from the proof resolves both. This does not entitle P2–P10 to four pages.
 
 ### Problem case-study contract
 
@@ -159,8 +185,16 @@ requirement follows the four moves from section 6.2.
 Every case study receives three pages by default:
 
 1. **Enter the interview** — prompt, first response, clarification dialogue, assumptions and scope.
+   Stops before entity discovery so the invitation to attempt the problem is real.
 2. **Build and prove the design** — entities, ownership, invariants, diagram, traces, Java and complexity.
 3. **Move the requirement** — impact, before/after design, debrief, alternatives and practice.
+
+**Page layout is not free.** Section 5 of the blueprint gives each of the three pages a binding
+block spine, in the same way section 7 below governs the Part 1 pattern pages. Chapter 5 of Part 1
+reads as one voice because of that spine; Part 2 needs its own or ten case studies will read as ten
+documents. The spine also caps a page at four structural blocks and two tables, and requires prose
+between them — stacked labelled containers with no argument running through them is the failure
+mode these pages fall into.
 
 A fourth page is allowed only when it has a distinct teaching job: a substantial authentic story,
 a separate operation trace, two independent mechanisms, a structural follow-up, or a material
@@ -182,8 +216,8 @@ Two devices carry this, and both should be reused for every problem:
   `code-block--good` labelled as what the follow-up forced. Keep them structurally parallel so
   the diff is obvious — in P1 exactly one line differs.
 
-Complexity sits on the left page because it follows from the data-structure choice, which is a
-design decision. That also frees the right page for the before/after pair.
+Complexity belongs on the design page, beside the operation that creates it, so the closing page
+is free for the change itself.
 
 ### Voice and attribution
 
