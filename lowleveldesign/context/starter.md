@@ -221,15 +221,19 @@ project crosses a major milestone.
 - Built so far: cover, contents, LRU on pages 3–6, and Google Docs on pages 7–11.
 - LRU is signed off by the author. Treat its page spine and masthead as the reference for later
   cases; do not restyle them to suit a new problem.
-- Google Docs runs to five pages: the brief, the model, the proof, the change, and a **prototype
-  fifth page** carrying the complete model, the order to draw it on a whiteboard, and the debrief
-  moved off page D. The class model (`Document`, `Edit`, `Editor`, `DocumentSession`, plus
-  `DocElement` after the follow-up) was derived rather than taken from the notes, and the code
-  excerpts are cross-checked to agree with each other and with the diagrams.
-- **The fifth page is on trial.** The author will decide whether it becomes standard. Do not give
-  P3 onward a fifth page until that decision is made; reverting it is one commit.
+- Google Docs runs to five pages: the brief, the model, the proof, the change, and a **UML class
+  plate** — eight compartment boxes with every field and method, standard relationship notation,
+  and the repo link, carrying no prose at all. The class model (`Document`, `Edit`, `Editor`,
+  `DocumentSession`, `Role`, plus `DocElement` and its implementations after the follow-up) was
+  derived rather than taken from the notes, and the code excerpts are cross-checked to agree with
+  each other and with the plate.
+- **A class plate is a reference artifact, not a teaching page.** It is exempt from the blueprint
+  section 5 spine. An earlier attempt wrapped it in explanatory prose and a draw-order table and was
+  rejected; do not reintroduce that.
+- Whether P3 onward get a class plate is still open. If adopted, the trigger is model size measured
+  against the closing page's slack, not a fifth leg for every problem.
 - P3 onward start at three pages and must earn more on measured evidence under blueprint section 4.
-  The two four-page-plus cases are the ones the author sat himself, which is not a precedent.
+  The two longer cases are the ones the author sat himself, which is not a precedent.
 - Problem titles P3–P10 in the contents are placeholders until each brief is written.
 - Problems P3–P10 are not yet selected, and their contents grouping is provisional.
 - Part 2 page numbers beyond P2 are intentionally provisional.

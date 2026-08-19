@@ -777,6 +777,35 @@ pre .c {
   stroke-width: 1;
 }
 
+/* ---------- Full-page class diagram (Part 2 reference pages) ----------
+   Compartment boxes per style-reference section 8: name strip, hairline, members in mono.
+   Doubled selector because the base `.diagram svg` max-width has equal specificity. */
+.diagram.diagram--full svg {
+  max-width: none;
+}
+
+.d-strip {
+  fill: var(--surface-strong);
+}
+
+.d-rule {
+  stroke: var(--rule);
+  stroke-width: 1;
+}
+
+.d-mem {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  fill: var(--ink-soft);
+}
+
+/* Filled diamond for composition; `.d-head` supplies the hollow one. */
+.d-solid {
+  fill: var(--ink-soft);
+  stroke: var(--ink-soft);
+  stroke-width: 1;
+}
+
 /* ============================================================
    Contents
    ============================================================ */

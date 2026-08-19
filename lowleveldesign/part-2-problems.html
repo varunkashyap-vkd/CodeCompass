@@ -1012,11 +1012,11 @@ boolean apply(Edit e) {
         <span class="chip">github.com/varunkashyap-vkd/lld-runbook/collab-doc</span>
       </p>
 
-      <p class="caption">
-        Everything above happened in order, which means the model arrived in pieces. The next page
-        puts it back together in one picture, and answers the question nobody rehearses: what order
-        to draw it in.
-      </p>
+      <ul class="closing caption u-mt-4">
+        <li><strong>What he was probing:</strong> whether someone handed an approved high level design can produce classes that survive a change in what the product carries.</li>
+        <li><strong>Practise next:</strong> add comments anchored to a position, then decide what an anchor means once the position it points at is deleted.</li>
+        <li><strong>The takeaway:</strong> a simplification you propose is still your assumption. When it comes back, it is yours to answer for.</li>
+      </ul>
     </div>
 
     <footer class="page__foot">
@@ -1031,109 +1031,116 @@ boolean apply(Edit e) {
   <section class="page">
     <header class="page__head">
       <span class="case-id"><strong>P2</strong> · Google Docs</span>
-      <span>The whole model · 5 of 5</span>
+      <span>The class model · 5 of 5</span>
     </header>
 
     <div class="page__body">
       <h1 class="page-title"><span class="page-title__num">P2</span>Google Docs</h1>
-      <p class="case-deck">Eight boxes, and the four that carry it</p>
+      <p class="case-deck">Every class, and how they connect</p>
 
-      <p class="lead">
-        Four pages of chronology leave the model in pieces on purpose — you met each class at the
-        moment it became necessary. Here it is whole, in one picture.
-      </p>
+      <figure class="diagram diagram--full">
+        <svg viewBox="0 0 680 715" role="img" aria-label="UML class diagram. DocumentSession composes one Document and aggregates many Editors. Editor references Role and holds many Edits. Document composes many DocElements, implemented by TextBlock and ImageBlock.">
 
-      <figure class="diagram">
-        <svg viewBox="0 0 470 200" role="img" aria-label="The complete Google Docs model: a document session owning a document and editors, edits flowing between them, and a document element interface with text and image implementations added by the follow-up">
-          <rect class="d-box d-box--accent" x="150" y="0" width="170" height="28" rx="4" />
-          <text class="d-name" x="235" y="18">DocumentSession</text>
-          <line class="d-line" x1="235" y1="28" x2="235" y2="42" />
-          <line class="d-line" x1="100" y1="42" x2="370" y2="42" />
-          <line class="d-line" x1="100" y1="42" x2="100" y2="56" />
-          <line class="d-line" x1="370" y1="42" x2="370" y2="56" />
-          <text class="d-label" x="118" y="39">owns</text>
-          <text class="d-label" x="322" y="39">notifies</text>
+          <path class="d-strip" d="M225,4 a4,4 0 0 1 4,-4 h227 a4,4 0 0 1 4,4 v20 h-235 z" />
+          <rect class="d-box" x="225" y="0" width="235" height="130" rx="4" />
+          <line class="d-rule" x1="225" y1="24" x2="460" y2="24" />
+          <text class="d-name" x="342" y="17">DocumentSession</text>
+          <text class="d-mem" x="235" y="40">- document: Document</text>
+          <text class="d-mem" x="235" y="55">- present: Map&lt;UserId, Editor&gt;</text>
+          <text class="d-mem" x="235" y="70">+ join(Editor): void</text>
+          <text class="d-mem" x="235" y="85">+ submit(Edit): boolean</text>
+          <text class="d-mem" x="235" y="100">+ undo(UserId): boolean</text>
+          <text class="d-mem" x="235" y="115">- broadcast(Edit): void</text>
 
-          <rect class="d-box" x="38" y="56" width="124" height="26" rx="4" />
-          <text class="d-name" x="100" y="73">Document</text>
-          <rect class="d-box" x="308" y="56" width="124" height="26" rx="4" />
-          <text class="d-name" x="370" y="73">Editor</text>
+          <polygon class="d-solid" points="290,130 284,137 290,144 296,137" />
+          <path class="d-line" d="M290,144 L290,175 L137,175 L137,215" />
+          <text class="d-label" x="141" y="209">1</text>
+          <polygon class="d-head" points="400,130 394,137 400,144 406,137" />
+          <path class="d-line" d="M400,144 L400,175 L546,175 L546,215" />
+          <text class="d-label" x="452" y="171">present 0..*</text>
 
-          <rect class="d-box" x="185" y="96" width="130" height="24" rx="4" />
-          <text class="d-name" x="250" y="112">Edit</text>
-          <path class="d-line" d="M370,82 L370,108 L319,108" />
-          <path class="d-line" d="M325,104 L317,108 L325,112" />
-          <text class="d-label" x="326" y="104">submits</text>
-          <path class="d-line" d="M183,108 L130,108 L130,84" />
-          <path class="d-line" d="M126,90 L130,82 L134,90" />
-          <text class="d-label" x="136" y="104">applied to</text>
+          <path class="d-strip" d="M10,219 a4,4 0 0 1 4,-4 h247 a4,4 0 0 1 4,4 v20 h-255 z" />
+          <rect class="d-box" x="10" y="215" width="255" height="130" rx="4" />
+          <line class="d-rule" x1="10" y1="239" x2="265" y2="239" />
+          <text class="d-name" x="137" y="232">Document</text>
+          <text class="d-mem" x="20" y="255">- elements: List&lt;DocElement&gt;</text>
+          <text class="d-mem" x="20" y="270">- lastAcceptedAt: Map&lt;Int,Instant&gt;</text>
+          <text class="d-mem" x="20" y="285">+ apply(Edit): boolean</text>
+          <text class="d-mem" x="20" y="300">+ lineAt(int): String</text>
+          <text class="d-mem" x="20" y="315">+ size(): int</text>
+          <text class="d-mem" x="20" y="330">- accept(Edit): boolean</text>
 
-          <path class="d-line d-line--dashed" d="M60,82 L60,146 L118,146" />
-          <path class="d-line" d="M112,142 L120,146 L112,150" />
-          <text class="d-label" x="8" y="110">holds many</text>
-          <rect class="d-box d-box--later" x="120" y="130" width="150" height="32" rx="4" />
-          <text class="d-stereo" x="195" y="143">&#171;interface&#187;</text>
-          <text class="d-name" x="195" y="157">DocElement</text>
+          <path class="d-strip" d="M278,239 a4,4 0 0 1 4,-4 h124 a4,4 0 0 1 4,4 v32 h-132 z" />
+          <rect class="d-box" x="278" y="235" width="132" height="97" rx="4" />
+          <line class="d-rule" x1="278" y1="271" x2="410" y2="271" />
+          <text class="d-stereo" x="344" y="252">&#171;enum&#187;</text>
+          <text class="d-name" x="344" y="266">Role</text>
+          <text class="d-mem" x="288" y="287">OWNER</text>
+          <text class="d-mem" x="288" y="302">EDITOR</text>
+          <text class="d-mem" x="288" y="317">VIEWER</text>
 
-          <polygon class="d-head" points="195,162 189,172 201,172" />
-          <line class="d-line d-line--dashed" x1="70" y1="172" x2="320" y2="172" />
-          <line class="d-line d-line--dashed" x1="70" y1="172" x2="70" y2="176" />
-          <line class="d-line d-line--dashed" x1="320" y1="172" x2="320" y2="176" />
-          <rect class="d-box d-box--later" x="20" y="176" width="100" height="22" rx="4" />
-          <text class="d-name" x="70" y="191">TextBlock</text>
-          <rect class="d-box d-box--later" x="145" y="176" width="100" height="22" rx="4" />
-          <text class="d-name" x="195" y="191">ImageBlock</text>
-          <rect class="d-box d-box--ghost" x="260" y="176" width="120" height="22" rx="4" />
-          <text class="d-label" x="320" y="190" text-anchor="middle">any new element</text>
+          <path class="d-strip" d="M422,219 a4,4 0 0 1 4,-4 h240 a4,4 0 0 1 4,4 v20 h-248 z" />
+          <rect class="d-box" x="422" y="215" width="248" height="130" rx="4" />
+          <line class="d-rule" x1="422" y1="239" x2="670" y2="239" />
+          <text class="d-name" x="546" y="232">Editor</text>
+          <text class="d-mem" x="432" y="255">- id: UserId</text>
+          <text class="d-mem" x="432" y="270">- role: Role</text>
+          <text class="d-mem" x="432" y="285">- undoStack: Deque&lt;Edit&gt;</text>
+          <text class="d-mem" x="432" y="300">+ push(Edit): void</text>
+          <text class="d-mem" x="432" y="315">+ undoStack(): Deque&lt;Edit&gt;</text>
+          <text class="d-mem" x="432" y="330">+ canEdit(): boolean</text>
+
+          <path class="d-line" d="M422,282 L412,282" />
+          <path class="d-line" d="M418,278 L410,282 L418,286" />
+
+          <polygon class="d-solid" points="100,345 94,352 100,359 106,352" />
+          <path class="d-line" d="M100,359 L100,430" />
+          <text class="d-label" x="106" y="398">elements 0..*</text>
+          <path class="d-line" d="M540,345 L540,430" />
+          <path class="d-line" d="M536,422 L540,430 L544,422" />
+          <text class="d-label" x="546" y="398">undoStack 0..*</text>
+
+          <path class="d-strip" d="M10,434 a4,4 0 0 1 4,-4 h217 a4,4 0 0 1 4,4 v32 h-225 z" />
+          <rect class="d-box d-box--later" x="10" y="430" width="225" height="82" rx="4" />
+          <line class="d-rule" x1="10" y1="466" x2="235" y2="466" />
+          <text class="d-stereo" x="122" y="447">&#171;interface&#187;</text>
+          <text class="d-name" x="122" y="461">DocElement</text>
+          <text class="d-mem" x="20" y="482">+ merge(Edit): boolean</text>
+          <text class="d-mem" x="20" y="497">+ render(): String</text>
+
+          <path class="d-strip" d="M422,434 a4,4 0 0 1 4,-4 h217 a4,4 0 0 1 4,4 v32 h-225 z" />
+          <rect class="d-box" x="422" y="430" width="225" height="127" rx="4" />
+          <line class="d-rule" x1="422" y1="466" x2="647" y2="466" />
+          <text class="d-stereo" x="534" y="447">&#171;record&#187;</text>
+          <text class="d-name" x="534" y="461">Edit</text>
+          <text class="d-mem" x="432" y="482">+ line: int</text>
+          <text class="d-mem" x="432" y="497">+ before: String</text>
+          <text class="d-mem" x="432" y="512">+ after: String</text>
+          <text class="d-mem" x="432" y="527">+ by: UserId</text>
+          <text class="d-mem" x="432" y="542">+ at: Instant</text>
+
+          <polygon class="d-head" points="122,512 114,526 130,526" />
+          <line class="d-line d-line--dashed" x1="102" y1="526" x2="330" y2="526" />
+          <line class="d-line d-line--dashed" x1="102" y1="526" x2="102" y2="620" />
+          <line class="d-line d-line--dashed" x1="330" y1="526" x2="330" y2="620" />
+
+          <path class="d-strip" d="M0,624 a4,4 0 0 1 4,-4 h197 a4,4 0 0 1 4,4 v20 h-205 z" />
+          <rect class="d-box d-box--later" x="0" y="620" width="205" height="70" rx="4" />
+          <line class="d-rule" x1="0" y1="644" x2="205" y2="644" />
+          <text class="d-name" x="102" y="637">TextBlock</text>
+          <text class="d-mem" x="10" y="660">- text: String</text>
+          <text class="d-mem" x="10" y="675">+ merge(Edit): boolean</text>
+
+          <path class="d-strip" d="M225,624 a4,4 0 0 1 4,-4 h202 a4,4 0 0 1 4,4 v20 h-210 z" />
+          <rect class="d-box d-box--later" x="225" y="620" width="210" height="85" rx="4" />
+          <line class="d-rule" x1="225" y1="644" x2="435" y2="644" />
+          <text class="d-name" x="330" y="637">ImageBlock</text>
+          <text class="d-mem" x="235" y="660">- uri: URI</text>
+          <text class="d-mem" x="235" y="675">- caption: String</text>
+          <text class="d-mem" x="235" y="690">+ merge(Edit): boolean</text>
         </svg>
-        <figcaption>Solid was there from the first pass. Dashed arrived with the follow-up. The ghost was never built.</figcaption>
+        <figcaption>Dashed classes arrived with the follow-up. Full implementation: <span class="chip">github.com/varunkashyap-vkd/lld-runbook/collab-doc</span></figcaption>
       </figure>
-
-      <p>
-        Read the three inks deliberately, because they are the argument. Four solid boxes carried
-        the whole round — the other four are what one question did to them. The ghost is not a
-        class; it is the claim that a third element type costs one box, drawn so it cannot be
-        mistaken for work I actually did.
-      </p>
-
-      <p>
-        What a finished picture never tells you is the order. On a whiteboard you get one pass, and
-        drawing a class before the pressure that justifies it looks like guesswork no matter how
-        right it turns out to be. This is the sequence I would use:
-      </p>
-
-      <table class="table table--rowhead u-mt-4">
-        <tbody>
-          <tr>
-            <td><code>Document</code>, <code>Edit</code></td>
-            <td>First, and together. The prompt hands you both: something holds content, something describes a change to it. Everything else exists to move the second into the first.</td>
-          </tr>
-          <tr>
-            <td><code>DocumentSession</code></td>
-            <td>The moment there are two people. Someone has to check permission and tell everyone else. It goes above the pair, not beside them.</td>
-          </tr>
-          <tr>
-            <td><code>Editor</code></td>
-            <td>Only once undo is agreed. Undo <em>per person</em> is what forces a per-person class; a shared stack would not have needed one.</td>
-          </tr>
-          <tr>
-            <td><code>DocElement</code></td>
-            <td>Last, and only after the content type is questioned. Draw it earlier and you are designing for a requirement nobody gave you.</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <p class="u-mt-4">
-        If the clock is against you, stop after the third row and say the fourth out loud instead.
-        An interviewer who hears “this is where a non-text element would plug in” has learned
-        everything that watching you draw three more boxes would have told them.
-      </p>
-
-      <ul class="closing caption u-mt-4">
-        <li><strong>What he was probing:</strong> whether someone handed an approved high level design can produce classes that survive a change in what the product carries.</li>
-        <li><strong>Practise next:</strong> add comments anchored to a position, then decide what an anchor means once the position it points at is deleted.</li>
-        <li><strong>The takeaway:</strong> a simplification you propose is still your assumption. When it comes back, it is yours to answer for.</li>
-      </ul>
     </div>
 
     <footer class="page__foot">
