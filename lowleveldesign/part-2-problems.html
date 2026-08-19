@@ -171,29 +171,40 @@
           <span class="index__chapter-note">Reference</span>
         </div>
         <div class="index__row">
-          <span class="index__num index__num--dot" aria-hidden="true">&#8226;</span><span>Pattern-to-problem cheat sheet</span>
+          <span class="index__num index__num--ref">4.1</span><span>Pattern-to-problem cheat sheet</span>
           <span class="index__dots"></span><span class="index__page">34</span>
         </div>
         <div class="index__row">
-          <span class="index__num index__num--dot" aria-hidden="true">&#8226;</span><span>Where to go next</span>
+          <span class="index__num index__num--ref">4.2</span><span>Where to go next</span>
           <span class="index__dots"></span><span class="index__page">35</span>
         </div>
       </div>
 
-      <div class="steps">
+      <div class="after-index">
         <h2>How to work a case</h2>
-        <div class="steps__row">
-          <div class="steps__item">
-            <span class="steps__num">Step 1</span>
-            <strong>Attempt</strong>Every case stops after the brief. Design it yourself before turning the page.
+        <div class="flow">
+          <div class="flow__step">
+            <div class="flow__head">
+              <span class="flow__num">1</span>
+              <strong>Attempt</strong>
+            </div>
+            <span class="flow__text">Stop at the brief and design it yourself before turning the page.</span>
           </div>
-          <div class="steps__item">
-            <span class="steps__num">Step 2</span>
-            <strong>Compare</strong>Check ownership, invariants and one full flow — not whether your class names matched mine.
+          <span class="flow__arrow" aria-hidden="true"></span>
+          <div class="flow__step">
+            <div class="flow__head">
+              <span class="flow__num">2</span>
+              <strong>Compare</strong>
+            </div>
+            <span class="flow__text">Check ownership, invariants and one full flow — not class names.</span>
           </div>
-          <div class="steps__item">
-            <span class="steps__num">Step 3</span>
-            <strong>Adapt</strong>Answer the follow-up out loud before you read how I answered it.
+          <span class="flow__arrow" aria-hidden="true"></span>
+          <div class="flow__step">
+            <div class="flow__head">
+              <span class="flow__num">3</span>
+              <strong>Adapt</strong>
+            </div>
+            <span class="flow__text">Answer the follow-up out loud before reading how I answered it.</span>
           </div>
         </div>
       </div>
@@ -528,20 +539,21 @@
       </div>
 
       <p>
-        I panicked, briefly and visibly, then stopped talking for two minutes — the best decision I
-        made in that round. Out of it came the four moves from section 6.2.
-        <strong>Restated:</strong> same storage, same API, a different entry chosen for eviction.
-        <strong>Located:</strong> one line inside <code>evictOne</code>, the one that takes the tail.
-        <strong>Separated:</strong> index, list and both O(1) guarantees untouched; only the choice
-        of victim moves. <strong>Admitted:</strong> the rule was hard-coded, so I said the design did
-        not absorb this — then described where it should have been swappable.
+        I panicked, then took two silent minutes — easily the best decision of that round. Section
+        6.2's four moves:
       </p>
 
+      <ol class="list list--num moves">
+        <li><strong>Restated:</strong> same storage, same API, a different entry chosen for eviction.</li>
+        <li><strong>Located:</strong> one line inside <code>evictOne</code>, the one that takes the tail.</li>
+        <li><strong>Separated:</strong> index, list and both O(1) guarantees untouched; only the victim choice moves.</li>
+        <li><strong>Admitted:</strong> the rule was hard-coded, so I named where it should have been swappable.</li>
+      </ol>
+
       <p>
-        Making that one choice swappable is exactly what <strong>Strategy</strong> does, and I
-        justified it rather than just naming it. Section 5.6's signal is one decision that keeps
-        changing inside an otherwise settled object, which is exactly this shape. It is not State:
-        the cache is handed its policy and never switches on its own.
+        Making that one choice swappable is exactly what <strong>Strategy</strong> does — section
+        5.6's signal is one decision that keeps changing inside a settled object. Not State: the cache
+        is handed its policy.
       </p>
 
       <div class="code-block code-block--bad">
@@ -591,13 +603,11 @@
         <span class="chip">github.com/varunkashyap-vkd/lld-runbook/lru-cache</span>
       </p>
 
-      <p class="caption u-mt-4">
-        <strong>What he was probing:</strong> not whether I could write an LRU cache, which took
-        fifteen minutes, but whether it would survive a product decision. <strong>Practise
-        next:</strong> make it thread-safe without breaking either invariant, then design LFU and
-        name what has to change. <strong>If you take one thing from this problem:</strong> a correct
-        first version is evidence, not the finish line.
-      </p>
+      <ul class="closing caption u-mt-4">
+        <li><strong>What he was probing:</strong> not whether I could write an LRU cache, but whether it would survive a product decision.</li>
+        <li><strong>Practise next:</strong> make it thread-safe without breaking either invariant, then design LFU and name what has to change.</li>
+        <li><strong>If you take one thing from this problem:</strong> a correct first version is evidence, not the finish line.</li>
+      </ul>
     </div>
 
     <footer class="page__foot">

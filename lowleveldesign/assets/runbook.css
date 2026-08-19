@@ -349,53 +349,108 @@ strong {
   color: var(--ink-faint);
 }
 
+/* The four moves from section 6.2, one per line so the sequence reads as steps rather than prose.
+   Tighter than a standard list because every item is a single line. */
+.moves {
+  margin-top: var(--s-4);
+  margin-bottom: var(--s-5);
+}
+
+.moves li + li {
+  margin-top: var(--s-2);
+}
+
+/* Closing debrief: labelled notes one per line, like the moves list but unnumbered — these are
+   three separate observations, not a sequence. */
+.closing {
+  list-style: none;
+}
+
+.closing li + li {
+  margin-top: var(--s-3);
+}
+
 /* Part 2 puts code blocks straight into the page body, where no preceding block supplies the gap.
    Part 1 nests every one of its 36 inside a .section, so this selector cannot reach them. */
 .page__body > .code-block {
   margin-top: var(--s-6);
 }
 
-/* Reference rows are not cases, so they carry a marker rather than an identifier. */
-.index__num.index__num--dot {
+/* Reference rows are numbered rather than bulleted, matching the case rows above them. */
+.index__num.index__num--ref {
   min-width: 30px;
-  font-size: 15px;
-  line-height: 1;
+  font-weight: 600;
   color: var(--primary);
 }
 
-/* ---------- Practice strip ---------- */
-.steps {
+/* ---------- Contents: index ends, instruction begins ---------- */
+
+/* Reference rows carry no separators of their own; the closing rule below terminates the index. */
+.index--cases .index__row:not(.index__row--case) {
+  border-bottom: none;
+}
+
+/* Marks the shift from index to instruction. */
+.after-index {
   margin-top: var(--s-7);
   padding-top: var(--s-6);
   border-top: 1px solid var(--rule-strong);
 }
 
-.steps__row {
+.flow {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: var(--gutter);
-  margin-top: var(--s-5);
+  grid-template-columns: 1fr 16px 1fr 16px 1fr;
+  margin-top: var(--s-4);
 }
 
-.steps__item {
+.flow__step {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: 10px 12px;
+}
+
+.flow__head {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  margin-bottom: var(--s-3);
+}
+
+.flow__num {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--paper);
+  font-size: var(--fs-micro);
+  font-weight: 700;
+}
+
+.flow__head strong {
+  font-size: var(--fs-h3);
+  color: var(--ink);
+}
+
+.flow__text {
+  display: block;
   font-size: var(--fs-compact);
   line-height: 1.45;
   color: var(--ink-soft);
 }
 
-.steps__num {
-  display: block;
-  margin-bottom: var(--s-2);
-  font-size: var(--fs-label);
-  font-weight: 700;
-  letter-spacing: 0.09em;
-  color: var(--primary);
-}
-
-.steps__item strong {
-  display: block;
-  margin-bottom: var(--s-1);
-  color: var(--ink);
+/* Chevron built from two borders, so it prints without a glyph or an image. */
+.flow__arrow {
+  align-self: center;
+  justify-self: center;
+  width: 7px;
+  height: 7px;
+  border-top: 2px solid var(--primary);
+  border-right: 2px solid var(--primary);
+  transform: rotate(45deg);
 }
 
 /* ---------- Case page furniture ---------- */

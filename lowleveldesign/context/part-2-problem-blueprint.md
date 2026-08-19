@@ -250,7 +250,7 @@ reversal on page C.
 | Title | What the follow-up actually tested | 70px |
 | Lead | The false summit, then the moment it ended | 60px |
 | **The follow-up** (`.brief`) | The changed requirement, close to how it was phrased | 90px |
-| The two minutes | The recovery, in prose. The four moves from section 6.2 appear as sentences the reader could say aloud, not as an abstract numbered list beside code that repeats them. | 150px |
+| The two minutes | The recovery. The four moves from section 6.2 as a numbered list, one per line, echoing how Part 1 sets them out. Each line carries the concrete decision rather than restating the abstract move, and none of them may wrap. | 150px |
 | **Before / after** | Structurally parallel excerpts, `code-block--bad` then `code-block--good`. The diff should be readable at a glance. | 220px |
 | Evolved diagram | Dashed for genuinely later elements only. Skip it where Part 1 already showed this exact structure and spend the space on cost instead. | 170px |
 | What it cost, and where it stops | Rewiring cost in concrete terms, the limit of the evolved design, repo chip. | 100px |
