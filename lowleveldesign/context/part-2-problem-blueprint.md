@@ -104,6 +104,46 @@ invent quotations, outcomes, emotions, or company details. Label the provenance 
 Never name a company. Level may be described as an SDE-II or SDE-III loop at a big-tech or
 MAANG-scale company.
 
+### When the case is not one the author sat
+
+Only P1 and P2 come from rounds the author sat as a candidate. P3–P10 are worked from the other
+side of the table — problems he sets as an interviewer and takes apart with people he mentors. That
+is a real vantage point, not a weaker substitute, and it must be used honestly.
+
+**The narrator's distance changes; the register does not.** He is still one person, still first
+person, still willing to say the uncomfortable thing. What the first person attaches to moves from
+memory to observation:
+
+| Case he sat | Case he sets or watches |
+|---|---|
+| “I assumed it was a DSA round.” | “Almost everyone reads this as a DSA problem. I have watched it cost four of the last ten.” |
+| “I panicked, then took two silent minutes.” | “This is where candidates go quiet. The ones who recover say the next sentence out loud.” |
+| “He asked what a third rule would cost.” | “When I ask this, I am listening for one number.” |
+
+The observed pattern is often *more* useful than one person's round, because it generalises. Lean
+on it rather than apologising for it.
+
+**What a representative case may not do:**
+
+- Narrate a specific round in first person past as though the author sat it.
+- Quote interviewer or candidate dialogue that was never said.
+- Invent a panic, a recovery, a verdict, or feedback.
+- Claim a prompt was “worded like this” when it is a composite.
+
+**What replaces each story beat:**
+
+| Page A block | Representative form |
+|---|---|
+| The prompt (`.brief`) | A prompt of the kind actually used, labelled as representative rather than quoted. |
+| The first sixty seconds | What a strong opening sounds like, demonstrated in full — still shown, never merely advised. |
+| The turn that sets up the case | The misreading *most* candidates make, stated as an observed pattern with its consequence. |
+| The follow-up (page C or D) | A follow-up that is genuinely common, named as one an interviewer reaches for and why. |
+| The recovery | What a good answer sounds like under time pressure, in second person, rather than what “I” said. |
+
+**Label provenance on the page, not just in the map.** A reader must never have to guess which
+kind of case they are reading. The two first-hand cases keep their authority precisely because the
+other eight do not borrow it.
+
 ---
 
 ## 4. Page allocation: three case pages by default, four when earned, plus a class plate
@@ -491,6 +531,8 @@ A problem is not done until all of these are true:
 - [ ] Every named pattern is earned by a visible design pressure.
 - [ ] Complexity is explained operation by operation.
 - [ ] The personal story changes the teaching, rather than appearing as a detachable note.
+- [ ] Provenance is labelled on the page, and a representative case never borrows the authority of
+      a round the author did not sit.
 - [ ] The reader can understand the solution without opening the repository.
 - [ ] Practice prompts make the problem reusable after the first read.
 - [ ] The content passes technical review before it is compressed for page fit.
@@ -522,6 +564,9 @@ Reject a draft when it does any of the following:
 - Presents twenty clarifying questions with no explanation of which answers matter.
 - Hides missing reasoning behind a full-code link.
 - Invents dialogue or personal detail to make a representative scenario sound authentic.
+- Narrates a representative case in first person past, as though the author sat that round.
+- Hedges a representative case into neutral exposition, so the narrator disappears rather than
+  moving to the mentor's vantage point.
 - Adds a fourth page that contains no distinct teaching job.
 - Cuts the interview story first when the page overflows.
 - Stacks labelled blocks with no argument between them, so the narrator disappears.

@@ -177,9 +177,13 @@ placeholders and the bands are provisional until the lineup is locked.
 
 Six of the ten problems drift naturally to Strategy, and left unmanaged the cheat sheet on page 45
 would have almost nothing to say. Each commissioning brief therefore names its payoff up front, and
-the set is chosen to cover chapter 5 broadly plus several from 5.9. **Singleton (5.2) currently has
-no home in Part 2.** That is a real gap in the cheat sheet, not an oversight to ignore; whichever of
-P3–P10 is briefed next should be checked against it before its payoff is fixed.
+the set is chosen to cover chapter 5 broadly plus several from 5.9. **Singleton (5.2) is
+deliberately not a payoff anywhere, and the lineup must not be distorted to give it one.** Part 1
+teaches it as a trap — global mutable state, create one and inject it — so a case whose payoff is
+Singleton would teach the reader to do the thing chapter 5 warned them about. It belongs in the
+cheat sheet as an *appearance* instead: name where a single shared instance legitimately shows up
+(the parking lot's ticket source, the logging framework's registry) and note that the case injects
+it rather than statically fetching it. Treat this question as settled.
 
 | | Problem | Intended payoff |
 |---|---|---|
@@ -318,6 +322,12 @@ From section A of `lowleveldesign/context/interview-notes.md`. These are binding
 - **Level context:** SDE-II and SDE-III loops, three to seven years of experience.
 - **Voice for now:** the author's own experience as a candidate. Later problems may add an
   interviewer's-side perspective, but the first set should be things he faced himself.
+- **Superseded for P3–P10, by the author's later decision.** Only P1 and P2 are rounds he sat.
+  The rest are worked from the other side of the table — problems he sets as an interviewer and
+  takes apart with people he mentors. The narrator stays first person; what it attaches to moves
+  from memory to observation. The contract is *When the case is not one the author sat* in
+  blueprint section 3, and the Part 2 cover now says so outright rather than promising ten
+  first-hand rounds.
 - **Recurring phrases**, to use sparingly and naturally rather than in every problem:
   "a couple of things", "let's start with the basics", and "if you take one thing from this".
   The last one is already the closing caption of P1 and pairs with Part 1's usage.

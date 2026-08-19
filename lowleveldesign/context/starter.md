@@ -127,6 +127,11 @@ The goal is complete governing context, not maximum file volume.
 - The baseline design must appear before the evolved design.
 - A pattern is introduced only after the narrative establishes the pressure that earns it.
 - Personal stories use only author-supplied facts. Never name a company.
+- **Only P1 and P2 are rounds the author sat.** P3–P10 are worked from the interviewer's and
+  mentor's side — problems he sets and takes apart with people he mentors. The narrator stays first
+  person but attaches to observation rather than memory; never narrate a representative case as a
+  round he sat, and never invent dialogue, panic or a verdict. See *When the case is not one the
+  author sat* in the blueprint.
 - Complete code links are supplementary. The printed explanation must stand on its own.
 - Structural changes are made in the map before HTML.
 
@@ -253,7 +258,8 @@ project crosses a major milestone.
 - Problem titles P3–P10 in the contents are placeholders until each brief is written.
 - Problems P3–P10 are not yet selected, and their contents grouping is provisional.
 - Part 2 page numbers beyond P2 are intentionally provisional.
-- Singleton has no home in the Part 2 payoff table; check it before fixing the next problem's payoff.
+- Singleton is deliberately not a payoff anywhere; Part 1 teaches it as a trap. It belongs in the
+  cheat sheet as an appearance. Do not distort the lineup to give it a case. Settled.
 - **Open action:** `lowleveldesign/Code References/01-lru-cache/LruCacheDemo.java` predates the P1
   plate and does not match it — it still carries generics and the old class name. Under the plate
   contract the code is what has to change. Reconcile it before the repo links go public.
