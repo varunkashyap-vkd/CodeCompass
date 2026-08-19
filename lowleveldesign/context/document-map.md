@@ -201,7 +201,16 @@ to Strategy when the table says otherwise, the problem is the brief, not the tab
 is a measured overflow rather than a preference. The class design and the operation trace each need
 about 200px and compete for the same page; and the three-page version carried no Java at all, so
 the public API and the decisive mutation — both required content — had nowhere to go. Splitting
-the baseline from the proof resolves both. This does not entitle P2–P10 to four pages.
+the baseline from the proof resolves both. This does not entitle P2–P10 to a fourth **case** page.
+
+Its plate, page 7, carries `LruCache`, `Node`, `RecencyList`, `EvictionPolicy` and its two
+implementations — six classes, twenty members, every one lifted from code already printed on pages
+4 to 6. **No generics anywhere in this case:** concrete `int` keys and values, `Map<Integer, Node>`,
+and `get(int): Integer` so a miss can still return null. The reason is that the design has to be
+implementable inside a 45-minute round. Prefer concrete types on later problems for the same reason.
+Removing them touched more than the plate — the agreed scope on page 3 said "generic keys and
+values", the page 5 trace keyed on letters, and the class was called `Cache` in the ownership table
+and diagram but `LruCache` in the code. All three are now consistent.
 
 **Why P2 earns a fourth page.** Four of the five blueprint section 4 criteria are met, which is a
 stronger case than P1's. The design carries **two independent mechanisms** — conflict resolution and

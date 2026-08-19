@@ -292,7 +292,7 @@
 
       <p>
         We settled the rest out loud: single-threaded, exact recency rather than an approximation,
-        generic keys and values. Expiry, persistence, cache warming and anything distributed were
+        integer keys and values. Expiry, persistence, cache warming and anything distributed were
         agreed out of scope. In a live-coding round, <em>say</em> the scope rather than typing it —
         the editor is for code, and a comment block of assumptions reads as stalling.
       </p>
@@ -346,11 +346,11 @@
       <table class="table table--rowhead u-mt-4">
         <tbody>
           <tr>
-            <td><code>Cache</code></td>
+            <td><code>LruCache</code></td>
             <td>Owns both structures and leaves them consistent after every call. Nothing outside it touches either one.</td>
           </tr>
           <tr>
-            <td><code>Map&lt;K, Node&gt;</code></td>
+            <td><code>Map&lt;Integer, Node&gt;</code></td>
             <td>Finds the node for a key. Mapping to values instead would force a scan to reorder.</td>
           </tr>
           <tr>
@@ -373,24 +373,24 @@
       <figure class="diagram">
         <svg viewBox="0 0 470 112" role="img" aria-label="Cache owns a map and a recency list, and both refer to the same nodes">
           <rect class="d-box d-box--accent" x="160" y="2" width="150" height="28" rx="4" />
-          <text class="d-name" x="235" y="20">Cache&lt;K, V&gt;</text>
+          <text class="d-name" x="235" y="20">LruCache</text>
           <line class="d-line" x1="235" y1="30" x2="235" y2="46" />
           <line class="d-line" x1="75" y1="46" x2="395" y2="46" />
           <line class="d-line" x1="75" y1="46" x2="75" y2="56" />
           <line class="d-line" x1="395" y1="46" x2="395" y2="56" />
           <text class="d-label" x="243" y="42">owns both</text>
           <rect class="d-box" x="10" y="56" width="130" height="26" rx="4" />
-          <text class="d-name" x="75" y="73">Map&lt;K, Node&gt;</text>
+          <text class="d-name" x="75" y="73">Map&lt;Integer, Node&gt;</text>
           <rect class="d-box" x="330" y="56" width="130" height="26" rx="4" />
           <text class="d-name" x="395" y="73">RecencyList</text>
           <rect class="d-box" x="165" y="86" width="140" height="24" rx="4" />
-          <text class="d-name" x="235" y="102">Node&lt;K, V&gt;</text>
+          <text class="d-name" x="235" y="102">Node</text>
           <path class="d-line" d="M75,82 L75,98 L163,98" />
           <path class="d-line" d="M395,82 L395,98 L307,98" />
           <text class="d-label" x="82" y="94">indexes</text>
           <text class="d-label" x="356" y="94">links</text>
         </svg>
-        <figcaption>The design as I wrote it. <code>Cache</code> decides which node leaves.</figcaption>
+        <figcaption>The design as I wrote it. <code>LruCache</code> decides which node leaves.</figcaption>
       </figure>
 
       <p>
@@ -401,13 +401,13 @@
 
       <div class="code-block">
         <p class="label">The public surface</p>
-        <pre><code>public class LruCache&lt;K, V&gt; {
-    private final Map&lt;K, Node&lt;K, V&gt;&gt; index;
-    private final RecencyList&lt;K, V&gt; order;
+        <pre><code>public class LruCache {
+    private final Map&lt;Integer, Node&gt; index;
+    private final RecencyList order;
     private final int capacity;
 
-    public V get(K key)             { <span class="c">/* promotes on a hit */</span> }
-    public void put(K key, V value) { <span class="c">/* evicts when full  */</span> }
+    public Integer get(int key)         { <span class="c">/* promotes on a hit */</span> }
+    public void put(int key, int value) { <span class="c">/* evicts when full  */</span> }
 }</code></pre>
       </div>
 
@@ -456,12 +456,12 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td><code>put(A, 1)</code></td><td>—</td><td><code>A</code></td><td>Added to both structures.</td></tr>
-          <tr><td><code>put(B, 2)</code></td><td>—</td><td><code>B, A</code></td><td>New entry becomes head.</td></tr>
-          <tr><td><code>put(C, 3)</code></td><td>—</td><td><code>C, B, A</code></td><td>Full. Nothing evicted yet.</td></tr>
-          <tr><td><code>get(A)</code></td><td><code>1</code></td><td><code>A, C, B</code></td><td>A read reorders.</td></tr>
-          <tr><td><code>put(D, 4)</code></td><td>—</td><td><code>D, A, C</code></td><td>Tail <code>B</code> leaves both.</td></tr>
-          <tr><td><code>put(A, 9)</code></td><td>—</td><td><code>A, D, C</code></td><td>Update in place.</td></tr>
+          <tr><td><code>put(1, 10)</code></td><td>—</td><td><code>1</code></td><td>Added to both structures.</td></tr>
+          <tr><td><code>put(2, 20)</code></td><td>—</td><td><code>2, 1</code></td><td>New entry becomes head.</td></tr>
+          <tr><td><code>put(3, 30)</code></td><td>—</td><td><code>3, 2, 1</code></td><td>Full. Nothing evicted yet.</td></tr>
+          <tr><td><code>get(1)</code></td><td><code>10</code></td><td><code>1, 3, 2</code></td><td>A read reorders.</td></tr>
+          <tr><td><code>put(4, 40)</code></td><td>—</td><td><code>4, 1, 3</code></td><td>Tail <code>2</code> leaves both.</td></tr>
+          <tr><td><code>put(1, 90)</code></td><td>—</td><td><code>1, 4, 3</code></td><td>Update in place.</td></tr>
         </tbody>
       </table>
 
@@ -475,8 +475,8 @@
 
       <div class="code-block">
         <p class="label">The branch row six exercises</p>
-        <pre><code>public void put(K key, V value) {
-    Node&lt;K, V&gt; hit = index.get(key);
+        <pre><code>public void put(int key, int value) {
+    Node hit = index.get(key);
     if (hit != null) {
         hit.value = value;
         order.moveToFront(hit);
@@ -559,7 +559,7 @@
       <div class="code-block code-block--bad">
         <p class="label">Before — the rule is a line of code</p>
         <pre><code>private void evictOne() {
-    Node&lt;K, V&gt; victim = order.last();          <span class="c">// "least recently used"</span>
+    Node victim = order.last();               <span class="c">// "least recently used"</span>
     order.remove(victim);
     index.remove(victim.key);
 }</code></pre>
@@ -567,7 +567,7 @@
       <div class="code-block code-block--good">
         <p class="label">After — the rule is a collaborator</p>
         <pre><code>private void evictOne() {
-    Node&lt;K, V&gt; victim = policy.select(order);  <span class="c">// tail for LRU, head for MRU</span>
+    Node victim = policy.select(order);       <span class="c">// tail for LRU, head for MRU</span>
     order.remove(victim);
     index.remove(victim.key);
 }</code></pre>
@@ -580,7 +580,7 @@
       <figure class="diagram">
         <svg viewBox="0 0 470 74" role="img" aria-label="Cache is handed an eviction policy interface implemented by an LRU and an MRU policy, with room for a third">
           <rect class="d-box d-box--accent" x="30" y="4" width="130" height="28" rx="4" />
-          <text class="d-name" x="95" y="22">Cache&lt;K, V&gt;</text>
+          <text class="d-name" x="95" y="22">LruCache</text>
           <rect class="d-box d-box--later" x="238" y="2" width="170" height="32" rx="4" />
           <text class="d-stereo" x="323" y="15">&#171;interface&#187;</text>
           <text class="d-name" x="323" y="29">EvictionPolicy</text>
@@ -635,78 +635,78 @@
       <figure class="diagram diagram--full">
         <svg viewBox="0 0 680 715" role="img" aria-label="UML class diagram. LruCache composes a RecencyList, indexes Nodes and holds an EvictionPolicy. RecencyList links Nodes, which reference each other. LruPolicy and MruPolicy implement EvictionPolicy.">
 
-          <path class="d-strip" d="M205,4 a4,4 0 0 1 4,-4 h262 a4,4 0 0 1 4,4 v20 h-270 z" />
-          <rect class="d-box" x="205" y="0" width="270" height="145" rx="4" />
-          <line class="d-rule" x1="205" y1="24" x2="475" y2="24" />
-          <text class="d-name" x="340" y="17">LruCache&lt;K, V&gt;</text>
-          <text class="d-mem" x="215" y="40">- index: Map&lt;K, Node&lt;K,V&gt;&gt;</text>
-          <text class="d-mem" x="215" y="55">- order: RecencyList&lt;K,V&gt;</text>
-          <text class="d-mem" x="215" y="70">- capacity: int</text>
-          <text class="d-mem" x="215" y="85">- policy: EvictionPolicy&lt;K,V&gt;</text>
-          <text class="d-mem" x="215" y="100">+ get(K): V</text>
-          <text class="d-mem" x="215" y="115">+ put(K, V): void</text>
-          <text class="d-mem" x="215" y="130">- evictOne(): void</text>
+          <path class="d-strip" d="M235,4 a4,4 0 0 1 4,-4 h202 a4,4 0 0 1 4,4 v20 h-210 z" />
+          <rect class="d-box" x="235" y="0" width="210" height="145" rx="4" />
+          <line class="d-rule" x1="235" y1="24" x2="445" y2="24" />
+          <text class="d-name" x="340" y="17">LruCache</text>
+          <text class="d-mem" x="245" y="40">- index: Map&lt;Integer, Node&gt;</text>
+          <text class="d-mem" x="245" y="55">- order: RecencyList</text>
+          <text class="d-mem" x="245" y="70">- capacity: int</text>
+          <text class="d-mem" x="245" y="85">- policy: EvictionPolicy</text>
+          <text class="d-mem" x="245" y="100">+ get(int): Integer</text>
+          <text class="d-mem" x="245" y="115">+ put(int, int): void</text>
+          <text class="d-mem" x="245" y="130">- evictOne(): void</text>
 
-          <polygon class="d-solid" points="280,145 274,152 280,159 286,152" />
-          <path class="d-line" d="M280,159 L280,205 L130,205 L130,252" />
-          <text class="d-label" x="134" y="246">order 1</text>
-          <path class="d-line" d="M420,145 L420,252" />
-          <path class="d-line" d="M416,244 L420,252 L424,244" />
-          <text class="d-label" x="426" y="205">index 0..*</text>
-          <path class="d-line" d="M475,72 L620,72 L620,492 L479,492" />
-          <path class="d-line" d="M487,488 L479,492 L487,496" />
+          <polygon class="d-solid" points="290,145 284,152 290,159 296,152" />
+          <path class="d-line" d="M290,159 L290,205 L110,205 L110,252" />
+          <text class="d-label" x="114" y="246">order 1</text>
+          <path class="d-line" d="M405,145 L405,252" />
+          <path class="d-line" d="M401,244 L405,252 L409,244" />
+          <text class="d-label" x="411" y="205">index 0..*</text>
+          <path class="d-line" d="M445,72 L620,72 L620,492 L452,492" />
+          <path class="d-line" d="M460,488 L452,492 L460,496" />
           <text class="d-label" x="624" y="270">policy 1</text>
 
-          <path class="d-strip" d="M0,256 a4,4 0 0 1 4,-4 h252 a4,4 0 0 1 4,4 v20 h-260 z" />
-          <rect class="d-box" x="0" y="252" width="260" height="130" rx="4" />
-          <line class="d-rule" x1="0" y1="276" x2="260" y2="276" />
-          <text class="d-name" x="130" y="269">RecencyList&lt;K, V&gt;</text>
-          <text class="d-mem" x="10" y="292">- head: Node&lt;K,V&gt;</text>
-          <text class="d-mem" x="10" y="307">- tail: Node&lt;K,V&gt;</text>
-          <text class="d-mem" x="10" y="322">+ addFront(K, V): Node&lt;K,V&gt;</text>
-          <text class="d-mem" x="10" y="337">+ moveToFront(Node&lt;K,V&gt;): void</text>
-          <text class="d-mem" x="10" y="352">+ remove(Node&lt;K,V&gt;): void</text>
-          <text class="d-mem" x="10" y="367">+ last(): Node&lt;K,V&gt;</text>
+          <path class="d-strip" d="M10,256 a4,4 0 0 1 4,-4 h192 a4,4 0 0 1 4,4 v20 h-200 z" />
+          <rect class="d-box" x="10" y="252" width="200" height="130" rx="4" />
+          <line class="d-rule" x1="10" y1="276" x2="210" y2="276" />
+          <text class="d-name" x="110" y="269">RecencyList</text>
+          <text class="d-mem" x="20" y="292">- head: Node</text>
+          <text class="d-mem" x="20" y="307">- tail: Node</text>
+          <text class="d-mem" x="20" y="322">+ addFront(int, int): Node</text>
+          <text class="d-mem" x="20" y="337">+ moveToFront(Node): void</text>
+          <text class="d-mem" x="20" y="352">+ remove(Node): void</text>
+          <text class="d-mem" x="20" y="367">+ last(): Node</text>
 
-          <path class="d-strip" d="M320,256 a4,4 0 0 1 4,-4 h192 a4,4 0 0 1 4,4 v20 h-200 z" />
-          <rect class="d-box" x="320" y="252" width="200" height="100" rx="4" />
-          <line class="d-rule" x1="320" y1="276" x2="520" y2="276" />
-          <text class="d-name" x="420" y="269">Node&lt;K, V&gt;</text>
-          <text class="d-mem" x="330" y="292">+ key: K</text>
-          <text class="d-mem" x="330" y="307">+ value: V</text>
-          <text class="d-mem" x="330" y="322">+ prev: Node&lt;K,V&gt;</text>
-          <text class="d-mem" x="330" y="337">+ next: Node&lt;K,V&gt;</text>
+          <path class="d-strip" d="M330,256 a4,4 0 0 1 4,-4 h142 a4,4 0 0 1 4,4 v20 h-150 z" />
+          <rect class="d-box" x="330" y="252" width="150" height="100" rx="4" />
+          <line class="d-rule" x1="330" y1="276" x2="480" y2="276" />
+          <text class="d-name" x="405" y="269">Node</text>
+          <text class="d-mem" x="340" y="292">+ key: int</text>
+          <text class="d-mem" x="340" y="307">+ value: int</text>
+          <text class="d-mem" x="340" y="322">+ prev: Node</text>
+          <text class="d-mem" x="340" y="337">+ next: Node</text>
 
-          <path class="d-line" d="M260,302 L316,302" />
-          <path class="d-line" d="M312,298 L320,302 L312,306" />
-          <text class="d-label" x="264" y="296">head/tail</text>
-          <path class="d-line" d="M520,277 L545,277 L545,327 L520,327" />
-          <path class="d-line" d="M528,323 L520,327 L528,331" />
-          <text class="d-label" x="549" y="305">prev, next</text>
+          <path class="d-line" d="M210,317 L326,317" />
+          <path class="d-line" d="M322,313 L330,317 L322,321" />
+          <text class="d-label" x="232" y="311">head/tail</text>
+          <path class="d-line" d="M480,277 L505,277 L505,327 L480,327" />
+          <path class="d-line" d="M488,323 L480,327 L488,331" />
+          <text class="d-label" x="509" y="305">prev, next</text>
 
-          <path class="d-strip" d="M205,466 a4,4 0 0 1 4,-4 h262 a4,4 0 0 1 4,4 v32 h-270 z" />
-          <rect class="d-box d-box--later" x="205" y="462" width="270" height="67" rx="4" />
-          <line class="d-rule" x1="205" y1="498" x2="475" y2="498" />
+          <path class="d-strip" d="M230,466 a4,4 0 0 1 4,-4 h212 a4,4 0 0 1 4,4 v32 h-220 z" />
+          <rect class="d-box d-box--later" x="230" y="462" width="220" height="67" rx="4" />
+          <line class="d-rule" x1="230" y1="498" x2="450" y2="498" />
           <text class="d-stereo" x="340" y="479">&#171;interface&#187;</text>
-          <text class="d-name" x="340" y="493">EvictionPolicy&lt;K, V&gt;</text>
-          <text class="d-mem" x="215" y="514">+ select(RecencyList&lt;K,V&gt;): Node&lt;K,V&gt;</text>
+          <text class="d-name" x="340" y="493">EvictionPolicy</text>
+          <text class="d-mem" x="240" y="514">+ select(RecencyList): Node</text>
 
           <polygon class="d-head" points="340,529 332,543 348,543" />
           <line class="d-line d-line--dashed" x1="195" y1="543" x2="485" y2="543" />
           <line class="d-line d-line--dashed" x1="195" y1="543" x2="195" y2="605" />
           <line class="d-line d-line--dashed" x1="485" y1="543" x2="485" y2="605" />
 
-          <path class="d-strip" d="M60,609 a4,4 0 0 1 4,-4 h262 a4,4 0 0 1 4,4 v20 h-270 z" />
-          <rect class="d-box d-box--later" x="60" y="605" width="270" height="55" rx="4" />
-          <line class="d-rule" x1="60" y1="629" x2="330" y2="629" />
-          <text class="d-name" x="195" y="622">LruPolicy&lt;K, V&gt;</text>
-          <text class="d-mem" x="70" y="645">+ select(RecencyList&lt;K,V&gt;): Node&lt;K,V&gt;</text>
+          <path class="d-strip" d="M85,609 a4,4 0 0 1 4,-4 h212 a4,4 0 0 1 4,4 v20 h-220 z" />
+          <rect class="d-box d-box--later" x="85" y="605" width="220" height="55" rx="4" />
+          <line class="d-rule" x1="85" y1="629" x2="305" y2="629" />
+          <text class="d-name" x="195" y="622">LruPolicy</text>
+          <text class="d-mem" x="95" y="645">+ select(RecencyList): Node</text>
 
-          <path class="d-strip" d="M350,609 a4,4 0 0 1 4,-4 h262 a4,4 0 0 1 4,4 v20 h-270 z" />
-          <rect class="d-box d-box--later" x="350" y="605" width="270" height="55" rx="4" />
-          <line class="d-rule" x1="350" y1="629" x2="620" y2="629" />
-          <text class="d-name" x="485" y="622">MruPolicy&lt;K, V&gt;</text>
-          <text class="d-mem" x="360" y="645">+ select(RecencyList&lt;K,V&gt;): Node&lt;K,V&gt;</text>
+          <path class="d-strip" d="M375,609 a4,4 0 0 1 4,-4 h212 a4,4 0 0 1 4,4 v20 h-220 z" />
+          <rect class="d-box d-box--later" x="375" y="605" width="220" height="55" rx="4" />
+          <line class="d-rule" x1="375" y1="629" x2="595" y2="629" />
+          <text class="d-name" x="485" y="622">MruPolicy</text>
+          <text class="d-mem" x="385" y="645">+ select(RecencyList): Node</text>
 
           <line class="d-rule" x1="0" y1="680" x2="680" y2="680" />
           <polygon class="d-solid" points="0,700 6,694 12,700 6,706" />
