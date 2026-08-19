@@ -196,9 +196,12 @@ Validate content and technical correctness before cutting words for page fit.
 
 1. Read the problem row in the map.
 2. Read the complete Part 2 blueprint.
-3. Read the corresponding interview notes.
+3. Read the corresponding interview notes — section B or C for P1 and P2, **section E for every
+   representative case from P3 onward**.
 4. Complete or review the commissioning brief before layout.
-5. Resolve missing personal facts with the author; do not manufacture them.
+5. Resolve missing facts with the author; do not manufacture them. If section E has no answers for
+   this problem, **stop and ask the author its three questions** before building anything. A
+   representative case without them is a summary anyone could look up.
 6. Establish the chronological interview spine and map evidence to all five questions.
 7. Decide three versus four **case** pages using the rubric and record the reason in the map. The
    class plate is automatic and never part of that decision.
@@ -244,6 +247,9 @@ project crosses a major milestone.
   case pages plus a plate, drawn from the author's interviewer-side material rather than a round he
   sat. Its payoff is restraint (Part 1 section 4.1) — the recovery *deletes* the `SlotType` enum and
   models capacity in units, so a bus bay can hold eight scooters. Pending author review.
+- **Treat P3 as the reference for P4–P10**, the way LRU is the reference for the page spine. Its
+  handling of provenance is the pattern: page A opens by saying outright that this is a round the
+  author set rather than sat, and the whole case is first person attached to observation.
 - LRU is signed off by the author. Treat its page spine and masthead as the reference for later
   cases; do not restyle them to suit a new problem. Its plate carries `Cache`, `Node`,
   `RecencyList`, `EvictionPolicy`, `LruPolicy` and `MruPolicy` — six classes, twenty members, all
@@ -280,8 +286,9 @@ Context is part of the product and must not drift behind implementation.
 - Update `context/style-reference.md` whenever a shared visual or print rule changes.
 - Update `context/part-2-problem-blueprint.md` only when the contract for all problems changes, not
   to accommodate one awkward draft.
-- Keep raw factual interview input in `context/interview-notes.md`; preserve the author’s rough voice.
-- Update this starter only when file locations, precedence, loading protocol, locked decisions, or
+- Keep raw factual interview input in `context/interview-notes.md`; preserve the author’s rough voice.  Sections B and C hold the two rounds he sat; **section E holds the interviewer-side material for
+  every representative case**. Anything the author supplies in conversation belongs there before it
+  is paraphrased into the map, or the next session loses it.- Update this starter only when file locations, precedence, loading protocol, locked decisions, or
   major project status changes.
 - Keep `context/document-structure.txt` historical. Do not modernise it into a second map.
 - When moving or renaming a context file, update this starter, all internal references, CSS comments,

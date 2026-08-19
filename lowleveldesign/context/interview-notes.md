@@ -198,3 +198,84 @@ you've personally been on either side of. Mark anything you have a story for.
 
 
 **Problems you think are overrated and want to leave out:**
+
+
+---
+
+## E. Representative cases — what I see from the other side
+
+> **What this is.** P1 and P2 are rounds I sat as a candidate. P3 onward are problems I *set* as an
+> interviewer and work through with people I mentor, so the raw material is a different kind: not
+> what happened to me, but what I watch happen to other people. Section A anticipated this — "for
+> the next set of problems, I might try to frame them as interviewer's perspective also."
+>
+> **This is the input that makes a representative case work.** Without it the agent can only write
+> a competent summary of a problem anyone could look up. With it, the case has a point of view.
+>
+> **How to fill it.** Three questions per problem, below. Two solid paragraphs is plenty and rough
+> bullets are fine — no need to write prose. Skip anything you have no view on.
+
+### The three questions, asked for every problem
+
+1. **Where do people go wrong?** The mistake you actually watch them make, not the one a textbook
+   would list.
+2. **What are you listening for when you set it?** What separates an answer you would pass from one
+   you would not.
+3. **What moment would you use to break their design?** The concrete scenario you spring on them
+   once they look comfortable.
+
+The third is the one that pays. For the parking lot it became the entire closing page, more or less
+as written.
+
+---
+
+### P3 — Parking lot  *(answered; built on pages 13–16)*
+
+**Where people go wrong**
+- Candidates over obsess on the sizes of the parking slots, and end up making too many "parking
+  type" enums which are non-essential for actually constructing the overall design. Maybe one or two
+  types are enough to convey your idea that there will be more than one kind of parking slot.
+
+**What I'm listening for**
+- Is the candidate tightly coupling a specific parking slot to a specific vehicle type? If yes, then
+  how do they manage the case where a bigger parking space is available but the current vehicle to
+  be parked is a smaller one?
+- Are you properly utilising the total space, or just overly creating classes for vehicles and slots?
+- Are you treating the slots as individual items — scooter 1, car 4, bus 8 — where if 8 consecutive
+  slots are free they can be assigned to a bus also? If you hardcode a bus-type slot, then only a bus
+  can be parked in it.
+- What if you have a bus slot free but no bus to park, and instead you need to park 8 scooters? Did
+  you decide to not allow them to park, or do you?
+- The interviewer wishes to understand your reasoning. They don't wish to see unnecessary coupling
+  of stuff which could otherwise be avoided to properly utilise the whole space in the parking lot.
+
+**The moment I'd use to break it**
+- Derived from the above rather than supplied separately: a bus bay standing empty with no buses
+  booked, and eight scooters queued at the gate.
+
+---
+
+### P4 — Vending machine
+
+**Where people go wrong**
+
+
+**What I'm listening for**
+
+
+**The moment I'd use to break it**
+
+
+<!-- Prompts that might jog something, ignore any that don't apply: what do people get wrong about
+     the money — partial payment, refunds, exact change — versus the dispensing they spend their
+     time on? Do they put transitions in one big if/else chain, and what happens when a state is
+     added? Is there a case that reliably catches people — item goes out of stock after selection,
+     cancel mid-transaction, power loss with money inserted? Anything overrated about this problem? -->
+
+---
+
+### P5 – P10
+
+Same three questions, added as each problem is commissioned. Do not build a representative case
+before its answers are here.
+

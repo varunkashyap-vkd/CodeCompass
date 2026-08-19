@@ -144,6 +144,18 @@ on it rather than apologising for it.
 kind of case they are reading. The two first-hand cases keep their authority precisely because the
 other eight do not borrow it.
 
+**The material a representative case runs on.** Three questions to the author, recorded in section E
+of `lowleveldesign/context/interview-notes.md` before the case is built:
+
+1. **Where do people go wrong?** The mistake actually watched, not the one a textbook lists.
+2. **What are you listening for when you set it?** What separates a pass from a fail.
+3. **What moment would you use to break their design?** The concrete scenario sprung on a candidate
+   who has started to look comfortable.
+
+The third supplies page C's follow-up almost directly — in P3 it became the bus bay standing empty
+while eight scooters queued. Without these answers a representative case has no point of view and
+reduces to a competent summary of a problem anyone could look up. **Do not build one without them.**
+
 ---
 
 ## 4. Page allocation: three case pages by default, four when earned, plus a class plate

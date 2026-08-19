@@ -133,9 +133,16 @@ runners-up billing.
 
 ## 5. Part 2 — Problems
 
-> **Titles P3–P10 are placeholders.** They are plausible LLD problems chosen so the contents page
+> **Titles P4–P10 are placeholders.** They are plausible LLD problems chosen so the contents page
 > reads as a finished index; each is replaced when its commissioning brief is written. Page ranges
-> assume the three-page default and are re-checked whenever a case is built.
+> assume the default of **three case pages plus a class plate** and are re-checked whenever a case
+> is built. A case that earns a fourth case page under blueprint section 4 pushes every later range
+> by one, along with both closing pages and every footer total.
+>
+> **Repo link convention.** Every plate's figcaption carries a chip pointing at
+> `github.com/varunkashyap-vkd/lld-runbook/<slug>`, where the slug names the *design*, not the
+> problem title: `lru-cache` (P1), `collab-doc` (P2), `parking-lot` (P3). Pick the slug when the
+> brief is written and use the same one on the plate and in any in-case chip.
 
 | § | Page | Title | Status | Brief |
 |---|---|---|---|---|
