@@ -217,16 +217,19 @@ project crosses a major milestone.
 
 - Part 1 is complete at 29 pages and frozen.
 - Part 1 sections 6.1 and 6.2 establish the framework reused by Part 2.
-- Part 2 targets 36 pages: cover, contents, ten case studies, and two closing pages.
-- Built so far: cover, contents, LRU on pages 3–6, and Google Docs on pages 7–10.
+- Part 2 targets 37 pages: cover, contents, ten case studies, and two closing pages.
+- Built so far: cover, contents, LRU on pages 3–6, and Google Docs on pages 7–11.
 - LRU is signed off by the author. Treat its page spine and masthead as the reference for later
   cases; do not restyle them to suit a new problem.
-- Google Docs is signed off. Its legs are the brief, the model, the proof, and the change. All four
-  fit A4 with 31–40px slack. The class model (`Document`, `Edit`, `Editor`, `DocumentSession`) was
-  derived rather than taken from the notes, and the three code excerpts are cross-checked to agree
-  with each other and with the diagram.
-- Both cases the author sat himself run to four pages. **P3 onward start at three** and must earn a
-  fourth on measured evidence under blueprint section 4.
+- Google Docs runs to five pages: the brief, the model, the proof, the change, and a **prototype
+  fifth page** carrying the complete model, the order to draw it on a whiteboard, and the debrief
+  moved off page D. The class model (`Document`, `Edit`, `Editor`, `DocumentSession`, plus
+  `DocElement` after the follow-up) was derived rather than taken from the notes, and the code
+  excerpts are cross-checked to agree with each other and with the diagrams.
+- **The fifth page is on trial.** The author will decide whether it becomes standard. Do not give
+  P3 onward a fifth page until that decision is made; reverting it is one commit.
+- P3 onward start at three pages and must earn more on measured evidence under blueprint section 4.
+  The two four-page-plus cases are the ones the author sat himself, which is not a precedent.
 - Problem titles P3–P10 in the contents are placeholders until each brief is written.
 - Problems P3–P10 are not yet selected, and their contents grouping is provisional.
 - Part 2 page numbers beyond P2 are intentionally provisional.

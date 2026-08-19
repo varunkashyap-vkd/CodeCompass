@@ -31,7 +31,7 @@ teach complete interview case studies rather than summarise reference material.
 | | Pages | Purpose |
 |---|---|---|
 | **Part 1 — Theory and Principles** | 29 | Vocabulary, principles, patterns, and a solving framework. |
-| **Part 2 — Problems** | 36 | Ten interview case studies worked chronologically, three pages each except P1 and P2, plus cover, contents and two closing pages. |
+| **Part 2 — Problems** | 37 | Ten interview case studies worked chronologically, three pages each except P1 and P2, plus cover, contents and two closing pages. |
 
 Part 1 is read once, front to back. Part 2 is the working half, and is where readers return.
 
@@ -142,17 +142,17 @@ runners-up billing.
 | — | 1 | Cover | done | Matches Part 1 cover, marked Part 2. Lede promises the follow-up moment Part 1 closes on. **Preview page.** |
 | — | 2 | Contents | done | Reuses Part 1's `.index` markup and rhythm so both parts read as one product. Four groups with right-aligned notes, exactly like Part 1's chapters. Each case row carries a one-line editorial gloss, because this is the page a buyer inspects before paying. Revision entries are numbered `4.1`/`4.2` on Part 1's chapter.section convention and carry no separators. A strong rule marks where the index ends, then a boxed three-step “How to work a case” flow with badge numerals and chevrons, all drawn in CSS. Title is one word. **Preview page.** |
 | P1 | 3–6 | LRU cache | done | Personal interview case in **four** pages, each titled *LRU Cache* with its own deck: (A) *The round I misread* — prompt, the exchange, three clarifications, scope, stop line; (B) *Two structures, one promise* — rejected nouns, ownership, invariants, baseline diagram, public API, and Q4 answered honestly; (C) *What six calls proved* — six-call trace, decisive mutation, complexity derived at the call site, edge cases; (D) *The question after the code worked* — MRU follow-up, the recovery, Strategy named and justified against section 5.6's signal (including why it is not State), before/after code, delta diagram, rewiring cost, LFU limit, debrief and takeaway. Signed off by the author; treat its page spine as the reference for later cases. |
-| P2 | 7–10 | Google Docs | done | Personal interview case, SDE-III object-oriented design round, in **four** pages, each titled *Google Docs* with its own deck: (A) *Ten minutes deciding what not to build* — the unbounded prompt, bounding it by proposing scope rather than asking for it, the clarification that split undo two ways, the storage boundary drawn explicitly, text-only agreed, stop line; (B) *An edit has to carry its own past* — rejected nouns, the four entities, ownership and invariants, baseline diagram, public API, Q4 answered honestly (conflict rule named as variable, content type treated as fixed); (C) *Two editors, one line* — a five-step collision trace with real timestamps, the decisive `apply`, undo re-submitted as a reversed edit through the same path, complexity and edge cases; (D) *The assumption inside the word “text”* — the non-text follow-up, the sting of having proposed the simplification himself, four moves, before/after code, the rewiring cost that reaches `Edit` rather than stopping at `Document`, limits, debrief and takeaway. Replaced HashMap, whose natural follow-up (chaining versus open addressing) landed on the same closing lesson as P1: an interface does not absorb an algorithm that needs different state. Scope hard: the document model and one edit applied end to end, never “build Google Docs”. The product may be named; the interviewing company still may not. |
-| P3 | 11–13 | Parking lot | todo | Placeholder title. Complete a commissioning brief before building. |
-| P4 | 14–16 | Vending machine | todo | Placeholder title. Complete a commissioning brief before building. |
-| P5 | 17–19 | Elevator system | todo | Placeholder title. Complete a commissioning brief before building. |
-| P6 | 20–22 | Chess | todo | Placeholder title. Complete a commissioning brief before building. Chosen over Snake and ladder because nothing else in the lineup exercises inheritance versus composition (4.2), and Snake and ladder duplicated the Vending machine's rules-plus-state lesson. |
-| P7 | 23–25 | Rate limiter | todo | Placeholder title. Complete a commissioning brief before building. |
-| P8 | 26–28 | Notification service | todo | Placeholder title. Complete a commissioning brief before building. |
-| P9 | 29–31 | Splitwise | todo | Placeholder title. Complete a commissioning brief before building. |
-| P10 | 32–34 | Logging framework | todo | Placeholder title. Complete a commissioning brief before building. |
-| — | 35 | Pattern-to-problem cheat sheet | todo | Which pattern showed up where and which framework question exposed it. |
-| — | 36 | Where to go next | todo | Closing guidance and practice sequencing. |
+| P2 | 7–11 | Google Docs | draft | Personal interview case, SDE-III object-oriented design round, in **five** pages, each titled *Google Docs* with its own deck: (A) *Ten minutes deciding what not to build* — the unbounded prompt, bounding it by proposing scope rather than asking for it, the clarification that split undo two ways, the storage boundary drawn explicitly, text-only agreed, stop line; (B) *An edit has to carry its own past* — rejected nouns, the four entities, ownership and invariants, baseline diagram, public API, Q4 answered honestly (conflict rule named as variable, content type treated as fixed); (C) *Two editors, one line* — a five-step collision trace with real timestamps, the decisive `apply`, undo re-submitted as a reversed edit through the same path, complexity and edge cases; (D) *The assumption inside the word “text”* — the non-text follow-up, the sting of having proposed the simplification himself, four moves, before/after code, the rewiring cost that reaches `Edit` rather than stopping at `Document`, limits; (E) *Eight boxes, and the four that carry it* — **prototype fifth page**, the complete model in three ink states, the order to draw it on a whiteboard, what to skip when short of time, then the debrief moved off page D. Replaced HashMap, whose natural follow-up (chaining versus open addressing) landed on the same closing lesson as P1: an interface does not absorb an algorithm that needs different state. Scope hard: the document model and one edit applied end to end, never “build Google Docs”. The product may be named; the interviewing company still may not. |
+| P3 | 12–14 | Parking lot | todo | Placeholder title. Complete a commissioning brief before building. |
+| P4 | 15–17 | Vending machine | todo | Placeholder title. Complete a commissioning brief before building. |
+| P5 | 18–20 | Elevator system | todo | Placeholder title. Complete a commissioning brief before building. |
+| P6 | 21–23 | Chess | todo | Placeholder title. Complete a commissioning brief before building. Chosen over Snake and ladder because nothing else in the lineup exercises inheritance versus composition (4.2), and Snake and ladder duplicated the Vending machine's rules-plus-state lesson. |
+| P7 | 24–26 | Rate limiter | todo | Placeholder title. Complete a commissioning brief before building. |
+| P8 | 27–29 | Notification service | todo | Placeholder title. Complete a commissioning brief before building. |
+| P9 | 30–32 | Splitwise | todo | Placeholder title. Complete a commissioning brief before building. |
+| P10 | 33–35 | Logging framework | todo | Placeholder title. Complete a commissioning brief before building. |
+| — | 36 | Pattern-to-problem cheat sheet | todo | Which pattern showed up where and which framework question exposed it. |
+| — | 37 | Where to go next | todo | Closing guidance and practice sequencing. |
 
 ### Contents grouping
 
@@ -215,7 +215,28 @@ narrator's 100–120px, and P2's baseline has three mechanisms to P1's one. **Th
 four-page cases in a row and the pattern stops here.** P3 onward start at three and must meet the
 section 4 bar on measured evidence, not on the precedent of the two cases the author sat himself.
 
-**Why Composite was dropped from P2.** The original payoff put Composite on the document tree, but
+**Why P2 is being tried at five pages.** The author asked for a single artifact showing how every
+class connects, which no case currently provides: page B draws the baseline, page D draws the delta,
+and the reader has to hold both. Measurement decided the form. A complete P2 diagram is eight boxes
+in three bands, about 220px; page D had 31px of slack and could only free about 85px by cutting
+required debrief content, so it does not fit beside the change.
+
+The page is **not** a diagram dump, which is what would make it filler. It carries three jobs: the
+complete model in the three ink states, the order to draw it on a whiteboard under time pressure
+with what to skip when the clock is against you, and the debrief moved off page D — which
+de-densifies page D as a side effect. The draw-order block is the part that is genuinely new
+teaching rather than recap, and it is the test of whether this page earns its place.
+
+**This is a prototype on one case, not a new standard.** If it is adopted, the trigger is model
+size measured against page D's slack, not a fifth leg for every problem. P1 probably does not need
+it — its model is smaller and its two diagrams nearly cover it, so a fuller closing diagram would
+likely do. Reverting is one commit; do not propagate the pattern to P3 onward until the author has
+seen this page and decided.
+
+**A standing gap this exposed.** The dashed-diagram convention below says the closing class diagram
+should show *both* versions at once. Neither case does: P1's closing diagram drops `Map`,
+`RecencyList` and `Node`, and P2's page D has no diagram at all. Whatever is decided about the fifth
+page, that convention is currently unenforced.**Why Composite was dropped from P2.** The original payoff put Composite on the document tree, but
 the author's actual follow-up asked for non-text *elements in a flat sequence*, not nesting — the
 recovery was a polymorphic element type, and calling that Composite would have badged the case with
 a pattern the design does not use. Part 1 also ranks Composite in 5.9, below the seven that earned
