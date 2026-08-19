@@ -891,7 +891,7 @@ public final class DocumentSession {
       </p>
 
       <div class="code-block">
-        <p class="label">The decisive check</p>
+        <p class="label">Inside Document — the decisive check</p>
         <pre><code>boolean apply(Edit e) {
     if (e.line() &lt; 0 || e.line() &gt;= lines.size()) return false;
     if (lines.get(e.line()).equals(e.before())) return accept(e);  <span class="c">// nobody moved</span>
@@ -911,7 +911,7 @@ public final class DocumentSession {
     Edit mine = present.get(who).undoStack().poll();
     if (mine == null) return false;
     String now = document.lineAt(mine.line());
-    return submit(new Edit(mine.line(), now, mine.before(), who, clock.instant()));
+    return submit(new Edit(mine.line(), now, mine.before(), who, Instant.now()));
 }</code></pre>
       </div>
 
@@ -981,7 +981,7 @@ public final class DocumentSession {
 
 boolean apply(Edit e) {
     if (lines.get(e.line()).equals(e.before())) return accept(e);
-    return lastWriteWins(e);
+    return e.at().isAfter(lastAcceptedAt.get(e.line())) &amp;&amp; accept(e);
 }</code></pre>
       </div>
       <div class="code-block code-block--good">
@@ -994,12 +994,12 @@ boolean apply(Edit e) {
       </div>
 
       <p class="u-mt-4">
-        The old rule is not deleted, it is moved: <code>TextBlock.merge</code> is the two lines
-        above, unchanged. The second implementation is what the question was for.
-        <code>ImageBlock</code> refuses to merge at all — an image is replaced whole, so two people
-        replacing it is a conflict you surface rather than resolve. Diagrams later are one more
-        class and nothing else. That is Open/Closed with the axis finally chosen correctly, and it
-        needs no pattern name to be worth marks.
+        The old rule is not deleted, it is moved: <code>TextBlock</code>, the first
+        <code>DocElement</code>, merges exactly as above. The second implementation is what the
+        question was for. <code>ImageBlock</code> refuses to merge at all — an image is replaced
+        whole, so two people replacing it is a conflict you surface rather than resolve. Diagrams
+        later are one more class and nothing else. That is Open/Closed with the axis finally chosen
+        correctly, and it needs no pattern name to be worth marks.
       </p>
 
       <p>

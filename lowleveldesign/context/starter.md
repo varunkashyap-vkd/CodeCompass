@@ -221,8 +221,10 @@ project crosses a major milestone.
 - Built so far: cover, contents, LRU on pages 3–6, and Google Docs on pages 7–10.
 - LRU is signed off by the author. Treat its page spine and masthead as the reference for later
   cases; do not restyle them to suit a new problem.
-- Google Docs is a four-page draft pending author review. Its legs are the brief, the model, the
-  proof, and the change. All four fit A4 with 31–40px slack.
+- Google Docs is signed off. Its legs are the brief, the model, the proof, and the change. All four
+  fit A4 with 31–40px slack. The class model (`Document`, `Edit`, `Editor`, `DocumentSession`) was
+  derived rather than taken from the notes, and the three code excerpts are cross-checked to agree
+  with each other and with the diagram.
 - Both cases the author sat himself run to four pages. **P3 onward start at three** and must earn a
   fourth on measured evidence under blueprint section 4.
 - Problem titles P3–P10 in the contents are placeholders until each brief is written.
