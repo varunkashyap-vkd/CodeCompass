@@ -142,11 +142,11 @@ runners-up billing.
 | — | 1 | Cover | done | Matches Part 1 cover, marked Part 2. Lede promises the follow-up moment Part 1 closes on. **Preview page.** |
 | — | 2 | Contents | done | Reuses Part 1's `.index` markup and rhythm so both parts read as one product. Four groups with right-aligned notes, exactly like Part 1's chapters. Each case row carries a one-line editorial gloss, because this is the page a buyer inspects before paying. Revision entries are numbered `4.1`/`4.2` on Part 1's chapter.section convention and carry no separators. A strong rule marks where the index ends, then a boxed three-step “How to work a case” flow with badge numerals and chevrons, all drawn in CSS. Title is one word. **Preview page.** |
 | P1 | 3–6 | LRU cache | draft | Personal interview case in **four** pages, each titled *LRU Cache* with its own deck: (A) *The round I misread* — prompt, the exchange, three clarifications, scope, stop line; (B) *Two structures, one promise* — rejected nouns, ownership, invariants, baseline diagram, public API, and Q4 answered honestly; (C) *What six calls proved* — six-call trace, decisive mutation, complexity derived at the call site, edge cases; (D) *The question after the code worked* — MRU follow-up, the recovery, Strategy named and justified against section 5.6's signal (including why it is not State), before/after code, delta diagram, rewiring cost, LFU limit, debrief and takeaway. |
-| P2 | 7–9 | HashMap | blocked | Personal interview case centred on collision handling. **Needs section C of `lowleveldesign/context/interview-notes.md` before its transformation can be locked.** |
+| P2 | 7–9 | Google Docs | blocked | Personal interview case from a recent loop — the low-level structure behind Google Docs. Replaced HashMap, whose natural follow-up (chaining versus open addressing) landed on the same closing lesson as P1: an interface does not absorb an algorithm that needs different state. **Needs section C of `lowleveldesign/context/interview-notes.md`.** Scope hard in the brief: the document model and one edit applied end to end, never “build Google Docs”. The product may be named; the interviewing company still may not. |
 | P3 | 10–12 | Parking lot | todo | Placeholder title. Complete a commissioning brief before building. |
 | P4 | 13–15 | Vending machine | todo | Placeholder title. Complete a commissioning brief before building. |
 | P5 | 16–18 | Elevator system | todo | Placeholder title. Complete a commissioning brief before building. |
-| P6 | 19–21 | Snake and ladder | todo | Placeholder title. Complete a commissioning brief before building. |
+| P6 | 19–21 | Chess | todo | Placeholder title. Complete a commissioning brief before building. Chosen over Snake and ladder because nothing else in the lineup exercises inheritance versus composition (4.2), and Snake and ladder duplicated the Vending machine's rules-plus-state lesson. |
 | P7 | 22–24 | Rate limiter | todo | Placeholder title. Complete a commissioning brief before building. |
 | P8 | 25–27 | Notification service | todo | Placeholder title. Complete a commissioning brief before building. |
 | P9 | 28–30 | Splitwise | todo | Placeholder title. Complete a commissioning brief before building. |
@@ -161,14 +161,39 @@ chapter rhythm rather than reading as a flat list of ten nouns:
 
 | Group | Note | Problems |
 |---|---|---|
-| 01 Data structures under pressure | Two rounds I sat in | P1, P2 |
+| 01 Rounds I sat in | First-hand | P1, P2 |
 | 02 Objects, state and rules | Modelling and lifecycle | P3–P6 |
 | 03 Services and policies | Extension under pressure | P7–P10 |
 | 04 Revision | Reference | Cheat sheet, Where to go next |
 
-The first band is the two problems with author-supplied interview notes, which is why it opens the
-book. P3–P10 were reordered from their earlier sequence to fit these bands; the titles remain
+The first band groups by **provenance, not topic**. Its two problems are the ones the author sat
+himself, and they are deliberately different shapes — a data structure and a document model — so the
+pairing reads as “these are the real ones” rather than “these are the two data-structure ones”. An
+earlier title, *Data structures under pressure*, advertised a similarity that was the reason HashMap
+had to go. P3–P10 were reordered from their original sequence to fit these bands; the titles remain
 placeholders and the bands are provisional until the lineup is locked.
+
+### Intended pattern payoff
+
+Six of the ten problems drift naturally to Strategy, and left unmanaged the page 34 cheat sheet
+would have almost nothing to say. Each commissioning brief therefore names its payoff up front, and
+the set is chosen to cover all seven of chapter 5 plus several from 5.9.
+
+| | Problem | Intended payoff |
+|---|---|---|
+| P1 | LRU cache | Strategy — **built** |
+| P2 | Google Docs | Composite for the document tree, Command for edits; concurrency as the follow-up |
+| P3 | Parking lot | Factory, Composite |
+| P4 | Vending machine | State |
+| P5 | Elevator system | State plus a scheduling seam |
+| P6 | Chess | Inheritance versus composition; Command for move history |
+| P7 | Rate limiter | The Strategy *trap* from 5.6 — algorithms needing different state |
+| P8 | Notification service | Observer, and Builder for message construction |
+| P9 | Splitwise | Interfaces and money invariants |
+| P10 | Logging framework | Decorator, Chain of Responsibility |
+
+Builder is otherwise never earned anywhere in Part 2, which is why P8 carries it. If a brief drifts
+to Strategy when the table says otherwise, the problem is the brief, not the table.
 
 **Why P1 earns a fourth page.** Two of the blueprint section 4 criteria are met, and the evidence
 is a measured overflow rather than a preference. The class design and the operation trace each need

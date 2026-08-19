@@ -115,7 +115,10 @@ These answers apply across all problems, so I only need them once.
 
 ---
 
-## C. Problem 2 — HashMap implementation
+## C. Problem 2 — Google Docs
+
+<!-- The low-level structure behind Google Docs. Naming the product is fine and makes the problem
+     relatable; naming the company whose loop this was is still off-limits. -->
 
 ### The setup
 
@@ -123,7 +126,8 @@ These answers apply across all problems, so I only need them once.
 
 
 **How was the problem worded?**
-<!-- "Implement a HashMap" is broad — did they scope it, or leave it open? -->
+<!-- This is the important one. "Design Google Docs" has no edges, so the exact wording decides
+     how much you were expected to bound it yourself. -->
 
 
 **Had you seen it before?**
@@ -132,18 +136,25 @@ These answers apply across all problems, so I only need them once.
 ### What happened
 
 **How did you open?**
+<!-- What did you scope OUT in the first minute? That is the whole lesson of this case. -->
+
+
+**What did you agree was in scope, and what did you rule out?**
+<!-- Editing? Formatting? Comments? Sharing and permissions? Version history? Offline? -->
+
+
+**How did you model the document itself?**
+<!-- One flat string, a list of paragraphs, a tree of nodes? Where did formatting live? -->
 
 
 **What was the tweak or follow-up, and how was it phrased?**
-<!-- Your outline mentions collision handling strategies. Did they ask you to swap chaining for
-     open addressing, or something else? -->
+<!-- Two people editing at once? Undo? Comments or suggestion mode? Version history? -->
 
 
 **What did you do in response?**
 
 
 **Did anything come up that you hadn't prepared for?**
-<!-- Resizing, load factor, hashCode/equals contract, generics, iteration order -->
 
 
 ### The lesson
