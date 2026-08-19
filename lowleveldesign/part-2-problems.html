@@ -99,7 +99,7 @@
           <span class="index__num">P3</span>
           <span class="index__case">
             <span class="index__case-title">Parking lot</span>
-            <span class="index__gloss">The classic. Where the nouns mislead you, and where the rules belong.</span>
+            <span class="index__gloss">Everyone types the slots first, and that is the decision being tested.</span>
           </span>
           <span class="index__dots"></span><span class="index__page">13–16</span>
         </div>
@@ -1283,6 +1283,435 @@ boolean apply(Edit e) {
     <footer class="page__foot">
       <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
       <span class="page__num">Page 12 of 46</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 13 — P3 Parking lot, the brief
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span class="case-id"><strong>P3</strong> · Parking lot</span>
+      <span>The brief · 1 of 4</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">P3</span>Parking lot</h1>
+      <p class="case-deck">Everyone starts by naming the slots</p>
+
+      <p class="lead">
+        This is not a round I sat. It is one I set, and one I have taken apart with enough people
+        to know exactly where it turns. The prompt looks like a modelling exercise, and it is —
+        just not the modelling most candidates spend their time on.
+      </p>
+
+      <div class="brief">
+        <p class="label">The prompt, as I put it</p>
+        <p>
+          “Design the low-level structure for a multi-level parking lot. Vehicles arrive, park and
+          leave. The lot decides where each one goes, and has to be able to find it again.”
+        </p>
+      </div>
+
+      <p>
+        Then I stop talking, and what happens in the next ninety seconds decides most of the round.
+        Nearly everyone writes the same two lines first: an enum of slot sizes, and a table mapping
+        each kind of vehicle to the size it needs. That is not wrong. It is a <em>decision</em>, and
+        it is the one I am going to examine — but almost nobody notices they made it.
+      </p>
+
+      <p>
+        The stronger candidates stop at two sizes. The rest keep going — compact, standard,
+        oversized, electric, accessible, motorbike — as though naming more kinds of space were the
+        same work as designing one. Two sizes prove the point that spaces differ. Everything after
+        that is time you are not spending on the part I am going to push on.
+      </p>
+
+      <h4 class="qtag u-mt-4"><span class="qtag__num">Q1</span>What am I actually building?</h4>
+      <p>Three questions are worth the time here. Only one of them changes the design.</p>
+
+      <table class="table table--rowhead u-mt-4">
+        <tbody>
+          <tr>
+            <td>Is the layout fixed once built?</td>
+            <td>Yes. Spaces do not appear or vanish while the lot is running.</td>
+          </tr>
+          <tr>
+            <td>Who picks the space?</td>
+            <td>The lot does. The driver is handed a place, so allocation is a decision this design owns.</td>
+          </tr>
+          <tr>
+            <td>What must be true when nothing fits?</td>
+            <td>Refuse cleanly and say why. Never hand out a space a vehicle does not fit into.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="u-mt-4">
+        The second row is the one that pays, and it is worth asking out loud even when you think you
+        know the answer. If the driver chooses, this is a booking system and the interesting code is
+        in the UI. If the lot chooses, you have just been handed the actual problem: an allocation
+        rule you have to defend.
+      </p>
+
+      <p>
+        We settle the rest quickly. Several levels, a fixed layout, one entrance. Payment, pricing,
+        reservations, number-plate recognition and anything to do with barriers are out — they are
+        real, and none of them is what the next forty minutes are for.
+      </p>
+
+      <div class="note u-mt-4">
+        <p class="label">Your turn</p>
+        <p>
+          Fifteen minutes, and you have what my candidates have. Write the classes you would keep
+          and the signature of the method that parks a vehicle. Then answer one question in a
+          sentence: what decides whether a given vehicle can go in a given space?
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
+      <span class="page__num">Page 13 of 46</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 14 — P3 Parking lot, the model
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span class="case-id"><strong>P3</strong> · Parking lot</span>
+      <span>The model · 2 of 4</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">P3</span>Parking lot</h1>
+      <p class="case-deck">A slot for every kind of vehicle</p>
+
+      <p class="lead">
+        Here is the design I am handed most often, written the way a strong candidate writes it. It
+        keeps one promise: every vehicle gets a space it fits in, and the ticket finds it again.
+      </p>
+
+      <h4 class="qtag"><span class="qtag__num">Q2</span>What are the things?</h4>
+      <p>
+        <code>Driver</code>, <code>Gate</code> and <code>Receipt</code> come up and go again — not
+        modelled, hardware, and the payment round we scoped out. What survives is
+        <code>ParkingLot</code>, <code>Level</code>, <code>Slot</code>, <code>Vehicle</code> and
+        <code>Ticket</code>, plus two enums: <code>SlotType</code> and <code>VehicleType</code>.
+      </p>
+
+      <h4 class="qtag u-mt-4"><span class="qtag__num">Q3</span>Who owns what?</h4>
+      <p>Each one is answerable for something the others must not reach into.</p>
+
+      <table class="table table--rowhead u-mt-4">
+        <tbody>
+          <tr>
+            <td><code>ParkingLot</code></td>
+            <td>Owns the levels and the allocation rule. The only thing that decides where a vehicle goes.</td>
+          </tr>
+          <tr>
+            <td><code>Level</code></td>
+            <td>Holds its slots and answers one question: is there a free slot of this size?</td>
+          </tr>
+          <tr>
+            <td><code>Slot</code></td>
+            <td>A space with a size and, when taken, an occupant. It never chooses who parks in it.</td>
+          </tr>
+          <tr>
+            <td><code>Ticket</code></td>
+            <td>Where a vehicle went and when. Issued on entry; the only way back to the slot.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="u-mt-4">
+        Two invariants: <strong>a slot holds at most one vehicle</strong>, and <strong>every parked
+        vehicle has exactly one live ticket</strong>. Every double-allocation bug in this problem is
+        the first one breaking; every lost car is the second.
+      </p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 470 118" role="img" aria-label="ParkingLot owns levels, each level owns slots, each slot carries a slot type, and a lookup maps vehicle type to slot type">
+          <rect class="d-box d-box--accent" x="150" y="0" width="170" height="26" rx="4" />
+          <text class="d-name" x="235" y="17">ParkingLot</text>
+          <line class="d-line" x1="235" y1="26" x2="235" y2="38" />
+          <line class="d-line" x1="80" y1="38" x2="390" y2="38" />
+          <line class="d-line" x1="80" y1="38" x2="80" y2="50" />
+          <line class="d-line" x1="390" y1="38" x2="390" y2="50" />
+          <text class="d-label" x="86" y="35">levels</text>
+          <text class="d-label" x="330" y="35">issues</text>
+          <rect class="d-box" x="18" y="50" width="124" height="25" rx="4" />
+          <text class="d-name" x="80" y="67">Level</text>
+          <rect class="d-box" x="328" y="50" width="124" height="25" rx="4" />
+          <text class="d-name" x="390" y="67">Ticket</text>
+          <line class="d-line" x1="80" y1="75" x2="80" y2="88" />
+          <rect class="d-box" x="18" y="88" width="124" height="25" rx="4" />
+          <text class="d-name" x="80" y="105">Slot</text>
+          <text class="d-label" x="86" y="84">slots</text>
+          <rect class="d-box" x="196" y="88" width="118" height="25" rx="4" />
+          <text class="d-name" x="255" y="105">SlotType</text>
+          <path class="d-line" d="M142,100 L192,100" />
+          <path class="d-line" d="M186,96 L194,100 L186,104" />
+          <rect class="d-box" x="336" y="88" width="118" height="25" rx="4" />
+          <text class="d-name" x="395" y="105">VehicleType</text>
+          <path class="d-line" d="M314,100 L332,100" />
+          <path class="d-line" d="M326,96 L334,100 L326,104" />
+          <text class="d-label" x="196" y="85">sized by</text>
+          <text class="d-label" x="336" y="85">lookup</text>
+        </svg>
+        <figcaption>The baseline. A slot knows its size, and a table decides which size each vehicle needs.</figcaption>
+      </figure>
+
+      <p>
+        The whole design turns on one line, so it is worth putting it up before anything else.
+      </p>
+
+      <div class="code-block">
+        <p class="label">The decision, in one lookup</p>
+        <pre><code>private static final Map&lt;VehicleType, SlotType&gt; FITS = Map.of(
+    SCOOTER, SMALL,  CAR, MEDIUM,  BUS, LARGE);
+
+public Ticket park(Vehicle v) {
+    SlotType needed = FITS.get(v.type());
+    Slot free = findFree(needed);                <span class="c">// across every level</span>
+    if (free == null) throw new LotFullException(v.type());
+    return issue(free, v);
+}</code></pre>
+      </div>
+
+      <h4 class="qtag u-mt-4"><span class="qtag__num">Q4</span>What will change?</h4>
+      <p>
+        Most candidates say the vehicle types — a van, a lorry, a motorbike with a sidecar — so they
+        make the enums easy to extend and move on, satisfied. Parking costs
+        <strong>O(levels × slots)</strong> at worst, constant if each level indexes its free slots
+        by size.
+      </p>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
+      <span class="page__num">Page 14 of 46</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 15 — P3 Parking lot, the change
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span class="case-id"><strong>P3</strong> · Parking lot</span>
+      <span>The change · 3 of 4</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">P3</span>Parking lot</h1>
+      <p class="case-deck">A free bay, and nothing that fits it</p>
+
+      <p class="lead">
+        The design above works, and candidates are usually pleased with it by this point. So I stop
+        asking about vehicles and describe a Tuesday morning instead.
+      </p>
+
+      <div class="brief">
+        <p class="label">What I ask next</p>
+        <p>
+          “A bus bay has been empty since six. No buses are booked today. There are eight scooters
+          queued at the gate and the small spaces are full. What does your lot do?”
+        </p>
+      </div>
+
+      <p>
+        The honest answer is that it turns them away, and the good candidates say so before I have
+        to. Section 6.2's four moves, and the third one is where this case actually lives:
+      </p>
+
+      <ol class="list list--num moves">
+        <li><strong>Restated:</strong> space that physically fits a vehicle must be usable by it.</li>
+        <li><strong>Located:</strong> the <code>FITS</code> lookup, and the <code>type</code> field on <code>Slot</code>.</li>
+        <li><strong>Separated:</strong> tickets, levels and both invariants stand; the sizing goes.</li>
+        <li><strong>Admitted:</strong> I classified space instead of measuring it. Two enums, one too many.</li>
+      </ol>
+
+      <div class="code-block code-block--bad">
+        <p class="label">Before — a space is a category</p>
+        <pre><code>class Slot { int id; SlotType type; Vehicle occupant; }
+
+SlotType needed = FITS.get(v.type());
+Slot free = level.findFree(needed);        <span class="c">// LARGE fits buses, and only buses</span></code></pre>
+      </div>
+      <div class="code-block code-block--good">
+        <p class="label">After — a space is an amount</p>
+        <pre><code>class Slot { int id; Vehicle occupant; }   <span class="c">// one unit of space, nothing more</span>
+
+int needed = v.units();                   <span class="c">// scooter 1, car 4, bus 8</span>
+Run free = row.findRun(needed);            <span class="c">// n consecutive empty slots</span></code></pre>
+      </div>
+
+      <p class="u-mt-4">
+        A vehicle no longer asks for a <em>kind</em> of space, it asks for an <em>amount</em>. Eight
+        scooters take the bus bay one unit at a time, and the enum that caused the problem is
+        deleted rather than extended. That is the move worth stealing: when a follow-up exposes a
+        classification, the fix is usually to stop classifying, not to add a class.
+      </p>
+
+      <p>
+        It is not free, and this is the part candidates miss. Contiguity is a relationship the old
+        model never had — an unordered <code>List&lt;Slot&gt;</code> cannot answer “are these eight
+        next to each other?”, so a <code>Row</code> has to appear between <code>Level</code> and
+        <code>Slot</code> purely to give slots neighbours. Say that cost out loud; it is the
+        difference between having an idea and having a design.
+        <span class="chip">github.com/varunkashyap-vkd/lld-runbook/parking-lot</span>
+      </p>
+
+      <ul class="closing caption u-mt-4">
+        <li><strong>Where it stops:</strong> contiguity brings fragmentation. Eight scooters scattered one per row leave sixty free units and nowhere to put a bus. Naming that beats pretending the fix is clean.</li>
+        <li><strong>What I am listening for:</strong> not the enum. Whether you can be shown an unused resource and reason about why your own model refused it.</li>
+        <li><strong>The takeaway:</strong> every type you introduce is a promise that the difference matters. Two proved it; three would have been decoration.</li>
+      </ul>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
+      <span class="page__num">Page 15 of 46</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 16 — P3 Parking lot, the class plate
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span class="case-id"><strong>P3</strong> · Parking lot</span>
+      <span>The class model · 4 of 4</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">P3</span>Parking lot</h1>
+      <p class="case-deck">Every class, and how they connect</p>
+
+      <figure class="diagram diagram--full">
+        <svg viewBox="0 0 680 740" role="img" aria-label="UML class diagram. ParkingLot composes Levels, each Level composes Rows, each Row composes Slots. A Slot holds a Vehicle. ParkingLot issues Tickets. Scooter, Car and Bus extend Vehicle.">
+
+          <path class="d-strip" d="M225,4 a4,4 0 0 1 4,-4 h222 a4,4 0 0 1 4,4 v20 h-230 z" />
+          <rect class="d-box" x="225" y="0" width="230" height="130" rx="4" />
+          <line class="d-rule" x1="225" y1="24" x2="455" y2="24" />
+          <text class="d-name" x="340" y="17">ParkingLot</text>
+          <text class="d-mem" x="235" y="40">- levels: List&lt;Level&gt;</text>
+          <text class="d-mem" x="235" y="55">- live: Map&lt;String, Ticket&gt;</text>
+          <text class="d-mem" x="235" y="70">+ park(Vehicle): Ticket</text>
+          <text class="d-mem" x="235" y="85">+ unpark(String): Vehicle</text>
+          <text class="d-mem" x="235" y="100">+ freeUnits(): int</text>
+          <text class="d-mem" x="235" y="115">- issue(Run, Vehicle): Ticket</text>
+
+          <polygon class="d-solid" points="280,130 274,137 280,144 286,137" />
+          <path class="d-line" d="M280,144 L280,175 L115,175 L115,215" />
+          <text class="d-label" x="119" y="209">levels 1..*</text>
+          <path class="d-line" d="M420,130 L420,175 L555,175 L555,215" />
+          <path class="d-line" d="M551,207 L555,215 L559,207" />
+          <text class="d-label" x="425" y="171">issues 0..*</text>
+
+          <path class="d-strip" d="M10,219 a4,4 0 0 1 4,-4 h202 a4,4 0 0 1 4,4 v20 h-210 z" />
+          <rect class="d-box" x="10" y="215" width="210" height="85" rx="4" />
+          <line class="d-rule" x1="10" y1="239" x2="220" y2="239" />
+          <text class="d-name" x="115" y="232">Level</text>
+          <text class="d-mem" x="20" y="255">- number: int</text>
+          <text class="d-mem" x="20" y="270">- rows: List&lt;Row&gt;</text>
+          <text class="d-mem" x="20" y="285">+ findRun(int): Run</text>
+
+          <path class="d-strip" d="M450,219 a4,4 0 0 1 4,-4 h202 a4,4 0 0 1 4,4 v20 h-210 z" />
+          <rect class="d-box" x="450" y="215" width="210" height="100" rx="4" />
+          <line class="d-rule" x1="450" y1="239" x2="660" y2="239" />
+          <text class="d-name" x="555" y="232">Ticket</text>
+          <text class="d-mem" x="460" y="255">+ id: String</text>
+          <text class="d-mem" x="460" y="270">+ rowId: int</text>
+          <text class="d-mem" x="460" y="285">+ firstSlot: int</text>
+          <text class="d-mem" x="460" y="300">+ since: Instant</text>
+
+          <polygon class="d-solid" points="115,300 109,307 115,314 121,307" />
+          <path class="d-line" d="M115,314 L115,360" />
+          <text class="d-label" x="121" y="342">rows 1..*</text>
+
+          <path class="d-strip" d="M10,364 a4,4 0 0 1 4,-4 h202 a4,4 0 0 1 4,4 v20 h-210 z" />
+          <rect class="d-box" x="10" y="360" width="210" height="85" rx="4" />
+          <line class="d-rule" x1="10" y1="384" x2="220" y2="384" />
+          <text class="d-name" x="115" y="377">Row</text>
+          <text class="d-mem" x="20" y="400">- id: int</text>
+          <text class="d-mem" x="20" y="415">- slots: List&lt;Slot&gt;</text>
+          <text class="d-mem" x="20" y="430">+ findRun(int): Run</text>
+
+          <polygon class="d-solid" points="115,445 109,452 115,459 121,452" />
+          <path class="d-line" d="M115,459 L115,505" />
+          <text class="d-label" x="121" y="487">slots 1..*</text>
+
+          <path class="d-strip" d="M10,509 a4,4 0 0 1 4,-4 h202 a4,4 0 0 1 4,4 v20 h-210 z" />
+          <rect class="d-box" x="10" y="505" width="210" height="85" rx="4" />
+          <line class="d-rule" x1="10" y1="529" x2="220" y2="529" />
+          <text class="d-name" x="115" y="522">Slot</text>
+          <text class="d-mem" x="20" y="545">- id: int</text>
+          <text class="d-mem" x="20" y="560">- occupant: Vehicle</text>
+          <text class="d-mem" x="20" y="575">+ isFree(): boolean</text>
+
+          <path class="d-line" d="M220,547 L326,547" />
+          <path class="d-line" d="M322,543 L330,547 L322,551" />
+          <text class="d-label" x="240" y="541">occupant 0..1</text>
+
+          <path class="d-strip" d="M330,509 a4,4 0 0 1 4,-4 h182 a4,4 0 0 1 4,4 v32 h-190 z" />
+          <rect class="d-box" x="330" y="505" width="190" height="97" rx="4" />
+          <line class="d-rule" x1="330" y1="541" x2="520" y2="541" />
+          <text class="d-stereo" x="425" y="522">&#171;abstract&#187;</text>
+          <text class="d-name" x="425" y="536">Vehicle</text>
+          <text class="d-mem" x="340" y="557">+ plate: String</text>
+          <text class="d-mem" x="340" y="572">+ units(): int</text>
+          <text class="d-mem" x="340" y="587">+ label(): String</text>
+
+          <polygon class="d-head" points="425,602 417,616 433,616" />
+          <line class="d-line" x1="120" y1="616" x2="590" y2="616" />
+          <line class="d-line" x1="120" y1="616" x2="120" y2="650" />
+          <line class="d-line" x1="355" y1="616" x2="355" y2="650" />
+          <line class="d-line" x1="590" y1="616" x2="590" y2="650" />
+
+          <path class="d-strip" d="M30,654 a4,4 0 0 1 4,-4 h172 a4,4 0 0 1 4,4 v20 h-180 z" />
+          <rect class="d-box" x="30" y="650" width="180" height="55" rx="4" />
+          <line class="d-rule" x1="30" y1="674" x2="210" y2="674" />
+          <text class="d-name" x="120" y="667">Scooter</text>
+          <text class="d-mem" x="40" y="690">+ units(): int = 1</text>
+
+          <path class="d-strip" d="M265,654 a4,4 0 0 1 4,-4 h172 a4,4 0 0 1 4,4 v20 h-180 z" />
+          <rect class="d-box" x="265" y="650" width="180" height="55" rx="4" />
+          <line class="d-rule" x1="265" y1="674" x2="445" y2="674" />
+          <text class="d-name" x="355" y="667">Car</text>
+          <text class="d-mem" x="275" y="690">+ units(): int = 4</text>
+
+          <path class="d-strip" d="M500,654 a4,4 0 0 1 4,-4 h172 a4,4 0 0 1 4,4 v20 h-180 z" />
+          <rect class="d-box" x="500" y="650" width="180" height="55" rx="4" />
+          <line class="d-rule" x1="500" y1="674" x2="680" y2="674" />
+          <text class="d-name" x="590" y="667">Bus</text>
+          <text class="d-mem" x="510" y="690">+ units(): int = 8</text>
+
+          <line class="d-rule" x1="0" y1="712" x2="680" y2="712" />
+          <polygon class="d-solid" points="0,730 6,724 12,730 6,736" />
+          <line class="d-line" x1="12" y1="730" x2="34" y2="730" />
+          <text class="d-label" x="38" y="733">composition</text>
+          <line class="d-line" x1="170" y1="730" x2="198" y2="730" />
+          <path class="d-line" d="M190,726 L198,730 L190,734" />
+          <text class="d-label" x="204" y="733">association</text>
+          <line class="d-line" x1="340" y1="730" x2="358" y2="730" />
+          <polygon class="d-head" points="368,730 358,724 358,736" />
+          <text class="d-label" x="374" y="733">extends</text>
+          <text class="d-mem" x="480" y="733">+</text>
+          <text class="d-label" x="494" y="733">public</text>
+          <text class="d-mem" x="580" y="733">-</text>
+          <text class="d-label" x="594" y="733">private</text>
+        </svg>
+        <figcaption>No slot type: a slot is one unit of space. Full implementation: <span class="chip">github.com/varunkashyap-vkd/lld-runbook/parking-lot</span></figcaption>
+      </figure>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
+      <span class="page__num">Page 16 of 46</span>
     </footer>
   </section>
 

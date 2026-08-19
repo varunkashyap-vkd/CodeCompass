@@ -238,7 +238,12 @@ project crosses a major milestone.
 - Part 1 sections 6.1 and 6.2 establish the framework reused by Part 2.
 - Part 2 targets 46 pages: cover, contents, ten case studies each ending in a class plate, and two
   closing pages.
-- Built so far: cover, contents, LRU on pages 3–7, and Google Docs on pages 8–12.
+- Built so far: cover, contents, LRU on pages 3–7, Google Docs on pages 8–12, and Parking lot on
+  pages 13–16.
+- Parking lot is the **first representative case** and the pilot for the narrator contract: three
+  case pages plus a plate, drawn from the author's interviewer-side material rather than a round he
+  sat. Its payoff is restraint (Part 1 section 4.1) — the recovery *deletes* the `SlotType` enum and
+  models capacity in units, so a bus bay can hold eight scooters. Pending author review.
 - LRU is signed off by the author. Treat its page spine and masthead as the reference for later
   cases; do not restyle them to suit a new problem. Its plate carries `Cache`, `Node`,
   `RecencyList`, `EvictionPolicy`, `LruPolicy` and `MruPolicy` — six classes, twenty members, all

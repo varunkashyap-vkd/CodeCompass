@@ -143,7 +143,7 @@ runners-up billing.
 | — | 2 | Contents | done | Reuses Part 1's `.index` markup and rhythm so both parts read as one product. Four groups with right-aligned notes, exactly like Part 1's chapters. Each case row carries a one-line editorial gloss, because this is the page a buyer inspects before paying. Revision entries are numbered `4.1`/`4.2` on Part 1's chapter.section convention and carry no separators. A strong rule marks where the index ends, then a boxed three-step “How to work a case” flow with badge numerals and chevrons, all drawn in CSS. Title is one word. **Preview page.** |
 | P1 | 3–7 | LRU cache | done | Personal interview case in **four case pages plus a class plate**, each titled *LRU Cache* with its own deck: (A) *The round I misread* — prompt, the exchange, three clarifications, scope, stop line; (B) *Two structures, one promise* — rejected nouns, ownership, invariants, baseline diagram, public API, and Q4 answered honestly; (C) *What six calls proved* — six-call trace, decisive mutation, complexity derived at the call site, edge cases; (D) *The question after the code worked* — MRU follow-up, the recovery, Strategy named and justified against section 5.6's signal (including why it is not State), before/after code, delta diagram, rewiring cost, LFU limit, debrief and takeaway. Signed off by the author; treat its page spine as the reference for later cases. |
 | P2 | 8–12 | Google Docs | done | Personal interview case, SDE-III object-oriented design round, in **four case pages plus a class plate**, each titled *Google Docs* with its own deck: (A) *Ten minutes deciding what not to build* — the unbounded prompt, bounding it by proposing scope rather than asking for it, the clarification that split undo two ways, the storage boundary drawn explicitly, text-only agreed, stop line; (B) *An edit has to carry its own past* — rejected nouns, the four entities, ownership and invariants, baseline diagram, public API, Q4 answered honestly (conflict rule named as variable, content type treated as fixed); (C) *Two editors, one line* — a five-step collision trace with real timestamps, the decisive `apply`, undo re-submitted as a reversed edit through the same path, complexity and edge cases; (D) *The assumption inside the word “text”* — the non-text follow-up, the sting of having proposed the simplification himself, four moves, before/after code, the rewiring cost that reaches `Edit` rather than stopping at `Document`, limits; (E) *Every class, and how they connect* — a full UML class plate: eight compartment boxes carrying every field and method, composition, aggregation, association and realization notation with multiplicities, and the repo link. Deliberately carries **no prose** — it is a reference artifact, not a teaching page. Replaced HashMap, whose natural follow-up (chaining versus open addressing) landed on the same closing lesson as P1: an interface does not absorb an algorithm that needs different state. Scope hard: the document model and one edit applied end to end, never “build Google Docs”. The product may be named; the interviewing company still may not. |
-| P3 | 13–16 | Parking lot | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
+| P3 | 13–16 | Parking lot | draft | **Representative case** — set as an interviewer, worked with mentees; the first case not drawn from a round the author sat, and the pilot for the narrator contract in blueprint section 3. Three case pages plus a class plate: (A) *Everyone starts by naming the slots* — a representative prompt, three clarifications, and the observed misread stated as the decision most candidates make in ninety seconds without noticing they made one; (B) *A slot for every kind of vehicle* — the typed-slot baseline presented confidently, `SlotType` and `VehicleType` enums with a hard-coded lookup, ownership, invariants, diagram, API and a short allocation trace; (C) *A free bay, and nothing that fits it* — the follow-up (a bus bay stands empty, no buses are coming, eight scooters are waiting), four moves, before/after code, the rewiring cost and the fragmentation the fix introduces. |
 | P4 | 17–20 | Vending machine | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
 | P5 | 21–24 | Elevator system | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
 | P6 | 25–28 | Chess | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. Chosen over Snake and ladder because nothing else in the lineup exercises inheritance versus composition (4.2), and Snake and ladder duplicated the Vending machine's rules-plus-state lesson. |
@@ -189,7 +189,7 @@ it rather than statically fetching it. Treat this question as settled.
 |---|---|---|
 | P1 | LRU cache | Strategy — **built** |
 | P2 | Google Docs | Command for the edit and its undo; the follow-up pays off in **Open/Closed (3.2) through polymorphism (2.4)**, not a pattern — **built** |
-| P3 | Parking lot | Factory, Composite |
+| P3 | Parking lot | **Restraint — Part 1 section 4.1 (KISS, YAGNI) plus 3.2's axis of variation.** No new pattern: the fix is *deleting* a type hierarchy, not adding one |
 | P4 | Vending machine | State |
 | P5 | Elevator system | State plus a scheduling seam |
 | P6 | Chess | Inheritance versus composition. **Command removed** — P2 now earns it, and chess move history taught the same lesson a second time |
@@ -200,6 +200,20 @@ it rather than statically fetching it. Treat this question as settled.
 
 Builder is otherwise never earned anywhere in Part 2, which is why P8 carries it. If a brief drifts
 to Strategy when the table says otherwise, the problem is the brief, not the table.
+
+**Why P3 lost Factory and Composite.** The author's interviewer-side material makes the case's
+lesson unambiguous: candidates over-classify, producing slot-type and vehicle-type enums that lock
+a large bay to a large vehicle and waste the lot. The recovery deletes the slot type and models
+capacity in units instead. **Factory would teach the over-engineering the case exists to criticise**,
+and Composite is a poor fit because a bus needs *contiguous* units within a row — a uniform
+`freeCapacity()` recursing down the hierarchy would return a number that cannot be parked into.
+
+That leaves Composite without a payoff anywhere, which is acceptable for the same reason as
+Singleton: it is a 5.9 pattern, and 5.9 is framed as recognition rather than something every reader
+must practise. It belongs in the cheat sheet as an appearance. P3 instead becomes **the only case in
+Part 2 that pays off in restraint** — section 4.1 has no other case demonstrating it, and in a
+casebook where every other problem adds an abstraction, one that removes two is worth more than a
+third Strategy.
 
 **Why P1 earns a fourth page.** Two of the blueprint section 4 criteria are met, and the evidence
 is a measured overflow rather than a preference. The class design and the operation trace each need
