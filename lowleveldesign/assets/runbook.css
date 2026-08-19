@@ -390,9 +390,17 @@ strong {
   border-bottom: none;
 }
 
+/* Centre the reference rows between the two strong rules that bracket them. Without this the
+   first row butts straight against the chapter rule while the last is pushed off the closing one
+   by .after-index's margin, so the two dotted leaders sit visibly off-centre. Both gaps are 12px,
+   which puts the leaders 22.8px and 23.0px from their rules against 21.8px between themselves. */
+.index--cases .index__chapter + .index__row:not(.index__row--case) {
+  margin-top: var(--s-5);
+}
+
 /* Marks the shift from index to instruction. */
 .after-index {
-  margin-top: var(--s-7);
+  margin-top: var(--s-5);
   padding-top: var(--s-6);
   border-top: 1px solid var(--rule-strong);
 }
