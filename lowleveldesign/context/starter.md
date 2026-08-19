@@ -217,14 +217,18 @@ project crosses a major milestone.
 
 - Part 1 is complete at 29 pages and frozen.
 - Part 1 sections 6.1 and 6.2 establish the framework reused by Part 2.
-- Part 2 targets 35 pages: cover, contents, ten case studies, and two closing pages.
-- Built so far: cover, contents, and the LRU case study on pages 3–6.
-- LRU is a four-page case built against blueprint section 5. Its legs are the brief, the model,
-  the proof, and the change. It fits A4 and exports cleanly; it is pending author review.
+- Part 2 targets 36 pages: cover, contents, ten case studies, and two closing pages.
+- Built so far: cover, contents, LRU on pages 3–6, and Google Docs on pages 7–10.
+- LRU is signed off by the author. Treat its page spine and masthead as the reference for later
+  cases; do not restyle them to suit a new problem.
+- Google Docs is a four-page draft pending author review. Its legs are the brief, the model, the
+  proof, and the change. All four fit A4 with 31–40px slack.
+- Both cases the author sat himself run to four pages. **P3 onward start at three** and must earn a
+  fourth on measured evidence under blueprint section 4.
 - Problem titles P3–P10 in the contents are placeholders until each brief is written.
-- HashMap is blocked on the author completing its interview notes.
 - Problems P3–P10 are not yet selected, and their contents grouping is provisional.
-- Part 2 page numbers beyond P1 are intentionally provisional.
+- Part 2 page numbers beyond P2 are intentionally provisional.
+- Singleton has no home in the Part 2 payoff table; check it before fixing the next problem's payoff.
 - The preview index cannot be finalised until the problem lineup and page allocations are locked.
 
 ---

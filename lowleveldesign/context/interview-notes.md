@@ -123,59 +123,66 @@ These answers apply across all problems, so I only need them once.
 ### The setup
 
 **Where and when, and what kind of round was it?**
+- This was a low level and object oriented design round for SDE-III role at a Big tech company.
 
 
 **How was the problem worded?**
-<!-- This is the important one. "Design Google Docs" has no edges, so the exact wording decides
-     how much you were expected to bound it yourself. -->
-
+- Devs at our company frequently use google docs for documentation, design dicussions, etc. but we wish to eliminate our dependency on Google. Suppose you're building an alternative to google docs for internal use within our company. I want to understand how the low level details for the same would look like behind the scenes. You can assume that high level design is already done and approved, but low level implementation is assigned to you.
 
 **Had you seen it before?**
-
+- Never, I had done similar problems for an HLD setup but never for LLD setup.
 
 ### What happened
 
 **How did you open?**
-<!-- What did you scope OUT in the first minute? That is the whole lesson of this case. -->
-
+- It was too open ended - low level details of google docs could be a never ending discussion.
+- I started throwing out the features that I felt would be relevant to our discussion - showing same state to all the people who have access to a doc, capability for each user to edit the doc simultaneaously. Capability to perform undo operations - version management.
 
 **What did you agree was in scope, and what did you rule out?**
-<!-- Editing? Formatting? Comments? Sharing and permissions? Version history? Offline? -->
+- A doc can be owned by one person but can be shared with multiple individuals for viewing and editing
+- Edits should be near real time and every user curently having the doc opened should see the changes almost immediately.
+- Multiple people can edit the same doc at the same time
+- Each editor should have the option to perform undo, i.e., they can delete the effect of latest changes and go back to previous state
 
 
 **How did you model the document itself?**
-<!-- One flat string, a list of paragraphs, a tree of nodes? Where did formatting live? -->
+- I started small, and abstracted out all the components which involved leaving the boundary of lld .e.g, how the doc will be actually stored. I simply explained and conveyed that doc will be stored in a database and that we'll have a server connected to it which will give the application access to its contents and capability to update it.
+- Since database design was not a point of discussion for this round, the interviewer accepted my assumptions and asked me to move forward.
+- I represented the doc as an array of strings, where each element represented one line on the page. For simplicity, I scoped the problem to only involve text elements, interviewer liked the way I was restricting the scope towards a workable solution.
+- For conflict resolution, I explained that as long as people are making edits on different lines, it's not an issue. The problem would arise only when two people make edit on the same line.
+- For this I suggested using timestamp based information in the "edit" received by the class to pick the one having the latest changes. I would always consider the latest update to be the source of truth.
+- Each "edit" object will contain basic and important information with it - line edited, previous content, new content, editor's name, timestamp, etc.
 
 
 **What was the tweak or follow-up, and how was it phrased?**
-<!-- Two people editing at once? Undo? Comments or suggestion mode? Version history? -->
-
+- How would you extend your conflict resolution and doc's representation to handle non text elements like images, diagrams, etc.
 
 **What did you do in response?**
-
+- I would have to extend the way my doc is currently represented - from an array of strings to a collection of successive elements on the page instead. When clubbed together, this collection would convey the whole page's content. Each individual component will then have their own way to handle conflicts.
 
 **Did anything come up that you hadn't prepared for?**
-
+- I wasn't expecting the interiewer to discuss the non textual components for the doc in such a small round of 45minutes.
 
 ### The lesson
 
 **What was the interviewer actually probing?**
-
+- If I have the HLD already in place, am I capable of taking it to low level and ensuring proper completion adhering to best coding practices.
 
 **What surprised you?**
-
+- Interviewer was highly collaborative. And as time went by I started treating him more and more like a colleague. I expected him to be stern and straight to the point instead.
 
 **What do you now tell people about this problem?**
-
+- Stick to basics, don't try to cover each and every aspect of google doc's working.
 
 **Anything you'd do differently?**
+- Nothing I can think of.
 
 
 **Outcome, and any feedback?**
-
+- I was given a hire verdict for this round.
 
 **A hot take about this problem?**
-
+- At first glance, it screams HLD or system design, but people rarely stop and ask what I'd do if I have to handle low level stuff for this problem.
 
 ---
 

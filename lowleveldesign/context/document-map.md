@@ -31,7 +31,7 @@ teach complete interview case studies rather than summarise reference material.
 | | Pages | Purpose |
 |---|---|---|
 | **Part 1 — Theory and Principles** | 29 | Vocabulary, principles, patterns, and a solving framework. |
-| **Part 2 — Problems** | 35 | Ten interview case studies worked chronologically, three pages each except P1, plus cover, contents and two closing pages. |
+| **Part 2 — Problems** | 36 | Ten interview case studies worked chronologically, three pages each except P1 and P2, plus cover, contents and two closing pages. |
 
 Part 1 is read once, front to back. Part 2 is the working half, and is where readers return.
 
@@ -141,18 +141,18 @@ runners-up billing.
 |---|---|---|---|---|
 | — | 1 | Cover | done | Matches Part 1 cover, marked Part 2. Lede promises the follow-up moment Part 1 closes on. **Preview page.** |
 | — | 2 | Contents | done | Reuses Part 1's `.index` markup and rhythm so both parts read as one product. Four groups with right-aligned notes, exactly like Part 1's chapters. Each case row carries a one-line editorial gloss, because this is the page a buyer inspects before paying. Revision entries are numbered `4.1`/`4.2` on Part 1's chapter.section convention and carry no separators. A strong rule marks where the index ends, then a boxed three-step “How to work a case” flow with badge numerals and chevrons, all drawn in CSS. Title is one word. **Preview page.** |
-| P1 | 3–6 | LRU cache | draft | Personal interview case in **four** pages, each titled *LRU Cache* with its own deck: (A) *The round I misread* — prompt, the exchange, three clarifications, scope, stop line; (B) *Two structures, one promise* — rejected nouns, ownership, invariants, baseline diagram, public API, and Q4 answered honestly; (C) *What six calls proved* — six-call trace, decisive mutation, complexity derived at the call site, edge cases; (D) *The question after the code worked* — MRU follow-up, the recovery, Strategy named and justified against section 5.6's signal (including why it is not State), before/after code, delta diagram, rewiring cost, LFU limit, debrief and takeaway. |
-| P2 | 7–9 | Google Docs | blocked | Personal interview case from a recent loop — the low-level structure behind Google Docs. Replaced HashMap, whose natural follow-up (chaining versus open addressing) landed on the same closing lesson as P1: an interface does not absorb an algorithm that needs different state. **Needs section C of `lowleveldesign/context/interview-notes.md`.** Scope hard in the brief: the document model and one edit applied end to end, never “build Google Docs”. The product may be named; the interviewing company still may not. |
-| P3 | 10–12 | Parking lot | todo | Placeholder title. Complete a commissioning brief before building. |
-| P4 | 13–15 | Vending machine | todo | Placeholder title. Complete a commissioning brief before building. |
-| P5 | 16–18 | Elevator system | todo | Placeholder title. Complete a commissioning brief before building. |
-| P6 | 19–21 | Chess | todo | Placeholder title. Complete a commissioning brief before building. Chosen over Snake and ladder because nothing else in the lineup exercises inheritance versus composition (4.2), and Snake and ladder duplicated the Vending machine's rules-plus-state lesson. |
-| P7 | 22–24 | Rate limiter | todo | Placeholder title. Complete a commissioning brief before building. |
-| P8 | 25–27 | Notification service | todo | Placeholder title. Complete a commissioning brief before building. |
-| P9 | 28–30 | Splitwise | todo | Placeholder title. Complete a commissioning brief before building. |
-| P10 | 31–33 | Logging framework | todo | Placeholder title. Complete a commissioning brief before building. |
-| — | 34 | Pattern-to-problem cheat sheet | todo | Which pattern showed up where and which framework question exposed it. |
-| — | 35 | Where to go next | todo | Closing guidance and practice sequencing. |
+| P1 | 3–6 | LRU cache | done | Personal interview case in **four** pages, each titled *LRU Cache* with its own deck: (A) *The round I misread* — prompt, the exchange, three clarifications, scope, stop line; (B) *Two structures, one promise* — rejected nouns, ownership, invariants, baseline diagram, public API, and Q4 answered honestly; (C) *What six calls proved* — six-call trace, decisive mutation, complexity derived at the call site, edge cases; (D) *The question after the code worked* — MRU follow-up, the recovery, Strategy named and justified against section 5.6's signal (including why it is not State), before/after code, delta diagram, rewiring cost, LFU limit, debrief and takeaway. Signed off by the author; treat its page spine as the reference for later cases. |
+| P2 | 7–10 | Google Docs | draft | Personal interview case, SDE-III object-oriented design round, in **four** pages, each titled *Google Docs* with its own deck: (A) *Ten minutes deciding what not to build* — the unbounded prompt, bounding it by proposing scope rather than asking for it, the clarification that split undo two ways, the storage boundary drawn explicitly, text-only agreed, stop line; (B) *An edit has to carry its own past* — rejected nouns, the four entities, ownership and invariants, baseline diagram, public API, Q4 answered honestly (conflict rule named as variable, content type treated as fixed); (C) *Two editors, one line* — a five-step collision trace with real timestamps, the decisive `apply`, undo re-submitted as a reversed edit through the same path, complexity and edge cases; (D) *The assumption inside the word “text”* — the non-text follow-up, the sting of having proposed the simplification himself, four moves, before/after code, the rewiring cost that reaches `Edit` rather than stopping at `Document`, limits, debrief and takeaway. Replaced HashMap, whose natural follow-up (chaining versus open addressing) landed on the same closing lesson as P1: an interface does not absorb an algorithm that needs different state. Scope hard: the document model and one edit applied end to end, never “build Google Docs”. The product may be named; the interviewing company still may not. |
+| P3 | 11–13 | Parking lot | todo | Placeholder title. Complete a commissioning brief before building. |
+| P4 | 14–16 | Vending machine | todo | Placeholder title. Complete a commissioning brief before building. |
+| P5 | 17–19 | Elevator system | todo | Placeholder title. Complete a commissioning brief before building. |
+| P6 | 20–22 | Chess | todo | Placeholder title. Complete a commissioning brief before building. Chosen over Snake and ladder because nothing else in the lineup exercises inheritance versus composition (4.2), and Snake and ladder duplicated the Vending machine's rules-plus-state lesson. |
+| P7 | 23–25 | Rate limiter | todo | Placeholder title. Complete a commissioning brief before building. |
+| P8 | 26–28 | Notification service | todo | Placeholder title. Complete a commissioning brief before building. |
+| P9 | 29–31 | Splitwise | todo | Placeholder title. Complete a commissioning brief before building. |
+| P10 | 32–34 | Logging framework | todo | Placeholder title. Complete a commissioning brief before building. |
+| — | 35 | Pattern-to-problem cheat sheet | todo | Which pattern showed up where and which framework question exposed it. |
+| — | 36 | Where to go next | todo | Closing guidance and practice sequencing. |
 
 ### Contents grouping
 
@@ -175,18 +175,20 @@ placeholders and the bands are provisional until the lineup is locked.
 
 ### Intended pattern payoff
 
-Six of the ten problems drift naturally to Strategy, and left unmanaged the page 34 cheat sheet
+Six of the ten problems drift naturally to Strategy, and left unmanaged the cheat sheet on page 35
 would have almost nothing to say. Each commissioning brief therefore names its payoff up front, and
-the set is chosen to cover all seven of chapter 5 plus several from 5.9.
+the set is chosen to cover chapter 5 broadly plus several from 5.9. **Singleton (5.2) currently has
+no home in Part 2.** That is a real gap in the cheat sheet, not an oversight to ignore; whichever of
+P3–P10 is briefed next should be checked against it before its payoff is fixed.
 
 | | Problem | Intended payoff |
 |---|---|---|
 | P1 | LRU cache | Strategy — **built** |
-| P2 | Google Docs | Composite for the document tree, Command for edits; concurrency as the follow-up |
+| P2 | Google Docs | Command for the edit and its undo; the follow-up pays off in **Open/Closed (3.2) through polymorphism (2.4)**, not a pattern — **built** |
 | P3 | Parking lot | Factory, Composite |
 | P4 | Vending machine | State |
 | P5 | Elevator system | State plus a scheduling seam |
-| P6 | Chess | Inheritance versus composition; Command for move history |
+| P6 | Chess | Inheritance versus composition. **Command removed** — P2 now earns it, and chess move history taught the same lesson a second time |
 | P7 | Rate limiter | The Strategy *trap* from 5.6 — algorithms needing different state |
 | P8 | Notification service | Observer, and Builder for message construction |
 | P9 | Splitwise | Interfaces and money invariants |
@@ -200,6 +202,26 @@ is a measured overflow rather than a preference. The class design and the operat
 about 200px and compete for the same page; and the three-page version carried no Java at all, so
 the public API and the decisive mutation — both required content — had nowhere to go. Splitting
 the baseline from the proof resolves both. This does not entitle P2–P10 to four pages.
+
+**Why P2 earns a fourth page.** Four of the five blueprint section 4 criteria are met, which is a
+stronger case than P1's. The design carries **two independent mechanisms** — conflict resolution and
+per-editor undo — that have to be shown separately or neither is convincing; the collision needs a
+**timestamped trace of its own**, because the interesting behaviour only appears when two editors
+land on one line; the follow-up is **structural**, changing both the collection type and where the
+merge rule lives; and **concurrency is a material non-functional driver** rather than a footnote,
+since near-real-time multi-editor was agreed scope in the first ten minutes. Arithmetic confirms it:
+the three-page spine allocates page B roughly 900px before the masthead, leaving nothing for the
+narrator's 100–120px, and P2's baseline has three mechanisms to P1's one. **This is now two
+four-page cases in a row and the pattern stops here.** P3 onward start at three and must meet the
+section 4 bar on measured evidence, not on the precedent of the two cases the author sat himself.
+
+**Why Composite was dropped from P2.** The original payoff put Composite on the document tree, but
+the author's actual follow-up asked for non-text *elements in a flat sequence*, not nesting — the
+recovery was a polymorphic element type, and calling that Composite would have badged the case with
+a pattern the design does not use. Part 1 also ranks Composite in 5.9, below the seven that earned
+pages, so it made a weak climax for a case. It stays with P3, where nesting is real. P2's honest
+payoff is chapter 3, and it becomes the one case in Part 2 where the answer to the follow-up is not
+a pattern name — which section 5.1 already promises the reader will sometimes happen.
 
 ### Problem case-study contract
 
