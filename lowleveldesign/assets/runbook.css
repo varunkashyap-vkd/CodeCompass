@@ -733,6 +733,13 @@ pre .c {
   stroke-dasharray: 4 3;
 }
 
+/* A slot that was never built — shows what extending the model would cost, without
+   claiming the class exists. Lighter than --later so the two never read as the same thing. */
+.d-box--ghost {
+  stroke: var(--rule);
+  stroke-dasharray: 2 3;
+}
+
 .d-name {
   font-family: var(--font-sans);
   font-size: 11px;

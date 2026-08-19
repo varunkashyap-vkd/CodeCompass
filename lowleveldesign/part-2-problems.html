@@ -578,7 +578,7 @@
       </p>
 
       <figure class="diagram">
-        <svg viewBox="0 0 470 74" role="img" aria-label="Cache is handed an eviction policy interface implemented by an LRU and an MRU policy">
+        <svg viewBox="0 0 470 74" role="img" aria-label="Cache is handed an eviction policy interface implemented by an LRU and an MRU policy, with room for a third">
           <rect class="d-box d-box--accent" x="30" y="4" width="130" height="28" rx="4" />
           <text class="d-name" x="95" y="22">Cache&lt;K, V&gt;</text>
           <rect class="d-box d-box--later" x="238" y="2" width="170" height="32" rx="4" />
@@ -588,13 +588,16 @@
           <path class="d-line" d="M226,14 L234,18 L226,22" />
           <text class="d-label" x="170" y="13">who leaves?</text>
           <polygon class="d-head" points="323,34 317,44 329,44" />
-          <path class="d-line d-line--dashed" d="M275,50 L275,44 L371,44 L371,50" />
-          <rect class="d-box d-box--later" x="232" y="50" width="86" height="22" rx="4" />
-          <text class="d-name" x="275" y="65">LruPolicy</text>
-          <rect class="d-box d-box--later" x="328" y="50" width="86" height="22" rx="4" />
-          <text class="d-name" x="371" y="65">MruPolicy</text>
+          <path class="d-line d-line--dashed" d="M227,50 L227,44 L419,44 L419,50" />
+          <line class="d-line d-line--dashed" x1="323" y1="44" x2="323" y2="50" />
+          <rect class="d-box d-box--later" x="184" y="50" width="86" height="22" rx="4" />
+          <text class="d-name" x="227" y="65">LruPolicy</text>
+          <rect class="d-box d-box--later" x="280" y="50" width="86" height="22" rx="4" />
+          <text class="d-name" x="323" y="65">MruPolicy</text>
+          <rect class="d-box d-box--ghost" x="376" y="50" width="86" height="22" rx="4" />
+          <text class="d-label" x="419" y="64" text-anchor="middle">any new policy</text>
         </svg>
-        <figcaption>Dashed elements are what the follow-up added. Nothing else moved.</figcaption>
+        <figcaption>Dashed boxes arrived with the follow-up. A third rule is one more box on the same bar.</figcaption>
       </figure>
 
       <p>

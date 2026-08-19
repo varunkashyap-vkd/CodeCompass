@@ -211,7 +211,10 @@ Two devices carry this, and both should be reused for every problem:
 
 - **A dashed diagram.** Anything the follow-up introduced gets `.d-box--later` and dashed
   connectors, with the figcaption saying so outright. The class diagram then shows *both*
-  versions at once.
+  versions at once. Where the case claims the design is now cheap to extend, add one
+  `.d-box--ghost` slot for the extension that was never built — lighter stroke, faint label, so it
+  never reads as a class that exists. Three states in total: solid was always there, dashed arrived
+  with the follow-up, ghosted is what extending it would cost.
 - **A stacked before/after.** A short `code-block--bad` labelled as the first version, then a
   `code-block--good` labelled as what the follow-up forced. Keep them structurally parallel so
   the diff is obvious — in P1 exactly one line differs.
