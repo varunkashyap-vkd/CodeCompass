@@ -119,25 +119,26 @@ on the rubric below; add the plate on top.
 So a problem is `3 + 1` by default and `4 + 1` when the case earns it. See section 5's *The class
 plate* for what goes on it.
 
-### Three-page case study
+### Three case pages
 
-Use three pages when the baseline model, decisive code, and follow-up can each be explained without
-compressing the interview narrative.
+Use three case pages when the baseline model, decisive code, and follow-up can each be explained
+without compressing the interview narrative.
 
 | Page | Job | Framework coverage |
 |---|---|---|
 | **A — Enter the interview** | Prompt, first response, clarification dialogue, assumptions, scope, functional and non-functional requirements. Ends with the agreed problem and nothing derived from it. | Question 1 |
 | **B — Build and prove the design** | Entity discovery, responsibilities, invariants, APIs, baseline diagram, operation trace, decisive Java, complexity. | Questions 2, 3, 4 and 5 |
 | **C — Move the requirement** | Exact follow-up, exposed weakness, before/after design and code, what changes and stays stable, alternatives, mistakes, interviewer perspective, practice prompts, takeaway. | Section 6.2 follow-up |
+| **The class plate** | The finished model in full UML, with a legend and the repo link. No prose. Automatic, never part of the three-versus-four decision. | — |
 
 Page A stops before entity discovery on purpose. The reader must reach the end of it holding
 exactly what the candidate held — prompt, clarifications, agreed scope — so the invitation to
 attempt the problem is real rather than decorative. Naming the surviving entities on page A gives
 the answer away and removes the only place the reader can usefully stop.
 
-### Four-page case study
+### Four case pages
 
-Use four pages when at least one of these is true:
+Use four case pages when at least one of these is true:
 
 - The authentic interview story has multiple meaningful turns that would become a sidebar in three pages.
 - The data structure or state model needs a concrete operation trace separate from the class design.
@@ -151,10 +152,11 @@ Use four pages when at least one of these is true:
 | **B — Derive the baseline** | Entity discovery, rejected false nouns, ownership, invariants, APIs, baseline diagram. | Questions 2, 3 and 4 |
 | **C — Make it work** | End-to-end operation traces, decisive Java excerpts, edge cases, tests, and derived complexity. | Question 5 |
 | **D — Move the requirement** | Follow-up, impact analysis, before/after design and code, alternatives, debrief, exercises, takeaway. | Section 6.2 follow-up |
+| **The class plate** | The finished model in full UML, with a legend and the repo link. No prose. Automatic, never part of the three-versus-four decision. | — |
 
-A fourth page is not awarded because a problem is famous or because the author has a personal
-story. It is earned by distinct teaching work. If page C merely stretches code or repeats the
-class diagram, return to three pages. Neither three nor four includes the class plate, which every
+A fourth **case** page is not awarded because a problem is famous or because the author has a
+personal story. It is earned by distinct teaching work. If page C merely stretches code or repeats
+the class diagram, return to three. Neither three nor four includes the class plate, which every
 problem gets regardless.
 
 ---
@@ -261,7 +263,7 @@ reversal on page C.
 | **The follow-up** (`.brief`) | The changed requirement, close to how it was phrased | 90px |
 | The two minutes | The recovery. The four moves from section 6.2 as a numbered list, one per line, echoing how Part 1 sets them out. Each line carries the concrete decision rather than restating the abstract move, and none of them may wrap. | 150px |
 | **Before / after** | Structurally parallel excerpts, `code-block--bad` then `code-block--good`. The diff should be readable at a glance. | 220px |
-| Evolved diagram | Dashed for genuinely later elements only. Skip it where Part 1 already showed this exact structure and spend the space on cost instead. | 170px |
+| Evolved diagram | Dashed for genuinely later elements only. Shows the delta, not the whole model — completeness is the plate's job. Skip it where Part 1 already showed this exact structure and spend the space on cost instead. | 170px |
 | What it cost, and where it stops | Rewiring cost in concrete terms, the limit of the evolved design, repo chip. | 100px |
 | Debrief and takeaway | What the interviewer was probing, practice prompts, one generalisable line. | 90px |
 
@@ -376,6 +378,9 @@ dump.
 - Each excerpt should answer one named question and normally stay within 12 lines.
 - Show the public API, the decisive mutation, and the changed seam.
 - Use concrete keys, values, states, or requests in operation traces.
+- **Prefer concrete types over generics.** A generic container is not something a candidate finishes
+  in a 45-minute round, and the plate has to describe code that can actually be written. P1 uses
+  plain `int` keys and values rather than `K` and `V` for exactly this reason.
 - Derive complexity beside the operation that creates it rather than collecting unsupported Big-O
   claims at the end.
 - A repository link is supplementary. The printed explanation must remain complete without it.
@@ -386,6 +391,11 @@ Diagrams must preserve chronology:
 2. Show a separate evolved diagram, or overlay only the later elements with dashed styling.
 3. Name ownership and the important direction of dependency.
 4. Do not add a pattern to the diagram before the narrative earns it.
+
+**In-case diagrams argue; the plate records.** They are not competing for the same job, so do not
+make the closing in-case diagram complete. It exists to show what the follow-up changed, and may
+legitimately omit classes the reader already met and include a ghost box for what was never built.
+Completeness is the plate's job, and only the plate is bound to the repository.
 
 ---
 
@@ -402,17 +412,20 @@ Do not begin page layout from a topic name alone. Build the problem in this orde
 4. **Choose the teaching transformation.** Name the one design decision the follow-up will expose.
 5. **Derive the artifacts.** Baseline and evolved diagrams, operation traces, code excerpts,
    complexity, edge cases, and exercises.
-6. **Choose three or four pages.** Apply the criteria in section 4 and record the reason in
-   `lowleveldesign/context/document-map.md`.
+6. **Choose three or four case pages.** Apply the criteria in section 4 and record the reason in
+   `lowleveldesign/context/document-map.md`. The plate is automatic and is not part of this count.
 7. **Update the map first.** Lock title, page allocation, story source, transformation, and brief.
 8. **Write the pages as prose.** Draft each page in Markdown against its block spine in section 5,
    including the sentences that introduce every table and diagram. A page that does not read well
    as plain text will not be rescued by markup.
 9. **Build the HTML.** Preserve the shared visual system and the section 5 block order. Cut an
    optional block rather than exceeding the page.
-10. **Review content before fit.** Check chronology, technical accuracy, framework coverage, and
+10. **Build the class plate last**, from the finished code excerpts. Check every class, member and
+    relationship against them, and against the linked repository. Anything the code does not
+    implement comes off the plate.
+11. **Review content before fit.** Check chronology, technical accuracy, framework coverage, and
     authenticity before cutting for A4.
-11. **Validate the artifact.** Check page fit, rendered diagrams, links, fonts, and PDF export.
+12. **Validate the artifact.** Check page fit, rendered diagrams, links, fonts, and PDF export.
 
 ---
 
@@ -454,8 +467,12 @@ Reader practice prompts:
 Takeaway:
 Full-code destination:
 
-Page count: 3 / 4
-Why the fourth page is earned, if applicable:
+Class plate — classes and their members:
+Class plate — relationships and multiplicities:
+Concrete types chosen, in place of generics:
+
+Case pages: 3 / 4  (the class plate is automatic and not part of this count)
+Why the fourth case page is earned, if applicable:
 ```
 
 ---

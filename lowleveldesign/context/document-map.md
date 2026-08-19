@@ -175,7 +175,7 @@ placeholders and the bands are provisional until the lineup is locked.
 
 ### Intended pattern payoff
 
-Six of the ten problems drift naturally to Strategy, and left unmanaged the cheat sheet on page 35
+Six of the ten problems drift naturally to Strategy, and left unmanaged the cheat sheet on page 45
 would have almost nothing to say. Each commissioning brief therefore names its payoff up front, and
 the set is chosen to cover chapter 5 broadly plus several from 5.9. **Singleton (5.2) currently has
 no home in Part 2.** That is a real gap in the cheat sheet, not an oversight to ignore; whichever of
@@ -245,10 +245,12 @@ rejected; do not rebuild that.
 `.d-solid` — the compartment-box treatment that style-reference section 8 always specified but
 nothing had used. Every later plate reuses these.
 
-**A standing gap this exposed.** The dashed-diagram convention below says the closing *in-case*
-class diagram should show both versions at once. P1's drops `Map`, `RecencyList` and `Node`, and
-P2's page D has none at all. The plates do not excuse this; the in-case diagrams still argue, while
-the plate only records.**Why Composite was dropped from P2.** The original payoff put Composite on the document tree, but
+**In-case diagrams argue; the plate records.** Before plates existed, the closing in-case class
+diagram was expected to show both versions at once, and neither case did it — P1's drops `Map`,
+`RecencyList` and `Node`, and P2's page D has none at all. That expectation is now withdrawn rather
+than left outstanding. The in-case diagram's job is the delta: what the follow-up added, and what
+extending it would cost. Completeness belongs to the plate, and only the plate is bound to the
+repository.**Why Composite was dropped from P2.** The original payoff put Composite on the document tree, but
 the author's actual follow-up asked for non-text *elements in a flat sequence*, not nesting — the
 recovery was a polymorphic element type, and calling that Composite would have badged the case with
 a pattern the design does not use. Part 1 also ranks Composite in 5.9, below the seven that earned
@@ -293,8 +295,9 @@ point of the problem.
 Two devices carry this, and both should be reused for every problem:
 
 - **A dashed diagram.** Anything the follow-up introduced gets `.d-box--later` and dashed
-  connectors, with the figcaption saying so outright. The class diagram then shows *both*
-  versions at once. Where the case claims the design is now cheap to extend, add one
+  connectors, with the figcaption saying so outright. The diagram shows the **delta** — what changed
+  and what extending it would cost — not the whole model, which is the class plate's job. Where the
+  case claims the design is now cheap to extend, add one
   `.d-box--ghost` slot for the extension that was never built — lighter stroke, faint label, so it
   never reads as a class that exists. Three states in total: solid was always there, dashed arrived
   with the follow-up, ghosted is what extending it would cost. **In-case diagrams only** — a ghost

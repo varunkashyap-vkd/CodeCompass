@@ -166,6 +166,9 @@ The exact rules live in `context/style-reference.md`; this summary is only an or
 - HTML boxes plus inline SVG for diagrams; no JavaScript or Mermaid.
 - Focused Java excerpts, normally no more than 12 lines each.
 - Diagrams preserve chronology and use dashed styling only for genuinely later elements.
+- Class plates are the exception to the monochrome-diagram rule: tinted boxes, purple class names,
+  monochrome notation, and a legend covering every symbol used. In-case diagrams argue the delta;
+  the plate records the whole model and is the only diagram bound to the repository.
 - Page furniture and total page counts must match the map.
 - Use `../tools/export-pdf.ps1` as the only supported export path.
 - Never use Microsoft Print to PDF; it rasterises the document.
@@ -192,8 +195,11 @@ Validate content and technical correctness before cutting words for page fit.
 4. Complete or review the commissioning brief before layout.
 5. Resolve missing personal facts with the author; do not manufacture them.
 6. Establish the chronological interview spine and map evidence to all five questions.
-7. Decide three versus four pages using the rubric and record the reason in the map.
+7. Decide three versus four **case** pages using the rubric and record the reason in the map. The
+   class plate is automatic and never part of that decision.
 8. Build baseline before evolution, then validate content, page fit, links, and export.
+9. Build the class plate last, from the finished code excerpts, and reconcile it with the linked
+   repository. Prefer concrete types over generics so the design stays writable in 45 minutes.
 
 ### Editing contents or index pages
 
@@ -248,6 +254,9 @@ project crosses a major milestone.
 - Problems P3–P10 are not yet selected, and their contents grouping is provisional.
 - Part 2 page numbers beyond P2 are intentionally provisional.
 - Singleton has no home in the Part 2 payoff table; check it before fixing the next problem's payoff.
+- **Open action:** `lowleveldesign/Code References/01-lru-cache/LruCacheDemo.java` predates the P1
+  plate and does not match it — it still carries generics and the old class name. Under the plate
+  contract the code is what has to change. Reconcile it before the repo links go public.
 - The preview index cannot be finalised until the problem lineup and page allocations are locked.
 
 ---
