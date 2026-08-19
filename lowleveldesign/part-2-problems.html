@@ -346,7 +346,7 @@
       <table class="table table--rowhead u-mt-4">
         <tbody>
           <tr>
-            <td><code>LruCache</code></td>
+            <td><code>Cache</code></td>
             <td>Owns both structures and leaves them consistent after every call. Nothing outside it touches either one.</td>
           </tr>
           <tr>
@@ -373,7 +373,7 @@
       <figure class="diagram">
         <svg viewBox="0 0 470 112" role="img" aria-label="Cache owns a map and a recency list, and both refer to the same nodes">
           <rect class="d-box d-box--accent" x="160" y="2" width="150" height="28" rx="4" />
-          <text class="d-name" x="235" y="20">LruCache</text>
+          <text class="d-name" x="235" y="20">Cache</text>
           <line class="d-line" x1="235" y1="30" x2="235" y2="46" />
           <line class="d-line" x1="75" y1="46" x2="395" y2="46" />
           <line class="d-line" x1="75" y1="46" x2="75" y2="56" />
@@ -390,7 +390,7 @@
           <text class="d-label" x="82" y="94">indexes</text>
           <text class="d-label" x="356" y="94">links</text>
         </svg>
-        <figcaption>The design as I wrote it. <code>LruCache</code> decides which node leaves.</figcaption>
+        <figcaption>The design as I wrote it. <code>Cache</code> decides which node leaves.</figcaption>
       </figure>
 
       <p>
@@ -401,7 +401,7 @@
 
       <div class="code-block">
         <p class="label">The public surface</p>
-        <pre><code>public class LruCache {
+        <pre><code>public class Cache {
     private final Map&lt;Integer, Node&gt; index;
     private final RecencyList order;
     private final int capacity;
@@ -580,7 +580,7 @@
       <figure class="diagram">
         <svg viewBox="0 0 470 74" role="img" aria-label="Cache is handed an eviction policy interface implemented by an LRU and an MRU policy, with room for a third">
           <rect class="d-box d-box--accent" x="30" y="4" width="130" height="28" rx="4" />
-          <text class="d-name" x="95" y="22">LruCache</text>
+          <text class="d-name" x="95" y="22">Cache</text>
           <rect class="d-box d-box--later" x="238" y="2" width="170" height="32" rx="4" />
           <text class="d-stereo" x="323" y="15">&#171;interface&#187;</text>
           <text class="d-name" x="323" y="29">EvictionPolicy</text>
@@ -633,12 +633,12 @@
       <p class="case-deck">Every class, and how they connect</p>
 
       <figure class="diagram diagram--full">
-        <svg viewBox="0 0 680 715" role="img" aria-label="UML class diagram. LruCache composes a RecencyList, indexes Nodes and holds an EvictionPolicy. RecencyList links Nodes, which reference each other. LruPolicy and MruPolicy implement EvictionPolicy.">
+        <svg viewBox="0 0 680 740" role="img" aria-label="UML class diagram. Cache composes a RecencyList, indexes Nodes and holds an EvictionPolicy. RecencyList links Nodes, which reference each other. LruPolicy and MruPolicy implement EvictionPolicy.">
 
           <path class="d-strip" d="M235,4 a4,4 0 0 1 4,-4 h202 a4,4 0 0 1 4,4 v20 h-210 z" />
           <rect class="d-box" x="235" y="0" width="210" height="145" rx="4" />
           <line class="d-rule" x1="235" y1="24" x2="445" y2="24" />
-          <text class="d-name" x="340" y="17">LruCache</text>
+          <text class="d-name" x="340" y="17">Cache</text>
           <text class="d-mem" x="245" y="40">- index: Map&lt;Integer, Node&gt;</text>
           <text class="d-mem" x="245" y="55">- order: RecencyList</text>
           <text class="d-mem" x="245" y="70">- capacity: int</text>
@@ -712,14 +712,18 @@
           <polygon class="d-solid" points="0,700 6,694 12,700 6,706" />
           <line class="d-line" x1="12" y1="700" x2="34" y2="700" />
           <text class="d-label" x="38" y="703">composition</text>
-          <line class="d-line" x1="170" y1="700" x2="200" y2="700" />
-          <path class="d-line" d="M192,696 L200,700 L192,704" />
-          <text class="d-label" x="206" y="703">association</text>
-          <line class="d-line d-line--dashed" x1="340" y1="700" x2="360" y2="700" />
-          <polygon class="d-head" points="370,700 360,694 360,706" />
-          <text class="d-label" x="376" y="703">implements</text>
-          <rect class="d-box d-box--later" x="510" y="692" width="26" height="16" rx="3" />
-          <text class="d-label" x="542" y="703">added later</text>
+          <line class="d-line" x1="200" y1="700" x2="228" y2="700" />
+          <path class="d-line" d="M220,696 L228,700 L220,704" />
+          <text class="d-label" x="234" y="703">association</text>
+          <line class="d-line d-line--dashed" x1="400" y1="700" x2="420" y2="700" />
+          <polygon class="d-head" points="430,700 420,694 420,706" />
+          <text class="d-label" x="436" y="703">implements</text>
+          <rect class="d-box d-box--later" x="0" y="716" width="26" height="16" rx="3" />
+          <text class="d-label" x="32" y="727">added later</text>
+          <text class="d-mem" x="200" y="727">+</text>
+          <text class="d-label" x="214" y="727">public</text>
+          <text class="d-mem" x="400" y="727">-</text>
+          <text class="d-label" x="414" y="727">private</text>
         </svg>
         <figcaption>Dashed classes arrived with the follow-up. Full implementation: <span class="chip">github.com/varunkashyap-vkd/lld-runbook/lru-cache</span></figcaption>
       </figure>
@@ -1151,7 +1155,7 @@ boolean apply(Edit e) {
       <p class="case-deck">Every class, and how they connect</p>
 
       <figure class="diagram diagram--full">
-        <svg viewBox="0 0 680 760" role="img" aria-label="UML class diagram. DocumentSession composes one Document and aggregates many Editors. Editor references Role and holds many Edits. Document composes many DocElements, implemented by TextBlock and ImageBlock.">
+        <svg viewBox="0 0 680 785" role="img" aria-label="UML class diagram. DocumentSession composes one Document and aggregates many Editors. Editor references Role and holds many Edits. Document composes many DocElements, implemented by TextBlock and ImageBlock.">
 
           <path class="d-strip" d="M225,4 a4,4 0 0 1 4,-4 h227 a4,4 0 0 1 4,4 v20 h-235 z" />
           <rect class="d-box" x="225" y="0" width="235" height="130" rx="4" />
@@ -1255,17 +1259,21 @@ boolean apply(Edit e) {
           <polygon class="d-solid" points="0,745 6,739 12,745 6,751" />
           <line class="d-line" x1="12" y1="745" x2="30" y2="745" />
           <text class="d-label" x="34" y="748">composition</text>
-          <polygon class="d-head" points="138,745 144,739 150,745 144,751" />
-          <line class="d-line" x1="150" y1="745" x2="168" y2="745" />
-          <text class="d-label" x="172" y="748">aggregation</text>
-          <line class="d-line" x1="276" y1="745" x2="304" y2="745" />
-          <path class="d-line" d="M296,741 L304,745 L296,749" />
-          <text class="d-label" x="310" y="748">association</text>
-          <line class="d-line d-line--dashed" x1="414" y1="745" x2="434" y2="745" />
-          <polygon class="d-head" points="444,745 434,739 434,751" />
-          <text class="d-label" x="450" y="748">implements</text>
-          <rect class="d-box d-box--later" x="552" y="737" width="26" height="16" rx="3" />
-          <text class="d-label" x="584" y="748">added later</text>
+          <polygon class="d-head" points="170,745 176,739 182,745 176,751" />
+          <line class="d-line" x1="182" y1="745" x2="200" y2="745" />
+          <text class="d-label" x="204" y="748">aggregation</text>
+          <line class="d-line" x1="340" y1="745" x2="368" y2="745" />
+          <path class="d-line" d="M360,741 L368,745 L360,749" />
+          <text class="d-label" x="376" y="748">association</text>
+          <line class="d-line d-line--dashed" x1="510" y1="745" x2="530" y2="745" />
+          <polygon class="d-head" points="540,745 530,739 530,751" />
+          <text class="d-label" x="546" y="748">implements</text>
+          <rect class="d-box d-box--later" x="0" y="761" width="26" height="16" rx="3" />
+          <text class="d-label" x="32" y="772">added later</text>
+          <text class="d-mem" x="200" y="772">+</text>
+          <text class="d-label" x="214" y="772">public</text>
+          <text class="d-mem" x="400" y="772">-</text>
+          <text class="d-label" x="414" y="772">private</text>
         </svg>
         <figcaption>Dashed classes arrived with the follow-up. Full implementation: <span class="chip">github.com/varunkashyap-vkd/lld-runbook/collab-doc</span></figcaption>
       </figure>

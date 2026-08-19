@@ -229,7 +229,7 @@ project crosses a major milestone.
   closing pages.
 - Built so far: cover, contents, LRU on pages 3–7, and Google Docs on pages 8–12.
 - LRU is signed off by the author. Treat its page spine and masthead as the reference for later
-  cases; do not restyle them to suit a new problem. Its plate carries `LruCache`, `Node`,
+  cases; do not restyle them to suit a new problem. Its plate carries `Cache`, `Node`,
   `RecencyList`, `EvictionPolicy`, `LruPolicy` and `MruPolicy` — six classes, twenty members, all
   taken from the code already printed on its case pages.
 - Google Docs runs to five pages: the brief, the model, the proof, the change, and a **UML class

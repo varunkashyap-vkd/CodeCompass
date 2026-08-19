@@ -806,6 +806,24 @@ pre .c {
   stroke-width: 1;
 }
 
+/* A plate is a full page of boxes, so it carries more tint than an in-case diagram — see
+   context/style-reference.md section 8. Notation stays monochrome; only names and fills tint. */
+.diagram--full .d-box {
+  fill: var(--surface);
+}
+
+.diagram--full .d-strip {
+  fill: var(--surface-strong);
+}
+
+.diagram--full .d-name {
+  fill: var(--primary-dark);
+}
+
+.diagram--full .d-rule {
+  stroke: var(--rule-strong);
+}
+
 /* ============================================================
    Contents
    ============================================================ */

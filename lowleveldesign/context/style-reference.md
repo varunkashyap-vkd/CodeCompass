@@ -227,6 +227,24 @@ radius 3px, padding `2px 6px` — used for "full implementation" links.
 - Diagrams are monochrome plus at most one purple highlight for the element under discussion.
 - Every diagram gets an 11px caption below it.
 
+**Class plates are the exception to the monochrome rule.** A full-page reference plate built from
+hairline boxes on white reads as unfinished, so it carries more tint than an in-case diagram:
+
+| Element | In-case diagram | Class plate (`.diagram--full`) |
+|---|---|---|
+| Box fill | `--paper` | `--surface` |
+| Name strip | — | `--surface-strong` |
+| Class name | `--ink` | `--primary-dark` |
+| Compartment divider | — | `--rule-strong` |
+| Connectors | `--ink-soft` | `--ink-soft` |
+
+Relationship lines stay monochrome on both. The purple lives in the class names and the tint, never
+in the notation — a plate whose arrows are coloured stops reading as UML.
+
+A plate also carries a **legend** along its foot: every symbol used on that plate, including the
+`+` and `-` visibility markers, and nothing it does not use. Nothing else in the runbook teaches UML
+notation, so without it the relationships are unreadable to the target reader.
+
 ---
 
 ## 9. Print and PDF
