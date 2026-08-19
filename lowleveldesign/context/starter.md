@@ -96,7 +96,15 @@ The goal is complete governing context, not maximum file volume.
   page template in section 7 of the map, or any Part 1 row or rationale. Part 2 work never justifies
   a Part 1 edit; if Part 2 appears to need one, raise it with the author instead.
 - Part 2 case studies default to three pages — the brief, the model, the change — with the proof
-  split onto its own page when the trace and the class design will not share one.
+  split onto its own page when the trace and the class design will not share one. **Every case then
+  ends with a class plate**, which is a separate and automatic page, never part of the three-versus-
+  four decision.
+- A class plate is a full UML class diagram of the finished model: compartment boxes with every
+  field and method, standard relationship notation, a legend, and the repo link. It carries **no
+  prose** and is the only Part 2 page exempt from the blueprint's block spine.
+- **A plate is a contract with the repository.** Nothing may appear on it that the linked code does
+  not implement — no ghost boxes, no speculative classes, no invented members. Build it last, from
+  the finished code excerpts, and check every member against them.
 - `assets/runbook.css` is shared by both parts. Add new class names for Part 2 work rather than
   changing rules Part 1 already uses.
 - Part 2 is an interview casebook, not a compressed answer catalogue.
@@ -217,10 +225,13 @@ project crosses a major milestone.
 
 - Part 1 is complete at 29 pages and frozen.
 - Part 1 sections 6.1 and 6.2 establish the framework reused by Part 2.
-- Part 2 targets 37 pages: cover, contents, ten case studies, and two closing pages.
-- Built so far: cover, contents, LRU on pages 3–6, and Google Docs on pages 7–11.
+- Part 2 targets 46 pages: cover, contents, ten case studies each ending in a class plate, and two
+  closing pages.
+- Built so far: cover, contents, LRU on pages 3–7, and Google Docs on pages 8–12.
 - LRU is signed off by the author. Treat its page spine and masthead as the reference for later
-  cases; do not restyle them to suit a new problem.
+  cases; do not restyle them to suit a new problem. Its plate carries `LruCache`, `Node`,
+  `RecencyList`, `EvictionPolicy`, `LruPolicy` and `MruPolicy` — six classes, twenty members, all
+  taken from the code already printed on its case pages.
 - Google Docs runs to five pages: the brief, the model, the proof, the change, and a **UML class
   plate** — eight compartment boxes with every field and method, standard relationship notation,
   and the repo link, carrying no prose at all. The class model (`Document`, `Edit`, `Editor`,
@@ -230,10 +241,9 @@ project crosses a major milestone.
 - **A class plate is a reference artifact, not a teaching page.** It is exempt from the blueprint
   section 5 spine. An earlier attempt wrapped it in explanatory prose and a draw-order table and was
   rejected; do not reintroduce that.
-- Whether P3 onward get a class plate is still open. If adopted, the trigger is model size measured
-  against the closing page's slack, not a fifth leg for every problem.
-- P3 onward start at three pages and must earn more on measured evidence under blueprint section 4.
-  The two longer cases are the ones the author sat himself, which is not a precedent.
+- P3 onward start at three case pages plus a plate, and must earn a fourth case page on measured
+  evidence under blueprint section 4. The two longer cases are the ones the author sat himself,
+  which is not a precedent.
 - Problem titles P3–P10 in the contents are placeholders until each brief is written.
 - Problems P3–P10 are not yet selected, and their contents grouping is provisional.
 - Part 2 page numbers beyond P2 are intentionally provisional.

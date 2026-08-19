@@ -106,10 +106,18 @@ MAANG-scale company.
 
 ---
 
-## 4. Page allocation: three by default, four when earned
+## 4. Page allocation: three case pages by default, four when earned, plus a class plate
 
-Page count follows teaching load, not problem rank. A problem receives a fourth page only when
-three pages would force the removal of reasoning that satisfies the product promise.
+Page count follows teaching load, not problem rank. A problem receives a fourth **case** page only
+when three pages would force the removal of reasoning that satisfies the product promise.
+
+**Every problem then ends with a class plate**, which is not a case page and is not negotiable.
+These are two separate decisions and must stay separate. Coupling them — treating “five pages” as the
+unit — is how cases get padded with a fourth narrative page they did not earn. Decide the case pages
+on the rubric below; add the plate on top.
+
+So a problem is `3 + 1` by default and `4 + 1` when the case earns it. See section 5's *The class
+plate* for what goes on it.
 
 ### Three-page case study
 
@@ -146,7 +154,8 @@ Use four pages when at least one of these is true:
 
 A fourth page is not awarded because a problem is famous or because the author has a personal
 story. It is earned by distinct teaching work. If page C merely stretches code or repeats the
-class diagram, return to three pages.
+class diagram, return to three pages. Neither three nor four includes the class plate, which every
+problem gets regardless.
 
 ---
 
@@ -260,6 +269,40 @@ The climax of a case cannot be a pattern name. Part 1 already taught the pattern
 payoff is "the answer is Strategy" has delivered nothing the reader did not already own. The payoff
 is the recovery: how the missing seam was found under time pressure, the sentence that named it,
 and what the rewiring actually cost.
+
+### The class plate — the last page of every case
+
+The case pages deliver the design in chronological pieces, because that is how it was discovered.
+The reader who returns three weeks later does not want the chronology; they want the model. The
+plate is the page they come back to, and it is what makes the printed product complete without the
+repository.
+
+**It is a reference artifact, not a teaching page.** It is the only page in Part 2 exempt from the
+block spine above: no lead, no narrator, no prose between artifacts, no debrief. Just the plate.
+An early draft of P2's plate wrapped it in explanatory prose and a table on what order to draw the
+classes in; it was rejected, and reintroducing that is an anti-pattern.
+
+| Element | Rule |
+|---|---|
+| Scope | Every class in the finished design, including those the follow-up introduced. |
+| Compartments | Name strip, hairline, then members in mono. Fields and methods both, with `+` / `-` visibility, parameter types and return types. |
+| Stereotypes | `«interface»`, `«enum»`, `«record»` above the name where they apply. |
+| Relationships | Filled diamond for composition, hollow diamond for aggregation, open arrow for association, dashed line plus hollow triangle for realization. Multiplicities on association ends. |
+| Later additions | Dashed **box outline** marks a class the follow-up introduced. Line dashing stays reserved for realization, so the two never collide. |
+| Legend | A compact strip along the foot of the plate naming every symbol **used on that plate**. Symbols not on the plate are not in its legend. |
+| Prose | None. A one-line figcaption carrying the repo chip is the only text outside the diagram. |
+| Width | Full body width. Use `.diagram--full`, which unsets the 470px cap that applies to in-case diagrams. |
+
+**The binding rule: the plate is a contract with the repository.** The linked implementation must
+contain exactly these classes, with these members and these relationships. Nothing may appear on a
+plate that the code does not implement — no speculative classes, no ghost boxes showing what an
+extension would cost, no members invented to balance a box, no placeholder types. The ghost box
+convention belongs on the in-case diagram on page C or D, where it is explicitly labelled as never
+built; on the plate it would be a lie about what the reader can go and read.
+
+Build the plate **last**, from the finished code excerpts, and check every member against them. It
+is the fourth statement of the same model — after the baseline diagram, the excerpts and the
+evolved diagram — so it is the fourth place they can disagree.
 
 ---
 
@@ -435,6 +478,10 @@ A problem is not done until all of these are true:
 - [ ] Practice prompts make the problem reusable after the first read.
 - [ ] The content passes technical review before it is compressed for page fit.
 - [ ] Every page follows its block spine in section 5, with no more than four structural blocks.
+- [ ] The case ends with a class plate carrying every class in the finished design.
+- [ ] Every class, member and relationship on the plate exists in the linked implementation.
+- [ ] The plate agrees with the code excerpts and diagrams in the case pages.
+- [ ] The plate carries a legend covering every symbol it uses, and no prose.
 - [ ] Every table and diagram is introduced or resolved by a sentence of prose.
 - [ ] No two structural blocks sit adjacent on any page.
 - [ ] Each page turns to the reader at least twice, not only in its closing caption.
@@ -468,3 +515,6 @@ Reject a draft when it does any of the following:
 - Titles a page with the name of its leg, which the running header already carries.
 - Foreshadows the weakness on page B and spends the reversal before page C.
 - Ends the case on a pattern name that Part 1 already taught.
+- Puts a class, member or relationship on the class plate that the repository does not implement.
+- Wraps the class plate in explanatory prose, a lead, or a debrief.
+- Pads a case to a fourth narrative page because the plate made it “nearly five”.

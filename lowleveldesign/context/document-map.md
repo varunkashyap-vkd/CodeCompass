@@ -31,7 +31,7 @@ teach complete interview case studies rather than summarise reference material.
 | | Pages | Purpose |
 |---|---|---|
 | **Part 1 — Theory and Principles** | 29 | Vocabulary, principles, patterns, and a solving framework. |
-| **Part 2 — Problems** | 37 | Ten interview case studies worked chronologically, three pages each except P1 and P2, plus cover, contents and two closing pages. |
+| **Part 2 — Problems** | 46 | Ten interview case studies worked chronologically — three case pages each except P1 and P2, every one closing with a full class plate — plus cover, contents and two closing pages. |
 
 Part 1 is read once, front to back. Part 2 is the working half, and is where readers return.
 
@@ -141,18 +141,18 @@ runners-up billing.
 |---|---|---|---|---|
 | — | 1 | Cover | done | Matches Part 1 cover, marked Part 2. Lede promises the follow-up moment Part 1 closes on. **Preview page.** |
 | — | 2 | Contents | done | Reuses Part 1's `.index` markup and rhythm so both parts read as one product. Four groups with right-aligned notes, exactly like Part 1's chapters. Each case row carries a one-line editorial gloss, because this is the page a buyer inspects before paying. Revision entries are numbered `4.1`/`4.2` on Part 1's chapter.section convention and carry no separators. A strong rule marks where the index ends, then a boxed three-step “How to work a case” flow with badge numerals and chevrons, all drawn in CSS. Title is one word. **Preview page.** |
-| P1 | 3–6 | LRU cache | done | Personal interview case in **four** pages, each titled *LRU Cache* with its own deck: (A) *The round I misread* — prompt, the exchange, three clarifications, scope, stop line; (B) *Two structures, one promise* — rejected nouns, ownership, invariants, baseline diagram, public API, and Q4 answered honestly; (C) *What six calls proved* — six-call trace, decisive mutation, complexity derived at the call site, edge cases; (D) *The question after the code worked* — MRU follow-up, the recovery, Strategy named and justified against section 5.6's signal (including why it is not State), before/after code, delta diagram, rewiring cost, LFU limit, debrief and takeaway. Signed off by the author; treat its page spine as the reference for later cases. |
-| P2 | 7–11 | Google Docs | draft | Personal interview case, SDE-III object-oriented design round, in **five** pages, each titled *Google Docs* with its own deck: (A) *Ten minutes deciding what not to build* — the unbounded prompt, bounding it by proposing scope rather than asking for it, the clarification that split undo two ways, the storage boundary drawn explicitly, text-only agreed, stop line; (B) *An edit has to carry its own past* — rejected nouns, the four entities, ownership and invariants, baseline diagram, public API, Q4 answered honestly (conflict rule named as variable, content type treated as fixed); (C) *Two editors, one line* — a five-step collision trace with real timestamps, the decisive `apply`, undo re-submitted as a reversed edit through the same path, complexity and edge cases; (D) *The assumption inside the word “text”* — the non-text follow-up, the sting of having proposed the simplification himself, four moves, before/after code, the rewiring cost that reaches `Edit` rather than stopping at `Document`, limits; (E) *Every class, and how they connect* — a full UML class plate: eight compartment boxes carrying every field and method, composition, aggregation, association and realization notation with multiplicities, and the repo link. Deliberately carries **no prose** — it is a reference artifact, not a teaching page. Replaced HashMap, whose natural follow-up (chaining versus open addressing) landed on the same closing lesson as P1: an interface does not absorb an algorithm that needs different state. Scope hard: the document model and one edit applied end to end, never “build Google Docs”. The product may be named; the interviewing company still may not. |
-| P3 | 12–14 | Parking lot | todo | Placeholder title. Complete a commissioning brief before building. |
-| P4 | 15–17 | Vending machine | todo | Placeholder title. Complete a commissioning brief before building. |
-| P5 | 18–20 | Elevator system | todo | Placeholder title. Complete a commissioning brief before building. |
-| P6 | 21–23 | Chess | todo | Placeholder title. Complete a commissioning brief before building. Chosen over Snake and ladder because nothing else in the lineup exercises inheritance versus composition (4.2), and Snake and ladder duplicated the Vending machine's rules-plus-state lesson. |
-| P7 | 24–26 | Rate limiter | todo | Placeholder title. Complete a commissioning brief before building. |
-| P8 | 27–29 | Notification service | todo | Placeholder title. Complete a commissioning brief before building. |
-| P9 | 30–32 | Splitwise | todo | Placeholder title. Complete a commissioning brief before building. |
-| P10 | 33–35 | Logging framework | todo | Placeholder title. Complete a commissioning brief before building. |
-| — | 36 | Pattern-to-problem cheat sheet | todo | Which pattern showed up where and which framework question exposed it. |
-| — | 37 | Where to go next | todo | Closing guidance and practice sequencing. |
+| P1 | 3–7 | LRU cache | done | Personal interview case in **four case pages plus a class plate**, each titled *LRU Cache* with its own deck: (A) *The round I misread* — prompt, the exchange, three clarifications, scope, stop line; (B) *Two structures, one promise* — rejected nouns, ownership, invariants, baseline diagram, public API, and Q4 answered honestly; (C) *What six calls proved* — six-call trace, decisive mutation, complexity derived at the call site, edge cases; (D) *The question after the code worked* — MRU follow-up, the recovery, Strategy named and justified against section 5.6's signal (including why it is not State), before/after code, delta diagram, rewiring cost, LFU limit, debrief and takeaway. Signed off by the author; treat its page spine as the reference for later cases. |
+| P2 | 8–12 | Google Docs | done | Personal interview case, SDE-III object-oriented design round, in **four case pages plus a class plate**, each titled *Google Docs* with its own deck: (A) *Ten minutes deciding what not to build* — the unbounded prompt, bounding it by proposing scope rather than asking for it, the clarification that split undo two ways, the storage boundary drawn explicitly, text-only agreed, stop line; (B) *An edit has to carry its own past* — rejected nouns, the four entities, ownership and invariants, baseline diagram, public API, Q4 answered honestly (conflict rule named as variable, content type treated as fixed); (C) *Two editors, one line* — a five-step collision trace with real timestamps, the decisive `apply`, undo re-submitted as a reversed edit through the same path, complexity and edge cases; (D) *The assumption inside the word “text”* — the non-text follow-up, the sting of having proposed the simplification himself, four moves, before/after code, the rewiring cost that reaches `Edit` rather than stopping at `Document`, limits; (E) *Every class, and how they connect* — a full UML class plate: eight compartment boxes carrying every field and method, composition, aggregation, association and realization notation with multiplicities, and the repo link. Deliberately carries **no prose** — it is a reference artifact, not a teaching page. Replaced HashMap, whose natural follow-up (chaining versus open addressing) landed on the same closing lesson as P1: an interface does not absorb an algorithm that needs different state. Scope hard: the document model and one edit applied end to end, never “build Google Docs”. The product may be named; the interviewing company still may not. |
+| P3 | 13–16 | Parking lot | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
+| P4 | 17–20 | Vending machine | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
+| P5 | 21–24 | Elevator system | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
+| P6 | 25–28 | Chess | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. Chosen over Snake and ladder because nothing else in the lineup exercises inheritance versus composition (4.2), and Snake and ladder duplicated the Vending machine's rules-plus-state lesson. |
+| P7 | 29–32 | Rate limiter | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
+| P8 | 33–36 | Notification service | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
+| P9 | 37–40 | Splitwise | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
+| P10 | 41–44 | Logging framework | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
+| — | 45 | Pattern-to-problem cheat sheet | todo | Which pattern showed up where and which framework question exposed it. |
+| — | 46 | Where to go next | todo | Closing guidance and practice sequencing. |
 
 ### Contents grouping
 
@@ -215,33 +215,25 @@ narrator's 100–120px, and P2's baseline has three mechanisms to P1's one. **Th
 four-page cases in a row and the pattern stops here.** P3 onward start at three and must meet the
 section 4 bar on measured evidence, not on the precedent of the two cases the author sat himself.
 
-**Why P2 has a fifth page.** No case provided a single artifact showing how every class connects:
-page B draws the baseline, page D draws the delta, and the reader had to hold both. Measurement
-ruled out folding it into page D — a full class plate is 680×715px, and page D has about 30px of
-slack.
+**Every case ends with a class plate.** The case pages deliver the design in chronological pieces,
+which is right for learning it and wrong for returning to it. The plate is the artifact a reader
+comes back to, and it is what lets the printed product carry the whole design without the
+repository. Its contract is *The class plate* in blueprint section 5; the rule that matters most is
+that **nothing appears on a plate that the linked code does not implement**. No ghost boxes, no
+speculative classes, no members invented to fill a compartment.
 
-**The page is a reference plate, and the first attempt at it was wrong.** It was initially built as
-a teaching page — a simplified diagram plus a table on what order to draw the classes in, plus the
-debrief moved off page D. The author rejected that: what was wanted is a proper UML class diagram
-with full compartments, standing in for the code that the repo link supplies. The rebuilt page
-carries the plate and nothing else, and the debrief moved back to page D. **Do not reintroduce
-explanatory prose onto a class plate.**
-
-This is the only page in Part 2 exempt from the section 5 spine, because it is not a case page.
-The spine's rules — prose between artifacts, at most four blocks, the narrator turning to the
-reader twice — do not apply to a reference plate.
-
-**Whether P3 onward get one is still open.** If adopted, the trigger is model size measured against
-page D's slack, not a fifth leg for every problem. P1 probably does not need it — its model is
-smaller and its two diagrams nearly cover it.
-
-**A standing gap this exposed.** The dashed-diagram convention below says the closing class diagram
-should show *both* versions at once. P1's closing diagram drops `Map`, `RecencyList` and `Node`, and
-P2's page D has no diagram at all. That convention is currently unenforced.
+A plate is a reference artifact and is exempt from the section 5 block spine — it carries no lead,
+no narrator and no debrief. P2's first attempt wrapped it in prose and a draw-order table and was
+rejected; do not rebuild that.
 
 **CSS this added.** `.diagram--full` (unsets the 470px svg cap), `.d-strip`, `.d-rule`, `.d-mem`,
 `.d-solid` — the compartment-box treatment that style-reference section 8 always specified but
-nothing had used. Reusable by any later class plate.**Why Composite was dropped from P2.** The original payoff put Composite on the document tree, but
+nothing had used. Every later plate reuses these.
+
+**A standing gap this exposed.** The dashed-diagram convention below says the closing *in-case*
+class diagram should show both versions at once. P1's drops `Map`, `RecencyList` and `Node`, and
+P2's page D has none at all. The plates do not excuse this; the in-case diagrams still argue, while
+the plate only records.**Why Composite was dropped from P2.** The original payoff put Composite on the document tree, but
 the author's actual follow-up asked for non-text *elements in a flat sequence*, not nesting — the
 recovery was a polymorphic element type, and calling that Composite would have badged the case with
 a pattern the design does not use. Part 1 also ranks Composite in 5.9, below the seven that earned
@@ -255,12 +247,13 @@ Every problem uses the chronology and definition of done in `lowleveldesign/cont
 The five questions from Part 1 section 6.1 are the visible navigation system; the changed
 requirement follows the four moves from section 6.2.
 
-Every case study receives three pages by default:
+Every case study receives three case pages by default, then a class plate:
 
 1. **Enter the interview** — prompt, first response, clarification dialogue, assumptions and scope.
    Stops before entity discovery so the invitation to attempt the problem is real.
 2. **Build and prove the design** — entities, ownership, invariants, diagram, traces, Java and complexity.
 3. **Move the requirement** — impact, before/after design, debrief, alternatives and practice.
+4. **The class plate** — the finished model in full UML, with a legend and the repo link. No prose.
 
 **Page layout is not free.** Section 5 of the blueprint gives each of the three pages a binding
 block spine, in the same way section 7 below governs the Part 1 pattern pages. Chapter 5 of Part 1
@@ -269,9 +262,11 @@ documents. The spine also caps a page at four structural blocks and two tables, 
 between them — stacked labelled containers with no argument running through them is the failure
 mode these pages fall into.
 
-A fourth page is allowed only when it has a distinct teaching job: a substantial authentic story,
-a separate operation trace, two independent mechanisms, a structural follow-up, or a material
-non-functional concern. Fame and problem order are not reasons to add a page.
+A fourth **case** page is allowed only when it has a distinct teaching job: a substantial authentic
+story, a separate operation trace, two independent mechanisms, a structural follow-up, or a material
+non-functional concern. Fame and problem order are not reasons to add a page. The class plate is
+separate and automatic; it never counts toward this decision, and a case must never be padded to a
+fourth narrative page because the plate made it “nearly five”.
 
 ### Show the journey, not the destination
 
@@ -287,7 +282,8 @@ Two devices carry this, and both should be reused for every problem:
   versions at once. Where the case claims the design is now cheap to extend, add one
   `.d-box--ghost` slot for the extension that was never built — lighter stroke, faint label, so it
   never reads as a class that exists. Three states in total: solid was always there, dashed arrived
-  with the follow-up, ghosted is what extending it would cost.
+  with the follow-up, ghosted is what extending it would cost. **In-case diagrams only** — a ghost
+  box must never appear on a class plate, which may show only what the repository implements.
 - **A stacked before/after.** A short `code-block--bad` labelled as the first version, then a
   `code-block--good` labelled as what the follow-up forced. Keep them structurally parallel so
   the diff is obvious — in P1 exactly one line differs.
