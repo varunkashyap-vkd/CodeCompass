@@ -1715,6 +1715,485 @@ Run free = row.findRun(needed);            <span class="c">// n consecutive empt
     </footer>
   </section>
 
+  <!-- ============================================================
+       Page 17 — P4 Vending machine, the brief
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span class="case-id"><strong>P4</strong> · Vending machine</span>
+      <span>The brief · 1 of 4</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">P4</span>Vending machine</h1>
+      <p class="case-deck">The half of the machine nobody designs</p>
+
+      <p class="lead">
+        Another one I set rather than sat. It is the friendliest prompt in this book. Everyone has
+        used a vending machine and nobody thinks it is hard. That is exactly why I watch so many
+        confident starts go wrong here. The machine is really two machines in one box, and almost
+        everybody designs the same one.
+      </p>
+
+      <div class="brief">
+        <p class="label">The prompt, as I put it</p>
+        <p>
+          “Design the low-level structure for a vending machine. It is loaded with products. It
+          takes money from a customer and hands back the item and any change.”
+        </p>
+      </div>
+
+      <p>
+        What comes next is remarkably consistent. Rows, a tray, an <code>Item</code> with a name and
+        a price, a <code>dispense()</code> that turns a motor. Then money shows up as an
+        <code>int</code>. It gets subtracted inside a method that is really about the motor, and the
+        design moves on. The vending is finished. The payment process was never accounted for.
+      </p>
+
+      <p>
+        I once watched eleven minutes go on whether an item should carry a weight, a height and a
+        colour. It is a vending machine. Nothing in it is going to weigh a hundred and fifty kilos,
+        and nothing downstream reads any of the three. In that same round nobody had asked what
+        happens when the machine runs out of ten-rupee notes.
+      </p>
+
+      <h4 class="qtag u-mt-4"><span class="qtag__num">Q1</span>What am I actually building?</h4>
+      <p>Three questions are worth the time here. The first one is the whole case.</p>
+
+      <table class="table table--rowhead u-mt-4">
+        <tbody>
+          <tr>
+            <td>Can it always make change?</td>
+            <td>No. It holds a fixed stock of notes and coins. It can run out by mid-afternoon.</td>
+          </tr>
+          <tr>
+            <td>Where does the price live?</td>
+            <td>On the shelf, not the item. A shelf is loaded with one product at one price.</td>
+          </tr>
+          <tr>
+            <td>Who reloads it, and when?</td>
+            <td>An operator, between sales. Refills and price changes never land mid-transaction.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="u-mt-4">
+        Ask the first one out loud even though you can guess the answer. The answer decides what
+        kind of problem you have. If the machine can always make change, money is arithmetic and you
+        have been handed a dispenser. If it cannot, every sale carries a second question.
+        <em>Can I finish this?</em> Where you choose to ask it is the design.
+      </p>
+
+      <p>
+        I give the second one away rather than watch five minutes burn on it. Pricing an item at
+        runtime needs an input the machine does not have. Fix the price to the shelf and load the
+        shelf with one product. A whole category of imagined problem stops existing. The rest goes
+        quickly. One customer at a time, so there is no concurrency to design around. Cash only, in
+        five denominations. Out go telemetry, remote monitoring, the motor, and anything about who
+        the customer is.
+      </p>
+
+      <div class="note u-mt-4">
+        <p class="label">Your turn</p>
+        <p>
+          Fifteen minutes. Write the states an order passes through between the button and the tray.
+          Write the signature of the method that takes money. Then answer one question in a
+          sentence: what has to be true before the machine commits to a sale?
+        </p>
+      </div>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
+      <span class="page__num">Page 17 of 46</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 18 — P4 Vending machine, the model
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span class="case-id"><strong>P4</strong> · Vending machine</span>
+      <span>The model · 2 of 4</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">P4</span>Vending machine</h1>
+      <p class="case-deck">Nothing moves until the whole sale can finish</p>
+
+      <p class="lead">
+        Here is the version the strongest candidates hand me, written the way they write it. It keeps
+        one promise. The machine never takes money for a sale it cannot complete.
+      </p>
+
+      <h4 class="qtag"><span class="qtag__num">Q2</span>What are the things?</h4>
+      <p>
+        <code>Tray</code>, <code>Motor</code> and <code>Display</code> go again as hardware.
+        <code>Product</code> goes with them. It was only a name and a price, and the shelf already
+        owns both. What survives: <code>VendingMachine</code>, <code>Shelf</code>,
+        <code>CashBox</code>, <code>Sale</code>, and three states.
+      </p>
+
+      <h4 class="qtag u-mt-4"><span class="qtag__num">Q3</span>Who owns what?</h4>
+      <p>Each is answerable for something the others must not reach into.</p>
+
+      <table class="table table--rowhead u-mt-4">
+        <tbody>
+          <tr>
+            <td><code>VendingMachine</code></td>
+            <td>Owns the shelves, the cash box and the sale in flight. Delegates every transition.</td>
+          </tr>
+          <tr>
+            <td><code>Shelf</code></td>
+            <td>One product, one price, a count. Releases an item and takes a refill.</td>
+          </tr>
+          <tr>
+            <td><code>CashBox</code></td>
+            <td>The notes it holds, by denomination. Answers whether an amount can be returned.</td>
+          </tr>
+          <tr>
+            <td><code>Sale</code></td>
+            <td>The shelf chosen and the price frozen at selection. Born at the button.</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="u-mt-4">
+        Two invariants hold it together. <strong>Money is never accepted for a sale the machine
+        cannot complete.</strong> And <strong>a shelf's count drops exactly once per sale.</strong>
+        The first is why <code>canReturn</code> is a question, not a calculation. It is also why the
+        lifecycle is the design here.
+      </p>
+
+      <figure class="diagram">
+        <svg viewBox="0 0 470 110" role="img" aria-label="State diagram. Idle moves to Collecting on select, Collecting moves to Dispensing when paid in full, Dispensing returns to Idle on collect, and Collecting returns to Idle on cancel.">
+          <path class="d-line" d="M235,38 L235,16 L65,16 L65,38" />
+          <path class="d-line" d="M61,30 L65,38 L69,30" />
+          <text class="d-label" x="78" y="12">cancel · everything refunded</text>
+
+          <rect class="d-box" x="10" y="38" width="110" height="28" rx="4" />
+          <text class="d-name" x="65" y="56">Idle</text>
+          <rect class="d-box d-box--accent" x="180" y="38" width="110" height="28" rx="4" />
+          <text class="d-name" x="235" y="56">Collecting</text>
+          <rect class="d-box" x="350" y="38" width="110" height="28" rx="4" />
+          <text class="d-name" x="405" y="56">Dispensing</text>
+
+          <path class="d-line" d="M120,52 L174,52" />
+          <path class="d-line" d="M168,48 L176,52 L168,56" />
+          <text class="d-label" x="124" y="34">select</text>
+          <path class="d-line" d="M290,52 L344,52" />
+          <path class="d-line" d="M338,48 L346,52 L338,56" />
+          <text class="d-label" x="292" y="34">insert · paid in full</text>
+
+          <path class="d-line" d="M405,66 L405,96 L65,96 L65,66" />
+          <path class="d-line" d="M61,74 L65,66 L69,74" />
+          <text class="d-label" x="180" y="92">collect · item out, change paid</text>
+        </svg>
+        <figcaption>A short payment is not a fourth state. It leaves the machine in <code>Collecting</code>.</figcaption>
+      </figure>
+
+      <p>
+        Everything the case turns on lives inside one transition. It goes up before anything else.
+      </p>
+
+      <div class="code-block">
+        <p class="label">Collecting, deciding whether to commit</p>
+        <pre><code>SaleState insert(VendingMachine m, int note) {
+    m.cash().accept(note);                 <span class="c">// taken and kept, one step</span>
+    m.sale().add(note);
+    if (m.sale().shortfall() &gt; 0) return this;
+    if (!m.cash().canReturn(m.sale().change())) return cancel(m);
+    return new Dispensing();
+}</code></pre>
+      </div>
+
+      <p class="u-mt-4">
+        Feed a twenty at a fifty-rupee shelf. <code>shortfall()</code> is thirty, the method returns
+        <code>this</code>, and the machine stays in <code>Collecting</code>. If that needs special
+        handling, your states are wrong.
+      </p>
+
+      <h4 class="qtag u-mt-4"><span class="qtag__num">Q4</span>What will change?</h4>
+      <p>
+        Almost everyone says the products and the prices. They are right, and it costs nothing. A
+        shelf is loaded, not subclassed, and <code>refill</code> is the whole of restocking. On cash
+        this is a good design.
+      </p>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
+      <span class="page__num">Page 18 of 46</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 19 — P4 Vending machine, the change
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span class="case-id"><strong>P4</strong> · Vending machine</span>
+      <span>The change · 3 of 4</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">P4</span>Vending machine</h1>
+      <p class="case-deck">The states were named after the money</p>
+
+      <p class="lead">
+        It survives everything I throw at it in notes and coins. So I stop talking about coins.
+      </p>
+
+      <div class="brief">
+        <p class="label">What I ask next</p>
+        <p>
+          “Product wants to take cards from next quarter. Tap and go. How much of this survives?”
+        </p>
+      </div>
+
+      <p>
+        The first answer is nearly always a branch. A <code>CARD</code> case inside
+        <code>insert</code>. Fair instinct, wrong answer. The lifecycle does not have a cash branch
+        in it. It <em>is</em> cash. So I walk it through section 6.2's four moves.
+      </p>
+
+      <ol class="list list--num moves">
+        <li><strong>Restate it:</strong> the machine has to take a second kind of money, and a third after that.</li>
+        <li><strong>Where it lands:</strong> not in <code>insert</code>, where you would expect. In <code>canReturn</code>, and in the name <code>Collecting</code>.</li>
+        <li><strong>What stays, what changes:</strong> shelves, counts and invariants hold. Tracking what is paid leaves <code>Sale</code>.</li>
+        <li><strong>What I got wrong:</strong> I named the states after cash, so they could only ever run cash.</li>
+      </ol>
+
+      <div class="code-block code-block--bad">
+        <p class="label">Before — the transition knows what money is</p>
+        <pre><code>SaleState insert(VendingMachine m, int note) {
+    m.cash().accept(note);                 <span class="c">// taken and kept, one step</span>
+    m.sale().add(note);
+    if (m.sale().shortfall() &gt; 0) return this;
+    if (!m.cash().canReturn(m.sale().change())) return cancel(m);
+    return new Dispensing();
+}</code></pre>
+      </div>
+      <div class="code-block code-block--good">
+        <p class="label">After — the transition asks, the instrument answers</p>
+        <pre><code>SaleState pay(VendingMachine m, PaymentMethod p) {
+    if (!p.hold(m.sale().due())) return this;   <span class="c">// held, not kept</span>
+    return new Dispensing();
+}
+SaleState collect(VendingMachine m) {           <span class="c">// in Dispensing</span>
+    m.sale().shelf().releaseOne();
+    m.payment().capture();                      <span class="c">// kept only now</span>
+    return new Idle();
+}</code></pre>
+      </div>
+
+      <p class="u-mt-4">
+        One question replaces three, and all three that left were cash nouns. But look at where
+        <code>capture()</code> went. Cash leaves no gap between taking money and keeping it. A card
+        authorises first and captures after, so <code>CashPayment</code> must <strong>hold</strong>
+        notes it can still hand back.
+        <span class="chip">github.com/varunkashyap-vkd/lld-runbook/vending-machine</span>
+      </p>
+
+      <p>
+        That gap is what makes the sale <strong>atomic</strong>. Money is held across the dispense,
+        not kept before it, so a jam is recoverable: release the payment and the customer gets their
+        money back. The invariant said the machine never takes money for a sale it cannot complete.
+        Read it again. It was only ever about the change.
+      </p>
+
+      <ul class="closing caption u-mt-4">
+        <li><strong>Where it stops:</strong> atomicity ends at the dispense. A card release can be refused an hour later, so the machine can reach <code>Idle</code> still owing money.</li>
+        <li><strong>What I am listening for:</strong> whether you notice one of your states is named after a coin, and what you say when the motor jams. <strong>Two to try:</strong> the customer walks away mid-sale. The shelf sells out between select and pay.</li>
+        <li><strong>If you take one thing from this:</strong> name a state for the decision it is waiting on, never for the thing it is waiting with.</li>
+      </ul>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
+      <span class="page__num">Page 19 of 46</span>
+    </footer>
+  </section>
+
+  <!-- ============================================================
+       Page 20 — P4 Vending machine, the class plate
+       ============================================================ -->
+  <section class="page">
+    <header class="page__head">
+      <span class="case-id"><strong>P4</strong> · Vending machine</span>
+      <span>The class model · 4 of 4</span>
+    </header>
+
+    <div class="page__body">
+      <h1 class="page-title"><span class="page-title__num">P4</span>Vending machine</h1>
+      <p class="case-deck">Every class, and how they connect</p>
+
+      <figure class="diagram diagram--full">
+        <svg viewBox="0 0 680 781" role="img" aria-label="UML class diagram. VendingMachine composes Shelf, Sale and CashBox, and associates with SaleState and PaymentMethod. Idle, Collecting and Dispensing realize SaleState. CashPayment and CardPayment realize PaymentMethod, and CashPayment associates with CashBox.">
+
+          <path class="d-strip" d="M195,4 a4,4 0 0 1 4,-4 h282 a4,4 0 0 1 4,4 v20 h-290 z" />
+          <rect class="d-box" x="195" y="0" width="290" height="235" rx="4" />
+          <line class="d-rule" x1="195" y1="24" x2="485" y2="24" />
+          <text class="d-name" x="340" y="17">VendingMachine</text>
+          <text class="d-mem" x="205" y="40">- shelves: Map&lt;String, Shelf&gt;</text>
+          <text class="d-mem" x="205" y="55">- cash: CashBox</text>
+          <text class="d-mem" x="205" y="70">- sale: Sale</text>
+          <text class="d-mem" x="205" y="85">- payment: PaymentMethod</text>
+          <text class="d-mem" x="205" y="100">- state: SaleState</text>
+          <text class="d-mem" x="205" y="115">+ select(String): void</text>
+          <text class="d-mem" x="205" y="130">+ pay(PaymentMethod): void</text>
+          <text class="d-mem" x="205" y="145">+ collect(): void</text>
+          <text class="d-mem" x="205" y="160">+ cancel(): void</text>
+          <text class="d-mem" x="205" y="175">+ sale(): Sale</text>
+          <text class="d-mem" x="205" y="190">+ sale(Sale): void</text>
+          <text class="d-mem" x="205" y="205">+ payment(): PaymentMethod</text>
+          <text class="d-mem" x="205" y="220">+ cash(): CashBox</text>
+
+          <polygon class="d-solid" points="240,235 234,242 240,249 246,242" />
+          <path class="d-line" d="M240,249 L240,337 L215,337" />
+          <text class="d-label" x="219" y="349">shelves 1..*</text>
+          <polygon class="d-solid" points="275,235 269,242 275,249 281,242" />
+          <path class="d-line" d="M275,249 L275,485 L215,485" />
+          <text class="d-label" x="219" y="481">sale 0..1</text>
+          <polygon class="d-solid" points="310,235 304,242 310,249 316,242" />
+          <path class="d-line" d="M310,249 L310,610 L215,610" />
+          <text class="d-label" x="219" y="606">cash 1</text>
+
+          <path class="d-line" d="M485,110 L600,110 L600,261" />
+          <path class="d-line" d="M596,253 L600,261 L604,253" />
+          <text class="d-label" x="604" y="132">state 1</text>
+          <path class="d-line" d="M485,150 L670,150 L670,540 L614,540" />
+          <path class="d-line" d="M622,536 L614,540 L622,544" />
+          <text class="d-label" x="612" y="532">payment 0..1</text>
+
+          <path class="d-strip" d="M0,269 a4,4 0 0 1 4,-4 h207 a4,4 0 0 1 4,4 v20 h-215 z" />
+          <rect class="d-box" x="0" y="265" width="215" height="145" rx="4" />
+          <line class="d-rule" x1="0" y1="289" x2="215" y2="289" />
+          <text class="d-name" x="107" y="282">Shelf</text>
+          <text class="d-mem" x="10" y="305">- product: String</text>
+          <text class="d-mem" x="10" y="320">- price: int</text>
+          <text class="d-mem" x="10" y="335">- count: int</text>
+          <text class="d-mem" x="10" y="350">+ price(): int</text>
+          <text class="d-mem" x="10" y="365">+ inStock(): boolean</text>
+          <text class="d-mem" x="10" y="380">+ releaseOne(): void</text>
+          <text class="d-mem" x="10" y="395">+ refill(int): void</text>
+
+          <path class="d-strip" d="M0,439 a4,4 0 0 1 4,-4 h207 a4,4 0 0 1 4,4 v20 h-215 z" />
+          <rect class="d-box" x="0" y="435" width="215" height="100" rx="4" />
+          <line class="d-rule" x1="0" y1="459" x2="215" y2="459" />
+          <text class="d-name" x="107" y="452">Sale</text>
+          <text class="d-mem" x="10" y="475">- shelf: Shelf</text>
+          <text class="d-mem" x="10" y="490">- due: int</text>
+          <text class="d-mem" x="10" y="505">+ shelf(): Shelf</text>
+          <text class="d-mem" x="10" y="520">+ due(): int</text>
+
+          <path class="d-line" d="M60,435 L60,414" />
+          <path class="d-line" d="M56,422 L60,414 L64,422" />
+          <text class="d-label" x="68" y="432">shelf 1</text>
+
+          <path class="d-strip" d="M0,564 a4,4 0 0 1 4,-4 h207 a4,4 0 0 1 4,4 v20 h-215 z" />
+          <rect class="d-box" x="0" y="560" width="215" height="100" rx="4" />
+          <line class="d-rule" x1="0" y1="584" x2="215" y2="584" />
+          <text class="d-name" x="107" y="577">CashBox</text>
+          <text class="d-mem" x="10" y="600">- notes: Map&lt;Integer, Integer&gt;</text>
+          <text class="d-mem" x="10" y="615">+ canReturn(int): boolean</text>
+          <text class="d-mem" x="10" y="630">+ accept(int): void</text>
+          <text class="d-mem" x="10" y="645">+ dispense(int): List&lt;Integer&gt;</text>
+
+          <path class="d-strip" d="M355,269 a4,4 0 0 1 4,-4 h302 a4,4 0 0 1 4,4 v32 h-310 z" />
+          <rect class="d-box" x="355" y="265" width="310" height="112" rx="4" />
+          <line class="d-rule" x1="355" y1="301" x2="665" y2="301" />
+          <text class="d-stereo" x="510" y="281">&#171;interface&#187;</text>
+          <text class="d-name" x="510" y="295">SaleState</text>
+          <text class="d-mem" x="365" y="317">+ select(VendingMachine, Shelf): SaleState</text>
+          <text class="d-mem" x="365" y="332">+ pay(VendingMachine, PaymentMethod): SaleState</text>
+          <text class="d-mem" x="365" y="347">+ collect(VendingMachine): SaleState</text>
+          <text class="d-mem" x="365" y="362">+ cancel(VendingMachine): SaleState</text>
+
+          <path class="d-strip" d="M355,409 a4,4 0 0 1 4,-4 h92 a4,4 0 0 1 4,4 v20 h-100 z" />
+          <rect class="d-box" x="355" y="405" width="100" height="40" rx="4" />
+          <line class="d-rule" x1="355" y1="429" x2="455" y2="429" />
+          <text class="d-name" x="405" y="422">Idle</text>
+
+          <path class="d-strip" d="M460,409 a4,4 0 0 1 4,-4 h92 a4,4 0 0 1 4,4 v20 h-100 z" />
+          <rect class="d-box" x="460" y="405" width="100" height="40" rx="4" />
+          <line class="d-rule" x1="460" y1="429" x2="560" y2="429" />
+          <text class="d-name" x="510" y="422">Collecting</text>
+
+          <path class="d-strip" d="M565,409 a4,4 0 0 1 4,-4 h92 a4,4 0 0 1 4,4 v20 h-100 z" />
+          <rect class="d-box" x="565" y="405" width="100" height="40" rx="4" />
+          <line class="d-rule" x1="565" y1="429" x2="665" y2="429" />
+          <text class="d-name" x="615" y="422">Dispensing</text>
+
+          <path class="d-line d-line--dashed" d="M405,405 L405,391" />
+          <path class="d-line d-line--dashed" d="M510,405 L510,391" />
+          <path class="d-line d-line--dashed" d="M615,405 L615,391" />
+          <path class="d-line d-line--dashed" d="M405,391 L615,391" />
+          <polygon class="d-head" points="510,377 503,391 517,391" />
+
+          <path class="d-strip" d="M400,484 a4,4 0 0 1 4,-4 h202 a4,4 0 0 1 4,4 v32 h-210 z" />
+          <rect class="d-box d-box--later" x="400" y="480" width="210" height="97" rx="4" />
+          <line class="d-rule" x1="400" y1="516" x2="610" y2="516" />
+          <text class="d-stereo" x="505" y="496">&#171;interface&#187;</text>
+          <text class="d-name" x="505" y="510">PaymentMethod</text>
+          <text class="d-mem" x="410" y="532">+ hold(int): boolean</text>
+          <text class="d-mem" x="410" y="547">+ capture(): void</text>
+          <text class="d-mem" x="410" y="562">+ release(): void</text>
+
+          <path class="d-strip" d="M325,609 a4,4 0 0 1 4,-4 h192 a4,4 0 0 1 4,4 v20 h-200 z" />
+          <rect class="d-box d-box--later" x="325" y="605" width="200" height="100" rx="4" />
+          <line class="d-rule" x1="325" y1="629" x2="525" y2="629" />
+          <text class="d-name" x="425" y="622">CashPayment</text>
+          <text class="d-mem" x="335" y="645">- held: List&lt;Integer&gt;</text>
+          <text class="d-mem" x="335" y="660">- box: CashBox</text>
+          <text class="d-mem" x="335" y="675">- due: int</text>
+          <text class="d-mem" x="335" y="690">+ insert(int): void</text>
+
+          <path class="d-strip" d="M550,609 a4,4 0 0 1 4,-4 h122 a4,4 0 0 1 4,4 v20 h-130 z" />
+          <rect class="d-box d-box--later" x="550" y="605" width="130" height="55" rx="4" />
+          <line class="d-rule" x1="550" y1="629" x2="680" y2="629" />
+          <text class="d-name" x="615" y="622">CardPayment</text>
+          <text class="d-mem" x="560" y="645">- authCode: String</text>
+
+          <path class="d-line d-line--dashed" d="M425,605 L425,590" />
+          <path class="d-line d-line--dashed" d="M615,605 L615,590" />
+          <path class="d-line d-line--dashed" d="M425,590 L615,590" />
+          <polygon class="d-head" points="505,577 498,590 512,590" />
+
+          <path class="d-line" d="M325,655 L219,655" />
+          <path class="d-line" d="M227,651 L219,655 L227,659" />
+          <text class="d-label" x="240" y="650">box 1</text>
+
+          <line class="d-rule" x1="0" y1="733" x2="680" y2="733" />
+          <polygon class="d-solid" points="0,751 6,745 12,751 6,757" />
+          <line class="d-line" x1="12" y1="751" x2="34" y2="751" />
+          <text class="d-label" x="38" y="754">composition</text>
+          <line class="d-line" x1="170" y1="751" x2="198" y2="751" />
+          <path class="d-line" d="M190,747 L198,751 L190,755" />
+          <text class="d-label" x="204" y="754">association</text>
+          <line class="d-line d-line--dashed" x1="340" y1="751" x2="358" y2="751" />
+          <polygon class="d-head" points="368,751 358,745 358,757" />
+          <text class="d-label" x="374" y="754">realization</text>
+          <rect class="d-box d-box--later" x="490" y="744" width="22" height="14" rx="3" />
+          <text class="d-label" x="518" y="754">added by the follow-up</text>
+          <text class="d-mem" x="0" y="772">+</text>
+          <text class="d-label" x="14" y="772">public</text>
+          <text class="d-mem" x="90" y="772">-</text>
+          <text class="d-label" x="104" y="772">private</text>
+          <text class="d-stereo" x="220" y="772">&#171;interface&#187;</text>
+          <text class="d-label" x="258" y="772">contract only, no state</text>
+        </svg>
+        <figcaption><code>hold</code>, <code>capture</code> and <code>release</code> are the atomicity contract: nothing is kept until <code>collect</code> has released the item. Full implementation: <span class="chip">github.com/varunkashyap-vkd/lld-runbook/vending-machine</span></figcaption>
+      </figure>
+    </div>
+
+    <footer class="page__foot">
+      <span><strong>CodeCompass</strong> · The LLD Runbook · Part 2</span>
+      <span class="page__num">Page 20 of 46</span>
+    </footer>
+  </section>
+
 </body>
 
 </html>

@@ -255,22 +255,39 @@ as written.
 
 ---
 
-### P4 — Vending machine
+### P4 — Vending machine  *(answered; built on pages 17–20)*
 
 **Where people go wrong**
-
+- I see lot of candidates obsess over the "vending" part but completely overlook the "payment" part
+  when in reality both of them are equally important for a vending machine to function. How is cash
+  managed, are they keeping track of correct denominations? What do they do if customer indeed gives
+  a Rs.100 bill but machine doesn't have 2*Rs.10 notes to return, is the purchase allowed or not?
+  How is the original 100 rupees returned to customer? They also don't take into account how new
+  items can be added or their inventory updated.
 
 **What I'm listening for**
-
+- Are they mapping the lifecyle of an order properly? It would ideally be "selected" -> "money
+  inserted" -> "order confirmed (if money is correctly inserted and we have sufficient denominations
+  to return)" -> "item vended" -> "balance refunded".
+- How do they ensure that failure after vending the item does not happen? because that would leave
+  the customer without his balance? How do they make the entire transaction atomic?
+- Are they focussing on irrelevant stuff like - item height, item weight, color, etc,. because this
+  is a vending machine which is already stated, so practically speaking it will not be allowed to
+  have items weiging 150kg right, so do we even need to worry about that at all?
+- How are they calculating price of item at runtime? Do they allow different priced items to be
+  placed on a same row, or they fixate a row to a particular price say Rs.20 and then only items
+  worth Rs.20 are allowed to be put there? This matters because runtime calculation of an item might
+  not be possible without external input and we dont want that.
 
 **The moment I'd use to break it**
+- Product wishes to add a new payment type tomorrow, lets say credit card, is the design robust
+  enough to absorb these changes?
+- Item is charged at Rs.50 but customer only entered Rs.20, how will they keep the transaction
+  lifecycle healthy and how would they direct it towards a happy case.
 
-
-<!-- Prompts that might jog something, ignore any that don't apply: what do people get wrong about
-     the money — partial payment, refunds, exact change — versus the dispensing they spend their
-     time on? Do they put transitions in one big if/else chain, and what happens when a state is
-     added? Is there a case that reliably catches people — item goes out of stock after selection,
-     cancel mid-transaction, power loss with money inserted? Anything overrated about this problem? -->
+**On the payoff overlap with P5**
+- Lets focus on P4 for now, and when we come to next problem we'll see how best to handle it. Right
+  now, whatever design patterns logically fit P4 should be used.
 
 ---
 

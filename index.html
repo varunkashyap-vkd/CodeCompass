@@ -125,6 +125,9 @@
 
     .pdf-link:hover { border-bottom-color: var(--accent); }
 
+    /* Separates one product's card-plus-download group from the next. */
+    .pdf-link + .item { margin-top: 26px; }
+
     .soon {
       margin-top: 24px;
       padding: 16px 18px;
@@ -168,11 +171,19 @@
         <span>Read online</span>
       </div>
     </a>
-    <a class="pdf-link" href="lowleveldesign/part-1-theory.pdf">Download as PDF</a>
+    <a class="pdf-link" href="lowleveldesign/exports/part-1-theory.pdf">Download as PDF</a>
 
-    <div class="soon">
-      Part 2 — Problems · in progress
-    </div>
+    <a class="item" href="lowleveldesign/part-2-problems.html">
+      <div class="item__title">Part 2 — Problems</div>
+      <div class="item__meta">
+        Interview cases worked end to end: what was asked, what got designed, and what happened
+        when the requirement changed. Four of ten cases built so far.
+      </div>
+      <div class="item__links">
+        <span>Read online</span>
+      </div>
+    </a>
+    <a class="pdf-link" href="lowleveldesign/exports/part-2-problems.pdf">Download as PDF</a>
 
     <footer>
       CodeCompass · Edition 1 · 2026

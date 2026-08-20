@@ -141,8 +141,8 @@ runners-up billing.
 >
 > **Repo link convention.** Every plate's figcaption carries a chip pointing at
 > `github.com/varunkashyap-vkd/lld-runbook/<slug>`, where the slug names the *design*, not the
-> problem title: `lru-cache` (P1), `collab-doc` (P2), `parking-lot` (P3). Pick the slug when the
-> brief is written and use the same one on the plate and in any in-case chip.
+> problem title: `lru-cache` (P1), `collab-doc` (P2), `parking-lot` (P3), `vending-machine` (P4).
+> Pick the slug when the brief is written and use the same one on the plate and in any in-case chip.
 
 | § | Page | Title | Status | Brief |
 |---|---|---|---|---|
@@ -151,7 +151,7 @@ runners-up billing.
 | P1 | 3–7 | LRU cache | done | Personal interview case in **four case pages plus a class plate**, each titled *LRU Cache* with its own deck: (A) *The round I misread* — prompt, the exchange, three clarifications, scope, stop line; (B) *Two structures, one promise* — rejected nouns, ownership, invariants, baseline diagram, public API, and Q4 answered honestly; (C) *What six calls proved* — six-call trace, decisive mutation, complexity derived at the call site, edge cases; (D) *The question after the code worked* — MRU follow-up, the recovery, Strategy named and justified against section 5.6's signal (including why it is not State), before/after code, delta diagram, rewiring cost, LFU limit, debrief and takeaway. Signed off by the author; treat its page spine as the reference for later cases. |
 | P2 | 8–12 | Google Docs | done | Personal interview case, SDE-III object-oriented design round, in **four case pages plus a class plate**, each titled *Google Docs* with its own deck: (A) *Ten minutes deciding what not to build* — the unbounded prompt, bounding it by proposing scope rather than asking for it, the clarification that split undo two ways, the storage boundary drawn explicitly, text-only agreed, stop line; (B) *An edit has to carry its own past* — rejected nouns, the four entities, ownership and invariants, baseline diagram, public API, Q4 answered honestly (conflict rule named as variable, content type treated as fixed); (C) *Two editors, one line* — a five-step collision trace with real timestamps, the decisive `apply`, undo re-submitted as a reversed edit through the same path, complexity and edge cases; (D) *The assumption inside the word “text”* — the non-text follow-up, the sting of having proposed the simplification himself, four moves, before/after code, the rewiring cost that reaches `Edit` rather than stopping at `Document`, limits; (E) *Every class, and how they connect* — a full UML class plate: eight compartment boxes carrying every field and method, composition, aggregation, association and realization notation with multiplicities, and the repo link. Deliberately carries **no prose** — it is a reference artifact, not a teaching page. Replaced HashMap, whose natural follow-up (chaining versus open addressing) landed on the same closing lesson as P1: an interface does not absorb an algorithm that needs different state. Scope hard: the document model and one edit applied end to end, never “build Google Docs”. The product may be named; the interviewing company still may not. |
 | P3 | 13–16 | Parking lot | draft | **Representative case** — set as an interviewer, worked with mentees; the first case not drawn from a round the author sat, and the pilot for the narrator contract in blueprint section 3. Three case pages plus a class plate: (A) *Everyone starts by naming the slots* — a representative prompt, three clarifications, and the observed misread stated as the decision most candidates make in ninety seconds without noticing they made one; (B) *A slot for every kind of vehicle* — the typed-slot baseline presented confidently, `SlotType` and `VehicleType` enums with a hard-coded lookup, ownership, invariants, diagram, API and a short allocation trace; (C) *A free bay, and nothing that fits it* — the follow-up (a bus bay stands empty, no buses are coming, eight scooters are waiting), four moves, before/after code, the rewiring cost and the fragmentation the fix introduces. |
-| P4 | 17–20 | Vending machine | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
+| P4 | 17–20 | Vending machine | draft | **Representative case**, title locked. Three case pages plus a class plate: (A) *The half of the machine nobody designs* — a representative prompt, the observed misread (candidates design the vending and treat money as arithmetic), three clarifications of which the one about making change is the one that pays, and cash-only agreed as scope; (B) *Nothing moves until the whole sale can finish* — the lifecycle baseline as a strong candidate writes it, `Idle`/`Collecting`/`Dispensing` behind a `SaleState` interface carrying four operations (`select`, `insert`, `collect`, `cancel`), `Shelf` owning price and count with `refill` as the whole of restocking, `CashBox` tracking denominations, the change guarantee checked before the item is committed, a state diagram whose every transition names its operation, the decisive `insert` excerpt and the underpayment boundary; (C) *The states were named after the money* — the card follow-up, four moves, before/after excerpts, the holding step that cash-only never had to name, and **atomicity as a named second payoff**: money is held across the dispense rather than kept before it, so a jam is recoverable, and the baseline's invariant is re-read on the page as having only ever been about the change. No evolved diagram: Part 1 section 2.4 already draws this exact interface, so the space goes to the rewiring cost. |
 | P5 | 21–24 | Elevator system | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
 | P6 | 25–28 | Chess | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. Chosen over Snake and ladder because nothing else in the lineup exercises inheritance versus composition (4.2), and Snake and ladder duplicated the Vending machine's rules-plus-state lesson. |
 | P7 | 29–32 | Rate limiter | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
@@ -197,8 +197,8 @@ it rather than statically fetching it. Treat this question as settled.
 | P1 | LRU cache | Strategy — **built** |
 | P2 | Google Docs | Command for the edit and its undo; the follow-up pays off in **Open/Closed (3.2) through polymorphism (2.4)**, not a pattern — **built** |
 | P3 | Parking lot | **Restraint — Part 1 section 4.1 (KISS, YAGNI) plus 3.2's axis of variation.** No new pattern: the fix is *deleting* a type hierarchy, not adding one |
-| P4 | Vending machine | State |
-| P5 | Elevator system | State plus a scheduling seam |
+| P4 | Vending machine | **State in the baseline**, where it is built rather than revealed; the follow-up pays off in **3.2's axis of variation through polymorphism (2.4)** — **built** |
+| P5 | Elevator system | State plus a scheduling seam. **Overlap with P4 unresolved by author's decision** — see below |
 | P6 | Chess | Inheritance versus composition. **Command removed** — P2 now earns it, and chess move history taught the same lesson a second time |
 | P7 | Rate limiter | The Strategy *trap* from 5.6 — algorithms needing different state |
 | P8 | Notification service | Observer, and Builder for message construction |
@@ -207,6 +207,52 @@ it rather than statically fetching it. Treat this question as settled.
 
 Builder is otherwise never earned anywhere in Part 2, which is why P8 carries it. If a brief drifts
 to Strategy when the table says otherwise, the problem is the brief, not the table.
+
+**The P4/P5 State overlap, and why it is deferred rather than settled.** Both rows originally read
+State, which contradicts the principle this table exists to enforce — Command was removed from P6
+the moment P2 earned it, and Composite was dropped from P2 rather than badge a case with a pattern
+it does not use. The duplication is structural rather than accidental: Part 1 section 5.7 names the
+vending machine *and* the elevator as the prompts that earn State its full page. Raised with the
+author before P4 was built; his instruction was to build P4 on whatever patterns fit it and settle
+P5 when P5 is commissioned. **P4 therefore takes State outright.** When P5 is briefed, the open
+question is whether its distinct lesson is the scheduling policy alone.
+
+**Why P4's climax is not the State pattern.** Blueprint section 5 forbids a case that ends on a
+pattern name Part 1 already taught, and 5.7 teaches State on the order lifecycle. So State is P4's
+*baseline*, presented with confidence on page B and never announced as a discovery, and the
+follow-up tests something State cannot answer: the machine's states were named `Collecting` and its
+commit step asked `cashBox.canReturn(...)`, so the lifecycle only ever ran one payment instrument.
+The recovery is the diagnosis — **name a state for the decision it is waiting on, never for the
+thing it is waiting with** — and the cost is a **holding** step that cash-only never had to model,
+because with cash, taking the money and keeping it are the same instant. That holding step is P4's
+equivalent of P3's `Row`: a structure the follow-up forces into existence, quoted out loud as the
+price of the fix. **Do not call it "escrow" on the page** — the author rejected the word as obscure,
+along with "float" and "tender". `CashPayment` *holds* notes it can still hand back.
+
+**The holding step also buys atomicity, which is why `collect` exists.** A design review of the first
+draft found that capturing the money inside `pay`, before the item moved, left the customer paid and
+empty-handed if the motor jammed — exactly the failure the author's notes probe for (*"how do they
+ensure that failure after vending the item does not happen"*). `pay` now only **holds**; `Dispensing`
+releases the item and `capture` runs after it. That gives `Dispensing` a reason to exist, closes a
+state machine that previously could not be left, and answers the atomicity question on the page
+rather than in a footnote. `SaleState` therefore carries four operations, not three.
+
+**The plate is a code-generation template and was audited as one.** The first version declared
+eleven members that the printed excerpts never used and omitted six that they called, so the code
+did not compile against its own diagram. The rule that came out of it: every call in every excerpt
+must resolve to a member on the plate, and the only permitted exceptions are members the follow-up
+deliberately *removes* — in P4 that is `Sale.add`, `Sale.shortfall` and `Sale.change`, which the
+baseline uses and the evolved design moves into `CashPayment`. Page C's third move states this
+outright so the two are not read as a contradiction.
+
+**Why P4 keeps three case pages.** It comes closer to the section 4 bar than P3 did — the lifecycle
+and the cash box are two independently important mechanisms, which is the criterion P2 met. It is
+held at three anyway, because the two mechanisms *interlock* rather than standing apart: the change
+guarantee is a condition inside the confirm transition, so showing the state machine shows the cash
+box with it. P2's conflict resolution and per-editor undo could not be shown in one trace; P4's can.
+The author's underpayment scenario — a fifty-rupee item with twenty inserted — is the boundary
+trace, and it runs in three sentences after the decisive excerpt rather than needing a page. If a
+later review measures page B over, that is the evidence to revisit this, not the preference.
 
 **Why P3 lost Factory and Composite.** The author's interviewer-side material makes the case's
 lesson unambiguous: candidates over-classify, producing slot-type and vehicle-type enums that lock
