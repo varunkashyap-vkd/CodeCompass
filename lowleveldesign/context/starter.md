@@ -262,9 +262,11 @@ project crosses a major milestone.
   questions.** P4's were blank at the start of its session and had to be collected from the author
   before anything was written; the answers are now recorded verbatim. Section E is still empty for
   P5–P10, so each of them is blocked the same way. Ask first, build second.
-- **P4 and P5 both listed State as their payoff.** Raised with the author; his instruction was to
-  build P4 on whatever patterns fit and settle P5 when P5 is commissioned. P4 has taken State
-  outright. Resolve this properly in the map's payoff table before P5 is written.
+- **P4 and the elevator both list State as a payoff.** Raised with the author; his instruction was
+  to build P4 on whatever patterns fit and settle the other when it is commissioned. P4 has taken
+  State outright. The author then **swapped chess to P5 and the elevator to P6**, so the two are no
+  longer adjacent. That eases it; it does not settle it. Before P6 is written, decide whether the
+  elevator's distinct lesson is the scheduling policy alone.
 - LRU is signed off by the author. Treat its page spine and masthead as the reference for later
   cases; do not restyle them to suit a new problem. Its plate carries `Cache`, `Node`,
   `RecencyList`, `EvictionPolicy`, `LruPolicy` and `MruPolicy` — six classes, twenty members, all

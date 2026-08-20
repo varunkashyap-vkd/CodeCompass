@@ -291,7 +291,28 @@ as written.
 
 ---
 
-### P5 – P10
+### P5 — Chess
+
+**Where people go wrong**
+
+
+**What I'm listening for**
+
+
+**The moment I'd use to break it**
+
+
+<!-- Prompts that might jog something, ignore any that don't apply: do they open with a class per
+     piece and a move() override, and where does that hurt? Is the board a grid of pieces or a grid
+     of squares, and does it matter? Does move validation live on the piece, the board, or a rule
+     object - and who knows about check? What happens to their design when you ask for castling (one
+     move, two pieces), en passant (a move that depends on the previous one), or promotion (a piece
+     that changes type mid-game)? Do they model the game or just the board? Anything overrated about
+     this problem? -->
+
+---
+
+### P6 – P10
 
 Same three questions, added as each problem is commissioned. Do not build a representative case
 before its answers are here.

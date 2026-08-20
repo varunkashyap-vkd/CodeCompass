@@ -227,6 +227,19 @@ radius 3px, padding `2px 6px` — used for "full implementation" links.
 - Diagrams are monochrome plus at most one purple highlight for the element under discussion.
 - Every diagram gets an 11px caption below it.
 
+**State diagrams use state-machine notation, not class-box notation.** A lifecycle drawn with the
+same 4px-radius boxes as a class diagram reads as a set of classes, which is the opposite of the
+point. Three rules keep them distinct:
+
+| Element | Rule |
+|---|---|
+| State | Rounded box, `rx` equal to half the box height, so it reads as a capsule rather than a class. |
+| Start | A filled `.d-solid` circle with a short arrow into the initial state. |
+| Transition | Open arrow labelled with the operation that causes it, never with a bare description. |
+
+Name every transition after the method that fires it (`select`, `collect`, `cancel`). A reader who
+is about to implement the design should be able to read the arrows as an API.
+
 **Class plates are the exception to the monochrome rule.** A full-page reference plate built from
 hairline boxes on white reads as unfinished, so it carries more tint than an in-case diagram:
 
