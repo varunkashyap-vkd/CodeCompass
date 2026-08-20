@@ -291,24 +291,30 @@ as written.
 
 ---
 
-### P5 — Chess
+### P5 — Chess  *(answered; built on pages 21–25)*
 
 **Where people go wrong**
-
+- They start focussing too much on the pieces but forget to properly model the board itself. How
+  will the board look like and how would they denote that a particular square is currently occupied
+  by a piece.
+- Or they fail to properly model how the two players will take turns playing it, they sometimes
+  assume that player is playing against the computer and they dont need to worry about the other
+  side but we want a game which can be played by two people.
 
 **What I'm listening for**
-
+- Are they properly defining how a move will take place — does the user decide to say that I wish to
+  move piece p1 to a particular box and then it is validated, or we precalculate for each user what
+  are the currently valid moves they have and then give them a choice in list and ask them to pick
+  one. Both are correct but reasoning matters, because it determines where the validation would live.
+- One thing some candidates do wrong is that they start venturing too deeply into the special moves
+  or very obscure rules that a casual chess player might not be aware of. My focus is not on the
+  specific move but rather will their design be able to absorb that.
 
 **The moment I'd use to break it**
-
-
-<!-- Prompts that might jog something, ignore any that don't apply: do they open with a class per
-     piece and a move() override, and where does that hurt? Is the board a grid of pieces or a grid
-     of squares, and does it matter? Does move validation live on the piece, the board, or a rule
-     object - and who knows about check? What happens to their design when you ask for castling (one
-     move, two pieces), en passant (a move that depends on the previous one), or promotion (a piece
-     that changes type mid-game)? Do they model the game or just the board? Anything overrated about
-     this problem? -->
+- Most candidates are able to absorb any new pieces but I try to flip the table by saying what
+  happens when you need to promote a pawn to some other piece. Does your design account for that, or
+  even allow that possibility. Its fine if it doesn't but does it have capability to support it with
+  minimal changes.
 
 ---
 

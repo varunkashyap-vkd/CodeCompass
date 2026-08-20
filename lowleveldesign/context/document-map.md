@@ -31,7 +31,7 @@ teach complete interview case studies rather than summarise reference material.
 | | Pages | Purpose |
 |---|---|---|
 | **Part 1 — Theory and Principles** | 29 | Vocabulary, principles, patterns, and a solving framework. |
-| **Part 2 — Problems** | 46 | Ten interview case studies worked chronologically — three case pages each except P1 and P2, every one closing with a full class plate — plus cover, contents and two closing pages. |
+| **Part 2 — Problems** | 47 | Ten interview case studies worked chronologically — three case pages each except P1, P2 and P5 — every one closing with a full class plate — plus cover, contents and two closing pages. |
 
 Part 1 is read once, front to back. Part 2 is the working half, and is where readers return.
 
@@ -133,7 +133,7 @@ runners-up billing.
 
 ## 5. Part 2 — Problems
 
-> **Titles P4–P10 are placeholders.** They are plausible LLD problems chosen so the contents page
+> **Titles P6–P10 are placeholders.** They are plausible LLD problems chosen so the contents page
 > reads as a finished index; each is replaced when its commissioning brief is written. Page ranges
 > assume the default of **three case pages plus a class plate** and are re-checked whenever a case
 > is built. A case that earns a fourth case page under blueprint section 4 pushes every later range
@@ -141,7 +141,8 @@ runners-up billing.
 >
 > **Repo link convention.** Every plate's figcaption carries a chip pointing at
 > `github.com/varunkashyap-vkd/lld-runbook/<slug>`, where the slug names the *design*, not the
-> problem title: `lru-cache` (P1), `collab-doc` (P2), `parking-lot` (P3), `vending-machine` (P4).
+> problem title: `lru-cache` (P1), `collab-doc` (P2), `parking-lot` (P3), `vending-machine` (P4),
+> `chess` (P5).
 > Pick the slug when the brief is written and use the same one on the plate and in any in-case chip.
 
 | § | Page | Title | Status | Brief |
@@ -152,14 +153,14 @@ runners-up billing.
 | P2 | 8–12 | Google Docs | done | Personal interview case, SDE-III object-oriented design round, in **four case pages plus a class plate**, each titled *Google Docs* with its own deck: (A) *Ten minutes deciding what not to build* — the unbounded prompt, bounding it by proposing scope rather than asking for it, the clarification that split undo two ways, the storage boundary drawn explicitly, text-only agreed, stop line; (B) *An edit has to carry its own past* — rejected nouns, the four entities, ownership and invariants, baseline diagram, public API, Q4 answered honestly (conflict rule named as variable, content type treated as fixed); (C) *Two editors, one line* — a five-step collision trace with real timestamps, the decisive `apply`, undo re-submitted as a reversed edit through the same path, complexity and edge cases; (D) *The assumption inside the word “text”* — the non-text follow-up, the sting of having proposed the simplification himself, four moves, before/after code, the rewiring cost that reaches `Edit` rather than stopping at `Document`, limits; (E) *Every class, and how they connect* — a full UML class plate: eight compartment boxes carrying every field and method, composition, aggregation, association and realization notation with multiplicities, and the repo link. Deliberately carries **no prose** — it is a reference artifact, not a teaching page. Replaced HashMap, whose natural follow-up (chaining versus open addressing) landed on the same closing lesson as P1: an interface does not absorb an algorithm that needs different state. Scope hard: the document model and one edit applied end to end, never “build Google Docs”. The product may be named; the interviewing company still may not. |
 | P3 | 13–16 | Parking lot | draft | **Representative case** — set as an interviewer, worked with mentees; the first case not drawn from a round the author sat, and the pilot for the narrator contract in blueprint section 3. Three case pages plus a class plate: (A) *Everyone starts by naming the slots* — a representative prompt, three clarifications, and the observed misread stated as the decision most candidates make in ninety seconds without noticing they made one; (B) *A slot for every kind of vehicle* — the typed-slot baseline presented confidently, `SlotType` and `VehicleType` enums with a hard-coded lookup, ownership, invariants, diagram, API and a short allocation trace; (C) *A free bay, and nothing that fits it* — the follow-up (a bus bay stands empty, no buses are coming, eight scooters are waiting), four moves, before/after code, the rewiring cost and the fragmentation the fix introduces. |
 | P4 | 17–20 | Vending machine | draft | **Representative case**, title locked. Three case pages plus a class plate: (A) *The half of the machine nobody designs* — a representative prompt, the observed misread (candidates design the vending and treat money as arithmetic), three clarifications of which the one about making change is the one that pays, and cash-only agreed as scope; (B) *Nothing moves until the whole sale can finish* — the lifecycle baseline as a strong candidate writes it, `Idle`/`Collecting`/`Dispensing` behind a `SaleState` interface carrying four operations (`select`, `insert`, `collect`, `cancel`), `Shelf` owning price and count with `refill` as the whole of restocking, `CashBox` tracking denominations, the change guarantee checked before the item is committed, a state diagram whose every transition names its operation, **the transition mechanism stated outright** (a state holds no fields, so a transition is only a return value the machine swaps in) with the decisive excerpt showing the delegating call and the deciding method side by side, and the underpayment boundary; (C) *The states were named after the money* — the card follow-up, four moves, before/after excerpts, the holding step that cash-only never had to name, and **atomicity as a named second payoff**: money is held across the dispense rather than kept before it, so a jam is recoverable, and the baseline's invariant is re-read on the page as having only ever been about the change. No evolved diagram: Part 1 section 2.4 already draws this exact interface, so the space goes to the rewiring cost. |
-| P5 | 21–24 | Chess | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. Chosen over Snake and ladder because nothing else in the lineup exercises inheritance versus composition (4.2), and Snake and ladder duplicated the Vending machine's rules-plus-state lesson. **Moved here from P6 by the author** so a State case does not follow a State case. |
-| P6 | 25–28 | Elevator system | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. **Moved here from P5 by the author**, putting a case between it and the Vending machine's State payoff. |
-| P7 | 29–32 | Rate limiter | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
-| P8 | 33–36 | Notification service | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
-| P9 | 37–40 | Splitwise | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
-| P10 | 41–44 | Logging framework | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
-| — | 45 | Pattern-to-problem cheat sheet | todo | Which pattern showed up where and which framework question exposed it. |
-| — | 46 | Where to go next | todo | Closing guidance and practice sequencing. |
+| P5 | 21–25 | Chess | draft | **Representative case**, title locked. Chosen over Snake and ladder because nothing else in the lineup exercises inheritance versus composition (4.2), and Snake and ladder duplicated the Vending machine's rules-plus-state lesson. **Moved here from P6 by the author** so a State case does not follow a State case. **Four case pages plus a class plate**, earned on measured overflow — see *Why P5 earns a fourth case page* below: (A) *Six piece types, and nowhere to put them* — a representative prompt, the observed misread in two parts (the opening goes on a piece hierarchy while nothing models the board, and a good number of designs contain only one human), three clarifications of which the one about **who names a move** is the one that pays, and check, clocks and notation ruled out as a second design on top of this one; (B) *One class per piece, and a board to stand them on* — entity discovery, rejected nouns, ownership, invariants, and the baseline diagram carrying `Game`, `Player`, `Board`, `Square` and the six-subclass tree; (C) *A move is a claim, not an instruction* — a four-row trace whose second row fails only because it is not that player's turn, then **both sides of the call**: `Game.move` with `isLegal` handing the last question to the piece, and `Pawn.canMove` deciding it, plus the boundary case and the honest note that offering a list of legal moves is `isLegal` run over sixty-four squares rather than a rival design; (D) *The pawn that has to stop being a pawn* — the promotion follow-up, four moves, before/after excerpts, movement moved behind a `MoveRule` the piece **holds** rather than **is**, and the rewiring cost that `Piece` stops being immutable so `promote` becomes the one door into it. No evolved diagram: Part 1 section 5.6 already draws this exact interface shape, so the space goes to the cost, exactly as in P4. |
+| P6 | 26–29 | Elevator system | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. **Moved here from P5 by the author**, putting a case between it and the Vending machine's State payoff. |
+| P7 | 30–33 | Rate limiter | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
+| P8 | 34–37 | Notification service | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
+| P9 | 38–41 | Splitwise | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
+| P10 | 42–45 | Logging framework | todo | Placeholder title. Three case pages plus a class plate. Complete a commissioning brief before building. |
+| — | 46 | Pattern-to-problem cheat sheet | todo | Which pattern showed up where and which framework question exposed it. |
+| — | 47 | Where to go next | todo | Closing guidance and practice sequencing. |
 
 ### Contents grouping
 
@@ -198,7 +199,7 @@ it rather than statically fetching it. Treat this question as settled.
 | P2 | Google Docs | Command for the edit and its undo; the follow-up pays off in **Open/Closed (3.2) through polymorphism (2.4)**, not a pattern — **built** |
 | P3 | Parking lot | **Restraint — Part 1 section 4.1 (KISS, YAGNI) plus 3.2's axis of variation.** No new pattern: the fix is *deleting* a type hierarchy, not adding one |
 | P4 | Vending machine | **State in the baseline**, where it is built rather than revealed; the follow-up pays off in **3.2's axis of variation through polymorphism (2.4)** — **built** |
-| P5 | Chess | Inheritance versus composition. **Command removed** — P2 now earns it, and chess move history taught the same lesson a second time |
+| P5 | Chess | **Inheritance versus composition (4.2)** — **built**. The climax is the diagnosis, not the principle: a subclass fixes what an object is for as long as it lives, and promotion is the one rule in chess that outlives that. **Command removed** — P2 now earns it, and chess move history taught the same lesson a second time |
 | P6 | Elevator system | State plus a scheduling seam. **Second State case** — see below |
 | P7 | Rate limiter | The Strategy *trap* from 5.6 — algorithms needing different state |
 | P8 | Notification service | Observer, and Builder for message construction |
@@ -259,6 +260,68 @@ box with it. P2's conflict resolution and per-editor undo could not be shown in 
 The author's underpayment scenario — a fifty-rupee item with twenty inserted — is the boundary
 trace, and it runs in three sentences after the decisive excerpt rather than needing a page. If a
 later review measures page B over, that is the evidence to revisit this, not the preference.
+
+**Why P5's climax is not "prefer composition".** Blueprint section 5 forbids a case that ends on
+something Part 1 already taught, and 4.2 *is* composition over inheritance. So the principle cannot
+be the payoff. What Part 1 does not say is the part chess supplies: 4.2 argues the case on
+**arithmetic**, that two axes multiply under inheritance and add under composition. Chess has one
+axis, so that argument does not apply and the subclass tree is genuinely the right first answer.
+The pressure is **time** instead. A subclass fixes what an object is for as long as the object
+lives, and promotion is the single rule in chess that outlives that. The payoff line is therefore
+*use a subclass for what an object will always be, use a field for what it might become* — a test a
+reader can run on any design, not a principle they already own.
+
+**The shape is Strategy and the case says so out loud.** Moving `canMove` behind a `MoveRule` the
+piece holds produces the same picture as Part 1 section 5.6, and pretending otherwise would be the
+kind of badging that got Composite dropped from P2. Page C names the resemblance and then names the
+difference: nobody is choosing between rules to tune the game, so no caller ever picks one. The rule
+*is* the piece, and promotion is the one moment it changes. That keeps the payoff table honest —
+Strategy stays P1's and the trap stays P7's — without the case pretending to be unaware of a
+diagram Part 1 already printed.
+
+**P5's rewiring cost is immutability.** Every case names what the fix cost: P3 gained a `Row`, P4
+gained a holding step. In P5 the baseline `Piece` is finished the moment it is built, and the fix
+gives it a writable field. `promote(MoveRule)` becomes the only door into it and `Game` owns when
+that door opens, through `awaitingPromotion()`. State that as the price, in Part 1 section 4.3's
+terms, rather than presenting the composed version as free.
+
+**Why P5 earns a fourth case page.** It was commissioned at three and built at three, and the
+three-page build **measured -204px** on page B after the diagram had been halved, the trace cut from
+five rows to three, and every paragraph shortened. What remained was the section 5 page-B spine and
+nothing else: masthead and lead 123, entities 63, ownership table 152, invariants 66, baseline
+diagram 166, trace and its reading 179, the decisive excerpt 246, and Question 4 at 90. The spine
+alone runs past the 959px live area before the narrator is given a line, and the narrator is cut
+last. That is **P1's criterion met a second time** — the class design and the operation trace each
+need about 200px and compete for one page — so page B splits into *derive the baseline* and
+*make it work*, and Part 2 goes from 46 pages to 47.
+
+The split earns its keep rather than merely relieving pressure. Page C now carries **both sides of
+the call**: `Game.move` running the turn check and handing the last question to `isLegal`, and
+`Pawn.canMove` deciding it. That is the same requirement the author raised against P4's State page —
+a design that leans on a call across an abstraction must print the call, not just the participants —
+and at three pages there was only room for the caller. The two rejected alternatives are recorded so
+they are not re-proposed: dropping the printed body of `isLegal` fits at about 27px slack, below the
+40–160 band, and makes the page assert where validation lives instead of showing it; dropping the
+baseline diagram fits comfortably but deletes required content under section 6 and removes the
+inheritance tree that page D exists to destroy.
+
+**This does not reopen P3 or P4.** Both were measured and both fit at three. The rule is unchanged:
+start at three, and split only on a measured overflow with the narrator already protected.
+
+**Two chess conventions are deliberately not used.** *Rank* and *file* are the correct words and
+they are exactly the kind of term the running vocabulary rule bars, so squares carry `row` and
+`column` and the trace reads `board.at(5, 2)`. Algebraic square names like `e2` are dropped for the
+same reason, and because mixing two coordinate systems on one page is worse than either. `Board.at`
+therefore takes two `int` parameters, which the P4 plate audit flagged as unresolvable for a
+generator, so the plate names them: `+ at(column: int, row: int): Square`.
+
+**What chess deliberately does not model, and why it is on the page.** No check, no checkmate, no
+castling, no en passant, no move history. The author's own criterion is that he is not testing
+whether a candidate knows an obscure rule, only whether the design can absorb one, so the case
+scopes the rules out on page A and then names **castling** as the honest limit on page C: it moves
+two pieces in one turn and `Move` carries one, so it lands on `Move` and `apply` rather than on the
+rules. Dropping move history is also what keeps Command out of this case, which the payoff table
+already required.
 
 **Why P3 lost Factory and Composite.** The author's interviewer-side material makes the case's
 lesson unambiguous: candidates over-classify, producing slot-type and vehicle-type enums that lock

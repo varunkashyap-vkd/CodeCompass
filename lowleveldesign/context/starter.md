@@ -239,10 +239,10 @@ project crosses a major milestone.
 
 - Part 1 is complete at 29 pages and frozen.
 - Part 1 sections 6.1 and 6.2 establish the framework reused by Part 2.
-- Part 2 targets 46 pages: cover, contents, ten case studies each ending in a class plate, and two
+- Part 2 targets 47 pages: cover, contents, ten case studies each ending in a class plate, and two
   closing pages.
 - Built so far: cover, contents, LRU on pages 3–7, Google Docs on pages 8–12, Parking lot on pages
-  13–16, and Vending machine on pages 17–20.
+  13–16, Vending machine on pages 17–20, and Chess on pages 21–24.
 - Parking lot is the **first representative case** and the pilot for the narrator contract: three
   case pages plus a plate, drawn from the author's interviewer-side material rather than a round he
   sat. Its payoff is restraint (Part 1 section 4.1) — the recovery *deletes* the `SlotType` enum and
@@ -260,13 +260,29 @@ project crosses a major milestone.
   taking the money and keeping it are the same instant, so the design never had to model the gap.
 - **A representative case cannot be built before section E of the notes answers its three
   questions.** P4's were blank at the start of its session and had to be collected from the author
-  before anything was written; the answers are now recorded verbatim. Section E is still empty for
-  P5–P10, so each of them is blocked the same way. Ask first, build second.
+  before anything was written; P5's were blank at the start of its session and were collected the
+  same way. Both are now recorded verbatim. Section E is still empty for P6–P10, so each of them is
+  blocked the same way. Ask first, build second.
+- Chess is the third representative case, and the first whose payoff is a **principle** rather than
+  a pattern. **Four case pages plus a plate**, title locked, pending author review. The subclass tree
+  is the baseline and it is presented as the right first answer, because Part 1 section 4.2 argues
+  composition on arithmetic and chess has only one axis. The follow-up is **pawn promotion**, which
+  applies a different pressure: a subclass fixes what an object is for as long as it lives. Movement
+  moves behind a `MoveRule` the piece holds, and the rewiring cost is that `Piece` stops being
+  immutable. The case names the resemblance to Strategy out loud and then names the difference,
+  rather than badging itself with a pattern no caller ever selects.
+- **P5 is the third four-page case, and it was earned on a measurement rather than claimed.** It was
+  commissioned at three, built at three, and page B measured -204px with the spine already trimmed
+  and the narrator already thinned. Splitting *derive the baseline* from *make it work* also bought
+  the thing three pages could not fit: both sides of the delegating call, `Game.move` handing the
+  question down and `Pawn.canMove` answering it. Part 2 went 46 → 47 pages, which renumbered P6–P10,
+  both closing pages, the contents folios and every footer total.
 - **P4 and the elevator both list State as a payoff.** Raised with the author; his instruction was
   to build P4 on whatever patterns fit and settle the other when it is commissioned. P4 has taken
   State outright. The author then **swapped chess to P5 and the elevator to P6**, so the two are no
-  longer adjacent. That eases it; it does not settle it. Before P6 is written, decide whether the
-  elevator's distinct lesson is the scheduling policy alone.
+  longer adjacent, and P5 is now built and takes neither. That eases it; it does not settle it.
+  Before P6 is written, decide whether the elevator's distinct lesson is the scheduling policy alone.
+- Problem titles P6–P10 in the contents are placeholders until each brief is written.
 - LRU is signed off by the author. Treat its page spine and masthead as the reference for later
   cases; do not restyle them to suit a new problem. Its plate carries `Cache`, `Node`,
   `RecencyList`, `EvictionPolicy`, `LruPolicy` and `MruPolicy` — six classes, twenty members, all
@@ -283,8 +299,7 @@ project crosses a major milestone.
 - P3 onward start at three case pages plus a plate, and must earn a fourth case page on measured
   evidence under blueprint section 4. The two longer cases are the ones the author sat himself,
   which is not a precedent.
-- Problem titles P5–P10 in the contents are placeholders until each brief is written.
-- Problems P5–P10 are not yet selected, and their contents grouping is provisional.
+- Problems P6–P10 are not yet selected, and their contents grouping is provisional.
 - Part 2 page numbers beyond P2 are intentionally provisional.
 - Singleton is deliberately not a payoff anywhere; Part 1 teaches it as a trap. It belongs in the
   cheat sheet as an appearance. Do not distort the lineup to give it a case. Settled.
