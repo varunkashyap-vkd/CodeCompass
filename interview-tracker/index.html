@@ -249,7 +249,7 @@
 
     .entry__time {
       flex: none;
-      width: 74px;
+      width: 88px;
       padding-top: 1px;
       font-family: "JetBrains Mono", ui-monospace, monospace;
       font-size: 12px;
@@ -260,9 +260,39 @@
 
     .entry__main { flex: 1; min-width: 0; }
 
-    .entry__text { white-space: pre-wrap; overflow-wrap: anywhere; }
+    .entry__text {
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+      padding: 2px 6px;
+      margin: -2px -6px;
+      border-radius: var(--radius-sm);
+      cursor: text;
+    }
+
+    .entry__text:hover { background: var(--lavender); }
+
+    .entry__text:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
 
     .entry__flag { margin-left: 6px; font-size: 12px; color: var(--ink-faint); }
+
+    .entry__original {
+      margin-top: 12px;
+      padding-left: 10px;
+      border-left: 2px solid var(--rule-strong);
+      font-size: 13.5px;
+      color: var(--ink-soft);
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .entry__original-label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+    }
 
     .entry__tools { flex: none; display: flex; gap: 2px; opacity: 0; transition: opacity 0.15s; }
 
@@ -286,6 +316,48 @@
       font-size: 13.5px;
     }
 
+    /* Transcript sheet */
+    .sheet {
+      width: min(660px, calc(100vw - 28px));
+      max-height: 86vh;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 22px;
+      color: var(--ink);
+      background: var(--paper);
+      box-shadow: 0 18px 48px rgba(26, 23, 53, 0.18);
+    }
+
+    .sheet::backdrop { background: rgba(26, 23, 53, 0.36); }
+
+    .sheet__head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .sheet__title { font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+
+    .sheet__meta { margin-top: 2px; font-size: 13px; color: var(--ink-soft); }
+
+    .transcript {
+      margin: 16px 0;
+      padding: 14px;
+      max-height: 52vh;
+      overflow: auto;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-sm);
+      background: var(--surface);
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 12.5px;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .sheet__actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+
     .hidden { display: none; }
 
     footer {
@@ -301,7 +373,8 @@
       h1 { font-size: 24px; }
       .entry { gap: 10px; }
       .entry__tools { opacity: 1; }
-      .entry__time { width: 66px; font-size: 11px; }
+      .entry__time { width: 74px; font-size: 10.5px; }
+      .sheet { padding: 18px; }
     }
   </style>
 </head>
@@ -373,9 +446,14 @@
         <p id="session-started" class="session__started"></p>
         <div class="row" style="margin-top:14px">
           <span id="session-count" class="eyebrow"></span>
-          <button class="btn btn--quiet btn--danger" type="button" data-action="delete-session">
-            Delete this interview
-          </button>
+          <div class="row" style="gap:4px">
+            <button class="btn btn--quiet" type="button" data-action="transcript">
+              View full transcript
+            </button>
+            <button class="btn btn--quiet btn--danger" type="button" data-action="delete-session">
+              Delete this interview
+            </button>
+          </div>
         </div>
       </div>
 
@@ -393,6 +471,24 @@
 
     <footer>CodeCompass · Mentorship tools · Stored locally in your browser</footer>
   </div>
+
+  <!-- ── Transcript sheet ────────────────────────────────────────────── -->
+  <dialog id="sheet" class="sheet" aria-labelledby="sheet-title">
+    <div class="sheet__head">
+      <div>
+        <h2 class="sheet__title" id="sheet-title"></h2>
+        <p class="sheet__meta" id="sheet-meta"></p>
+      </div>
+      <button class="btn btn--quiet" type="button" data-action="close-sheet">Close</button>
+    </div>
+    <pre class="transcript" id="transcript" tabindex="0"></pre>
+    <div class="sheet__actions">
+      <button class="btn btn--primary" type="button" data-action="copy-transcript">
+        Copy to clipboard
+      </button>
+      <span class="hint" id="copy-status" role="status"></span>
+    </div>
+  </dialog>
 
   <script>
     (function () {
@@ -416,7 +512,12 @@
         sessionCount: document.getElementById("session-count"),
         timeline: document.getElementById("timeline"),
         timelineEmpty: document.getElementById("timeline-empty"),
-        composer: document.getElementById("composer-input")
+        composer: document.getElementById("composer-input"),
+        sheet: document.getElementById("sheet"),
+        sheetTitle: document.getElementById("sheet-title"),
+        sheetMeta: document.getElementById("sheet-meta"),
+        transcript: document.getElementById("transcript"),
+        copyStatus: document.getElementById("copy-status")
       };
 
       var sessions = read();
@@ -456,7 +557,9 @@
       /* ── Formatting ────────────────────────────────────────────────── */
 
       function clock(iso) {
-        return new Date(iso).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        return new Date(iso).toLocaleTimeString([], {
+          hour: "2-digit", minute: "2-digit", second: "2-digit"
+        });
       }
 
       function fullStamp(iso) {
@@ -602,6 +705,10 @@
         var text = document.createElement("p");
         text.className = "entry__text";
         text.textContent = entry.text;
+        text.dataset.action = "edit-entry";
+        text.dataset.id = entry.id;
+        text.tabIndex = 0;
+        text.title = "Click to edit";
         if (entry.editedAt) {
           var flag = document.createElement("span");
           flag.className = "entry__flag";
@@ -614,14 +721,6 @@
 
         var tools = document.createElement("div");
         tools.className = "entry__tools";
-
-        var edit = document.createElement("button");
-        edit.type = "button";
-        edit.className = "btn btn--quiet";
-        edit.dataset.action = "edit-entry";
-        edit.dataset.id = entry.id;
-        edit.textContent = "Edit";
-        tools.appendChild(edit);
 
         var remove = document.createElement("button");
         remove.type = "button";
@@ -648,10 +747,29 @@
         main.className = "entry__main";
 
         var field = document.createElement("textarea");
-        field.rows = Math.min(8, entry.text.split("\n").length + 1);
+        field.rows = 1;
         field.value = entry.text;
         field.dataset.role = "entry-input";
+        field.addEventListener("input", function () { fit(field); });
+        field.addEventListener("keydown", function (event) {
+          if (event.key === "Escape") {
+            event.preventDefault();
+            closeEditor();
+          } else if (event.key === "Enter" && !event.shiftKey) {
+            event.preventDefault();
+            commitEdit(entry.id, field.value);
+          }
+        });
         main.appendChild(field);
+
+        var original = document.createElement("p");
+        original.className = "entry__original";
+        var label = document.createElement("span");
+        label.className = "entry__original-label";
+        label.textContent = "Original note";
+        original.appendChild(label);
+        original.appendChild(document.createTextNode(entry.text));
+        main.appendChild(original);
 
         var actions = document.createElement("div");
         actions.className = "entry__edit-actions";
@@ -661,25 +779,38 @@
         save.className = "btn btn--primary";
         save.dataset.action = "save-entry";
         save.dataset.id = entry.id;
-        save.textContent = "Save";
+        save.textContent = "Save changes";
         actions.appendChild(save);
 
         var cancel = document.createElement("button");
         cancel.type = "button";
         cancel.className = "btn";
         cancel.dataset.action = "cancel-entry";
-        cancel.textContent = "Cancel";
+        cancel.textContent = "Keep original";
         actions.appendChild(cancel);
 
         main.appendChild(actions);
+
+        var hint = document.createElement("p");
+        hint.className = "hint";
+        hint.textContent = "Enter saves. Shift + Enter adds a line break. Esc keeps the original.";
+        main.appendChild(hint);
+
         li.appendChild(main);
 
         window.setTimeout(function () {
+          fit(field);
           field.focus();
           field.setSelectionRange(field.value.length, field.value.length);
         }, 0);
 
         return li;
+      }
+
+      function fit(field) {
+        field.style.height = "auto";
+        // scrollHeight excludes the border, so the box would scroll by 2px without it.
+        field.style.height = Math.min(field.scrollHeight + 2, 260) + "px";
       }
 
       /* ── Mutations ─────────────────────────────────────────────────── */
@@ -693,6 +824,26 @@
         session.entries.push({ id: newId(), at: new Date().toISOString(), text: text });
         touch(session);
         renderSession(session);
+      }
+
+      function commitEdit(id, value) {
+        var session = findSession(currentSessionId());
+        if (!session) return;
+
+        var entry = session.entries.find(function (e) { return e.id === id; });
+        var text = value.trim();
+        if (entry && text && text !== entry.text) {
+          entry.text = text;
+          entry.editedAt = new Date().toISOString();
+          touch(session);
+        }
+        closeEditor();
+      }
+
+      function closeEditor() {
+        var session = findSession(currentSessionId());
+        editingEntryId = null;
+        if (session) renderSession(session);
       }
 
       function deleteSession(id) {
@@ -709,6 +860,60 @@
         } else {
           renderList();
         }
+      }
+
+      /* ── Transcript ────────────────────────────────────────────────── */
+
+      function transcriptText(session) {
+        var lines = [session.name];
+        if (session.details) lines.push(session.details.replace(/\s*\n\s*/g, " "));
+        lines.push("Started " + fullStamp(session.createdAt));
+        lines.push("");
+
+        session.entries.slice()
+          .sort(function (a, b) { return new Date(a.at) - new Date(b.at); })
+          .forEach(function (entry) {
+            lines.push("[" + clock(entry.at) + "]  " + entry.text.replace(/\s*\n\s*/g, " "));
+          });
+
+        return lines.join("\n");
+      }
+
+      function openTranscript(session) {
+        el.sheetTitle.textContent = session.name;
+        el.sheetMeta.textContent = dayStamp(session.createdAt) + " · " +
+          countLabel(session.entries.length);
+        el.transcript.textContent = transcriptText(session);
+        el.copyStatus.textContent = "";
+        el.sheet.showModal();
+      }
+
+      function copyTranscript() {
+        var text = el.transcript.textContent;
+
+        if (navigator.clipboard && window.isSecureContext) {
+          navigator.clipboard.writeText(text).then(function () {
+            el.copyStatus.textContent = "Copied to clipboard.";
+          }, function () {
+            el.copyStatus.textContent = "Could not copy. Select the text above and copy it.";
+          });
+          return;
+        }
+
+        // Clipboard API needs a secure context; fall back for plain http.
+        var scratch = document.createElement("textarea");
+        scratch.value = text;
+        scratch.setAttribute("readonly", "");
+        scratch.style.position = "fixed";
+        scratch.style.opacity = "0";
+        document.body.appendChild(scratch);
+        scratch.select();
+        var ok = false;
+        try { ok = document.execCommand("copy"); } catch (err) { ok = false; }
+        document.body.removeChild(scratch);
+        el.copyStatus.textContent = ok
+          ? "Copied to clipboard."
+          : "Could not copy. Select the text above and copy it.";
       }
 
       /* ── Events ────────────────────────────────────────────────────── */
@@ -766,23 +971,22 @@
           if (session) deleteSession(session.id);
         } else if (action === "back" || action === "cancel-new") {
           window.location.hash = "";
+        } else if (action === "transcript") {
+          if (session) openTranscript(session);
+        } else if (action === "copy-transcript") {
+          copyTranscript();
+        } else if (action === "close-sheet") {
+          el.sheet.close();
         } else if (action === "edit-entry" && session) {
+          // A click that ends a text selection is the user copying, not editing.
+          if (String(window.getSelection())) return;
           editingEntryId = trigger.dataset.id;
           renderSession(session);
-        } else if (action === "cancel-entry" && session) {
-          editingEntryId = null;
-          renderSession(session);
-        } else if (action === "save-entry" && session) {
+        } else if (action === "cancel-entry") {
+          closeEditor();
+        } else if (action === "save-entry") {
           var field = trigger.closest(".entry").querySelector('[data-role="entry-input"]');
-          var text = field.value.trim();
-          var entry = session.entries.find(function (e) { return e.id === trigger.dataset.id; });
-          if (entry && text && text !== entry.text) {
-            entry.text = text;
-            entry.editedAt = new Date().toISOString();
-            touch(session);
-          }
-          editingEntryId = null;
-          renderSession(session);
+          commitEdit(trigger.dataset.id, field.value);
         } else if (action === "delete-entry" && session) {
           var target = session.entries.find(function (e) { return e.id === trigger.dataset.id; });
           if (!target || !window.confirm("Delete this note?")) return;
@@ -792,7 +996,23 @@
         }
       });
 
-      window.addEventListener("hashchange", route);
+      document.addEventListener("keydown", function (event) {
+        if (event.key !== "Enter" && event.key !== " ") return;
+
+        var text = event.target.closest('.entry__text[data-action="edit-entry"]');
+        if (!text) return;
+
+        event.preventDefault();
+        var session = findSession(currentSessionId());
+        if (!session) return;
+        editingEntryId = text.dataset.id;
+        renderSession(session);
+      });
+
+      window.addEventListener("hashchange", function () {
+        el.sheet.close();
+        route();
+      });
       route();
     })();
   </script>
