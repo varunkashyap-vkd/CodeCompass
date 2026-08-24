@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Interview Tracker · CodeCompass</title>
+  <link rel="stylesheet" href="../lowleveldesign/assets/fonts.css" />
+  <style>
+    :root {
+      --ink: #1A1735;
+      --ink-soft: #4B5563;
+      --ink-faint: #8B8AA0;
+      --primary: #8A2BE2;
+      --primary-dark: #5B21B6;
+      --accent: #A855F7;
+      --paper: #FFFFFF;
+      --surface: #FAF8FD;
+      --lavender: #F7F2FB;
+      --rule: #E7E3F0;
+      --rule-strong: #E9D5FF;
+      --danger: #B42318;
+      --radius: 10px;
+      --radius-sm: 6px;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: "Inter", "Segoe UI", system-ui, sans-serif;
+      font-size: 15px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--paper);
+      padding: 40px 20px 72px;
+    }
+
+    .wrap { max-width: 720px; margin: 0 auto; }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      text-decoration: none;
+    }
+
+    .brand__mark {
+      width: 24px;
+      height: 24px;
+      border-radius: 5px;
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex: none;
+    }
+
+    .brand__mark::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      background: var(--paper);
+      transform: rotate(45deg);
+      border-radius: 1px;
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+    }
+
+    .lede {
+      margin-top: 10px;
+      font-size: 15px;
+      color: var(--ink-soft);
+      max-width: 34em;
+    }
+
+    .head { margin: 32px 0 24px; }
+
+    .eyebrow {
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-soft);
+    }
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    /* Buttons */
+    button {
+      font: inherit;
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      transition: background 0.15s, border-color 0.15s, color 0.15s;
+    }
+
+    .btn {
+      padding: 9px 16px;
+      font-size: 14px;
+      font-weight: 600;
+      border: 1px solid var(--rule);
+      background: var(--paper);
+      color: var(--ink);
+    }
+
+    .btn:hover { border-color: var(--accent); background: var(--surface); }
+
+    .btn--primary {
+      border-color: transparent;
+      background: var(--primary);
+      color: #fff;
+    }
+
+    .btn--primary:hover { background: var(--primary-dark); border-color: transparent; }
+
+    .btn--quiet {
+      border-color: transparent;
+      background: transparent;
+      color: var(--ink-soft);
+      padding: 6px 10px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .btn--quiet:hover { background: var(--lavender); color: var(--primary-dark); }
+
+    .btn--danger:hover { background: #FEF3F2; color: var(--danger); }
+
+    /* Forms */
+    label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--ink-soft);
+      margin-bottom: 6px;
+    }
+
+    input[type="text"], textarea {
+      font: inherit;
+      width: 100%;
+      color: var(--ink);
+      background: var(--paper);
+      border: 1px solid var(--rule);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      resize: vertical;
+    }
+
+    input[type="text"]:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.14);
+    }
+
+    .field + .field { margin-top: 16px; }
+
+    .card {
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 20px;
+      background: var(--paper);
+    }
+
+    .card__actions { margin-top: 18px; display: flex; gap: 10px; }
+
+    /* Session list */
+    .list { list-style: none; margin-top: 16px; }
+
+    .list__item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      border: 1px solid var(--rule);
+      border-radius: var(--radius);
+      padding: 14px 14px 14px 18px;
+      background: var(--paper);
+      transition: border-color 0.15s, background 0.15s;
+    }
+
+    .list__item + .list__item { margin-top: 10px; }
+
+    .list__item:hover { border-color: var(--rule-strong); background: var(--surface); }
+
+    .list__open {
+      flex: 1;
+      min-width: 0;
+      text-align: left;
+      border: none;
+      background: none;
+      padding: 0;
+      color: inherit;
+      font: inherit;
+    }
+
+    .list__name { font-weight: 600; }
+
+    .list__meta {
+      margin-top: 2px;
+      font-size: 13px;
+      color: var(--ink-soft);
+      overflow-wrap: anywhere;
+    }
+
+    .empty {
+      margin-top: 16px;
+      padding: 22px;
+      border: 1px dashed var(--rule);
+      border-radius: var(--radius);
+      color: var(--ink-faint);
+      font-size: 14px;
+    }
+
+    /* Session detail */
+    .session__title { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+
+    .session__details {
+      margin-top: 8px;
+      font-size: 14px;
+      color: var(--ink-soft);
+      white-space: pre-wrap;
+      overflow-wrap: anywhere;
+    }
+
+    .session__started { margin-top: 6px; font-size: 13px; color: var(--ink-faint); }
+
+    .timeline { list-style: none; margin: 24px 0; }
+
+    .entry {
+      display: flex;
+      gap: 14px;
+      padding: 10px 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    .entry:last-child { border-bottom: 1px solid var(--rule); }
+
+    .entry__time {
+      flex: none;
+      width: 74px;
+      padding-top: 1px;
+      font-family: "JetBrains Mono", ui-monospace, monospace;
+      font-size: 12px;
+      color: var(--primary-dark);
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .entry__main { flex: 1; min-width: 0; }
+
+    .entry__text { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+    .entry__flag { margin-left: 6px; font-size: 12px; color: var(--ink-faint); }
+
+    .entry__tools { flex: none; display: flex; gap: 2px; opacity: 0; transition: opacity 0.15s; }
+
+    .entry:hover .entry__tools, .entry:focus-within .entry__tools { opacity: 1; }
+
+    .entry__edit-actions { margin-top: 8px; display: flex; gap: 8px; }
+
+    .composer { position: sticky; bottom: 0; background: var(--paper); padding-bottom: 8px; }
+
+    .composer textarea { min-height: 68px; }
+
+    .hint { margin-top: 8px; font-size: 12.5px; color: var(--ink-faint); }
+
+    .notice {
+      margin-bottom: 20px;
+      padding: 12px 14px;
+      border: 1px solid #FDA29B;
+      border-radius: var(--radius-sm);
+      background: #FEF3F2;
+      color: var(--danger);
+      font-size: 13.5px;
+    }
+
+    .hidden { display: none; }
+
+    footer {
+      margin-top: 48px;
+      padding-top: 18px;
+      border-top: 1px solid var(--rule);
+      font-size: 13px;
+      color: var(--ink-faint);
+    }
+
+    @media (max-width: 560px) {
+      body { padding: 28px 16px 56px; }
+      h1 { font-size: 24px; }
+      .entry { gap: 10px; }
+      .entry__tools { opacity: 1; }
+      .entry__time { width: 66px; font-size: 11px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <a class="brand" href="../index.html">
+      <span class="brand__mark" aria-hidden="true"></span>
+      CodeCompass
+    </a>
+
+    <p id="notice" class="notice hidden" role="alert"></p>
+
+    <!-- ── Sessions list ─────────────────────────────────────────────── -->
+    <section id="view-list">
+      <div class="head">
+        <h1>Interview Tracker</h1>
+        <p class="lede">
+          Take timestamped notes while you interview a mentee. Every line you write becomes a
+          moment in the story of the round. Everything is stored in this browser only.
+        </p>
+      </div>
+
+      <div class="row">
+        <span class="eyebrow">Saved notes</span>
+        <button id="btn-new" class="btn btn--primary" type="button">New interview</button>
+      </div>
+
+      <ul id="sessions" class="list"></ul>
+      <p id="sessions-empty" class="empty hidden">
+        No interviews recorded yet. Start one and your notes will appear here.
+      </p>
+    </section>
+
+    <!-- ── New session form ──────────────────────────────────────────── -->
+    <section id="view-new" class="hidden">
+      <div class="head">
+        <h1>New interview</h1>
+        <p class="lede">Name the person you are speaking to. Everything else is optional.</p>
+      </div>
+
+      <form id="form-new" class="card" autocomplete="off">
+        <div class="field">
+          <label for="new-name">Interviewee name</label>
+          <input id="new-name" type="text" required maxlength="120" placeholder="e.g. Priya Sharma" />
+        </div>
+        <div class="field">
+          <label for="new-details">Details <span style="font-weight:400">(optional)</span></label>
+          <textarea id="new-details" rows="3" maxlength="1000"
+            placeholder="Role, experience, round type, topic to cover…"></textarea>
+        </div>
+        <div class="card__actions">
+          <button class="btn btn--primary" type="submit">Start taking notes</button>
+          <button class="btn" type="button" data-action="cancel-new">Cancel</button>
+        </div>
+      </form>
+    </section>
+
+    <!-- ── Single session ────────────────────────────────────────────── -->
+    <section id="view-session" class="hidden">
+      <div class="head">
+        <button class="btn btn--quiet" type="button" data-action="back" style="margin-left:-10px">
+          &#8592; All notes
+        </button>
+        <div class="session__title" style="margin-top:10px">
+          <h1 id="session-name"></h1>
+        </div>
+        <p id="session-details" class="session__details"></p>
+        <p id="session-started" class="session__started"></p>
+        <div class="row" style="margin-top:14px">
+          <span id="session-count" class="eyebrow"></span>
+          <button class="btn btn--quiet btn--danger" type="button" data-action="delete-session">
+            Delete this interview
+          </button>
+        </div>
+      </div>
+
+      <ul id="timeline" class="timeline"></ul>
+      <p id="timeline-empty" class="empty hidden">
+        No notes yet. Type below and press Enter to record the first one.
+      </p>
+
+      <div class="composer">
+        <textarea id="composer-input" rows="2" aria-label="New note"
+          placeholder="Write a note, then press Enter…"></textarea>
+        <p class="hint">Enter records the note with a timestamp. Shift + Enter adds a line break.</p>
+      </div>
+    </section>
+
+    <footer>CodeCompass · Mentorship tools · Stored locally in your browser</footer>
+  </div>
+
+  <script>
+    (function () {
+      "use strict";
+
+      var STORAGE_KEY = "codecompass.interview-tracker.v1";
+
+      var el = {
+        notice: document.getElementById("notice"),
+        viewList: document.getElementById("view-list"),
+        viewNew: document.getElementById("view-new"),
+        viewSession: document.getElementById("view-session"),
+        sessions: document.getElementById("sessions"),
+        sessionsEmpty: document.getElementById("sessions-empty"),
+        formNew: document.getElementById("form-new"),
+        newName: document.getElementById("new-name"),
+        newDetails: document.getElementById("new-details"),
+        sessionName: document.getElementById("session-name"),
+        sessionDetails: document.getElementById("session-details"),
+        sessionStarted: document.getElementById("session-started"),
+        sessionCount: document.getElementById("session-count"),
+        timeline: document.getElementById("timeline"),
+        timelineEmpty: document.getElementById("timeline-empty"),
+        composer: document.getElementById("composer-input")
+      };
+
+      var sessions = read();
+      var editingEntryId = null;
+
+      /* ── Storage ───────────────────────────────────────────────────── */
+
+      function read() {
+        try {
+          var raw = window.localStorage.getItem(STORAGE_KEY);
+          var parsed = raw ? JSON.parse(raw) : [];
+          return Array.isArray(parsed) ? parsed : [];
+        } catch (err) {
+          warn("Could not read saved notes from this browser's storage.");
+          return [];
+        }
+      }
+
+      function write() {
+        try {
+          window.localStorage.setItem(STORAGE_KEY, JSON.stringify(sessions));
+        } catch (err) {
+          warn("Could not save to this browser's storage. Recent notes may be lost on reload.");
+        }
+      }
+
+      function warn(message) {
+        el.notice.textContent = message;
+        el.notice.classList.remove("hidden");
+      }
+
+      function newId() {
+        if (window.crypto && window.crypto.randomUUID) return window.crypto.randomUUID();
+        return Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+      }
+
+      /* ── Formatting ────────────────────────────────────────────────── */
+
+      function clock(iso) {
+        return new Date(iso).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      }
+
+      function fullStamp(iso) {
+        return new Date(iso).toLocaleString([], {
+          year: "numeric", month: "short", day: "numeric",
+          hour: "2-digit", minute: "2-digit", second: "2-digit"
+        });
+      }
+
+      function dayStamp(iso) {
+        return new Date(iso).toLocaleDateString([], {
+          year: "numeric", month: "short", day: "numeric"
+        });
+      }
+
+      function countLabel(n) {
+        return n + (n === 1 ? " note" : " notes");
+      }
+
+      /* ── Routing ───────────────────────────────────────────────────── */
+
+      function currentSessionId() {
+        var match = /^#\/session\/(.+)$/.exec(window.location.hash);
+        return match ? decodeURIComponent(match[1]) : null;
+      }
+
+      function findSession(id) {
+        for (var i = 0; i < sessions.length; i++) {
+          if (sessions[i].id === id) return sessions[i];
+        }
+        return null;
+      }
+
+      function show(view) {
+        el.viewList.classList.toggle("hidden", view !== "list");
+        el.viewNew.classList.toggle("hidden", view !== "new");
+        el.viewSession.classList.toggle("hidden", view !== "session");
+      }
+
+      function route() {
+        editingEntryId = null;
+
+        if (window.location.hash === "#/new") {
+          show("new");
+          el.newName.value = "";
+          el.newDetails.value = "";
+          el.newName.focus();
+          return;
+        }
+
+        var id = currentSessionId();
+        var session = id ? findSession(id) : null;
+        if (session) {
+          renderSession(session);
+          show("session");
+          el.composer.value = "";
+          el.composer.focus();
+          return;
+        }
+
+        if (id) window.location.hash = "";
+        renderList();
+        show("list");
+      }
+
+      /* ── List view ─────────────────────────────────────────────────── */
+
+      function renderList() {
+        el.sessions.textContent = "";
+
+        var ordered = sessions.slice().sort(function (a, b) {
+          return new Date(b.updatedAt) - new Date(a.updatedAt);
+        });
+
+        ordered.forEach(function (session) {
+          var item = document.createElement("li");
+          item.className = "list__item";
+
+          var open = document.createElement("button");
+          open.type = "button";
+          open.className = "list__open";
+          open.dataset.action = "open";
+          open.dataset.id = session.id;
+
+          var name = document.createElement("div");
+          name.className = "list__name";
+          name.textContent = session.name;
+          open.appendChild(name);
+
+          var meta = document.createElement("div");
+          meta.className = "list__meta";
+          meta.textContent = dayStamp(session.createdAt) + " · " + countLabel(session.entries.length) +
+            (session.details ? " · " + session.details.replace(/\s+/g, " ").slice(0, 70) : "");
+          open.appendChild(meta);
+
+          item.appendChild(open);
+
+          var remove = document.createElement("button");
+          remove.type = "button";
+          remove.className = "btn btn--quiet btn--danger";
+          remove.dataset.action = "delete";
+          remove.dataset.id = session.id;
+          remove.textContent = "Delete";
+          item.appendChild(remove);
+
+          el.sessions.appendChild(item);
+        });
+
+        el.sessionsEmpty.classList.toggle("hidden", ordered.length > 0);
+      }
+
+      /* ── Session view ──────────────────────────────────────────────── */
+
+      function renderSession(session) {
+        el.sessionName.textContent = session.name;
+        el.sessionDetails.textContent = session.details || "";
+        el.sessionDetails.classList.toggle("hidden", !session.details);
+        el.sessionStarted.textContent = "Started " + fullStamp(session.createdAt);
+        el.sessionCount.textContent = countLabel(session.entries.length);
+
+        el.timeline.textContent = "";
+        session.entries.forEach(function (entry) {
+          el.timeline.appendChild(
+            entry.id === editingEntryId ? entryEditor(entry) : entryRow(entry)
+          );
+        });
+        el.timelineEmpty.classList.toggle("hidden", session.entries.length > 0);
+      }
+
+      function entryRow(entry) {
+        var li = document.createElement("li");
+        li.className = "entry";
+
+        var time = document.createElement("span");
+        time.className = "entry__time";
+        time.textContent = clock(entry.at);
+        time.title = fullStamp(entry.at);
+        li.appendChild(time);
+
+        var main = document.createElement("div");
+        main.className = "entry__main";
+
+        var text = document.createElement("p");
+        text.className = "entry__text";
+        text.textContent = entry.text;
+        if (entry.editedAt) {
+          var flag = document.createElement("span");
+          flag.className = "entry__flag";
+          flag.textContent = "(edited)";
+          flag.title = "Edited " + fullStamp(entry.editedAt);
+          text.appendChild(flag);
+        }
+        main.appendChild(text);
+        li.appendChild(main);
+
+        var tools = document.createElement("div");
+        tools.className = "entry__tools";
+
+        var edit = document.createElement("button");
+        edit.type = "button";
+        edit.className = "btn btn--quiet";
+        edit.dataset.action = "edit-entry";
+        edit.dataset.id = entry.id;
+        edit.textContent = "Edit";
+        tools.appendChild(edit);
+
+        var remove = document.createElement("button");
+        remove.type = "button";
+        remove.className = "btn btn--quiet btn--danger";
+        remove.dataset.action = "delete-entry";
+        remove.dataset.id = entry.id;
+        remove.textContent = "Delete";
+        tools.appendChild(remove);
+
+        li.appendChild(tools);
+        return li;
+      }
+
+      function entryEditor(entry) {
+        var li = document.createElement("li");
+        li.className = "entry";
+
+        var time = document.createElement("span");
+        time.className = "entry__time";
+        time.textContent = clock(entry.at);
+        li.appendChild(time);
+
+        var main = document.createElement("div");
+        main.className = "entry__main";
+
+        var field = document.createElement("textarea");
+        field.rows = Math.min(8, entry.text.split("\n").length + 1);
+        field.value = entry.text;
+        field.dataset.role = "entry-input";
+        main.appendChild(field);
+
+        var actions = document.createElement("div");
+        actions.className = "entry__edit-actions";
+
+        var save = document.createElement("button");
+        save.type = "button";
+        save.className = "btn btn--primary";
+        save.dataset.action = "save-entry";
+        save.dataset.id = entry.id;
+        save.textContent = "Save";
+        actions.appendChild(save);
+
+        var cancel = document.createElement("button");
+        cancel.type = "button";
+        cancel.className = "btn";
+        cancel.dataset.action = "cancel-entry";
+        cancel.textContent = "Cancel";
+        actions.appendChild(cancel);
+
+        main.appendChild(actions);
+        li.appendChild(main);
+
+        window.setTimeout(function () {
+          field.focus();
+          field.setSelectionRange(field.value.length, field.value.length);
+        }, 0);
+
+        return li;
+      }
+
+      /* ── Mutations ─────────────────────────────────────────────────── */
+
+      function touch(session) {
+        session.updatedAt = new Date().toISOString();
+        write();
+      }
+
+      function addEntry(session, text) {
+        session.entries.push({ id: newId(), at: new Date().toISOString(), text: text });
+        touch(session);
+        renderSession(session);
+      }
+
+      function deleteSession(id) {
+        var session = findSession(id);
+        if (!session) return;
+        var ok = window.confirm(
+          'Delete the notes for "' + session.name + '"? This cannot be undone.'
+        );
+        if (!ok) return;
+        sessions = sessions.filter(function (s) { return s.id !== id; });
+        write();
+        if (currentSessionId() === id) {
+          window.location.hash = "";
+        } else {
+          renderList();
+        }
+      }
+
+      /* ── Events ────────────────────────────────────────────────────── */
+
+      document.getElementById("btn-new").addEventListener("click", function () {
+        window.location.hash = "#/new";
+      });
+
+      el.formNew.addEventListener("submit", function (event) {
+        event.preventDefault();
+        var name = el.newName.value.trim();
+        if (!name) return;
+
+        var now = new Date().toISOString();
+        var session = {
+          id: newId(),
+          name: name,
+          details: el.newDetails.value.trim(),
+          createdAt: now,
+          updatedAt: now,
+          entries: []
+        };
+        sessions.push(session);
+        write();
+        window.location.hash = "#/session/" + encodeURIComponent(session.id);
+      });
+
+      el.composer.addEventListener("keydown", function (event) {
+        if (event.key !== "Enter" || event.shiftKey) return;
+        event.preventDefault();
+
+        var text = el.composer.value.trim();
+        if (!text) return;
+
+        var session = findSession(currentSessionId());
+        if (!session) return;
+
+        addEntry(session, text);
+        el.composer.value = "";
+        el.composer.scrollIntoView({ block: "nearest" });
+      });
+
+      document.addEventListener("click", function (event) {
+        var trigger = event.target.closest("[data-action]");
+        if (!trigger) return;
+
+        var action = trigger.dataset.action;
+        var session = findSession(currentSessionId());
+
+        if (action === "open") {
+          window.location.hash = "#/session/" + encodeURIComponent(trigger.dataset.id);
+        } else if (action === "delete") {
+          deleteSession(trigger.dataset.id);
+        } else if (action === "delete-session") {
+          if (session) deleteSession(session.id);
+        } else if (action === "back" || action === "cancel-new") {
+          window.location.hash = "";
+        } else if (action === "edit-entry" && session) {
+          editingEntryId = trigger.dataset.id;
+          renderSession(session);
+        } else if (action === "cancel-entry" && session) {
+          editingEntryId = null;
+          renderSession(session);
+        } else if (action === "save-entry" && session) {
+          var field = trigger.closest(".entry").querySelector('[data-role="entry-input"]');
+          var text = field.value.trim();
+          var entry = session.entries.find(function (e) { return e.id === trigger.dataset.id; });
+          if (entry && text && text !== entry.text) {
+            entry.text = text;
+            entry.editedAt = new Date().toISOString();
+            touch(session);
+          }
+          editingEntryId = null;
+          renderSession(session);
+        } else if (action === "delete-entry" && session) {
+          var target = session.entries.find(function (e) { return e.id === trigger.dataset.id; });
+          if (!target || !window.confirm("Delete this note?")) return;
+          session.entries = session.entries.filter(function (e) { return e.id !== target.id; });
+          touch(session);
+          renderSession(session);
+        }
+      });
+
+      window.addEventListener("hashchange", route);
+      route();
+    })();
+  </script>
+</body>
+
+</html>
