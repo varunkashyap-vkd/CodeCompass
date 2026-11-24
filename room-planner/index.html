@@ -254,7 +254,8 @@ const getItem = id => state.items.find(i => i.id === id);
 
 // ---------- Geometry helpers ----------
 const METAL = { r: 0.35, m: 0.6 };
-const WARDROBE_OPEN = THREE.MathUtils.degToRad(75);  // acute so neighbouring wardrobe doors don't splay into each other
+const WARDROBE_OPEN = THREE.MathUtils.degToRad(85);  // just short of 90° so neighbouring wardrobe doors don't splay into each other
+const TILE = 60;  // floor tile / grid size in cm (≈ 2 ft)
 const dk = (c, f = 0.7) => new THREE.Color(c).multiplyScalar(f);
 const lt = (c, f = 0.2) => new THREE.Color(c).lerp(WHITE, f);
 
@@ -784,12 +785,17 @@ function buildRoom() {
   doorPivots.clear();
   const { w: W, d: D, h: H, floor } = state.room;
   const tex = TEX[floor] || null;
-  if (tex) tex.repeat.set(W / (floor === 'tile' ? 60 : 200), D / (floor === 'tile' ? 60 : 200));
+  if (tex) {
+    const size = floor === 'tile' ? TILE : 200;
+    tex.repeat.set(W / size, D / size);
+    // Texture rows start at the south edge; shift them so tile joints line up with the grid (measured from the N/W walls).
+    tex.offset.set(0, floor === 'tile' ? (1 - (D / size) % 1) % 1 : 0);
+  }
   const floorMesh = new THREE.Mesh(new THREE.PlaneGeometry(W, D), new THREE.MeshStandardMaterial({ color: state.room.floorColor, map: tex, roughness: 0.85 }));
   floorMesh.rotation.x = -Math.PI / 2;
   floorMesh.receiveShadow = true;
   roomGroup.add(floorMesh);
-  if (opts.grid) roomGroup.add(makeGrid(W, D, 50));
+  if (opts.grid) roomGroup.add(makeGrid(W, D, TILE));
 
   ceilMesh = new THREE.Mesh(new THREE.PlaneGeometry(W, D), new THREE.MeshStandardMaterial({ color: '#f7f5f0', roughness: 1 }));
   ceilMesh.rotation.x = Math.PI / 2;
