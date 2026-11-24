@@ -122,7 +122,7 @@
       <button id="btnExport">⬇ Export JSON</button>
       <button id="btnImport">⬆ Import</button>
       <button id="btnShot">📷 Screenshot</button>
-      <button id="btnReset">↺ Sample room</button>
+      <button id="btnReset">↺ Default room</button>
       <button id="btnClear" class="danger">Clear items</button>
     </div>
     <input type="file" id="fileInput" accept=".json,application/json" hidden>
@@ -217,35 +217,36 @@ function mkItem(kind, o = {}) {
 
 // Coordinates: room centred at origin, x = west(-) → east(+), z = north(-) → south(+), y = up. 1 unit = 1 cm.
 // Items face +z ("front") at rotation 0.
-function sampleState() {
-  const W = 400, D = 350, H = 280;
-  return {
-    room: { w: W, d: D, h: H, wallColor: '#ece6da', floorColor: '#c8a27a', floor: 'wood' },
-    openings: [
-      { id: uid(), kind: 'door', wall: 'S', from: 30, width: 90, height: 210, elev: 0, hinge: 'left', swing: 'in' },
-      { id: uid(), kind: 'window', wall: 'E', from: 100, width: 150, height: 130, elev: 90 },
-    ],
-    items: [
-      mkItem('rug', { x: -20, z: 60 }),
-      mkItem('bed', { x: -20, z: -D / 2 + 102.5 }),
-      mkItem('nightstand', { x: -127.5, z: -D / 2 + 20 }),
-      mkItem('nightstand', { x: 87.5, z: -D / 2 + 20 }),
-      mkItem('wardrobe', { x: -W / 2 + 30, z: 60, rot: 90 }),
-      mkItem('bookshelf', { x: -W / 2 + 15, z: -60, rot: 90 }),
-      mkItem('desk', { x: W / 2 - 30, z: 20, rot: -90 }),
-      mkItem('chair', { x: W / 2 - 95, z: 20, rot: 90 }),
-      mkItem('plant', { x: W / 2 - 30, z: -D / 2 + 30 }),
-      mkItem('lamp', { x: -W / 2 + 25, z: D / 2 - 20 }),
-    ],
-  };
-}
+// The layout first-time visitors see (and what "Default room" restores).
+const DEFAULT_LAYOUT = {
+  room: { w: 300, d: 300, h: 270, wallColor: '#ece6da', floorColor: '#c8a27a', floor: 'plain' },
+  openings: [
+    { id: '8ifzb6ci', kind: 'door', wall: 'N', from: 0, width: 90, height: 240, elev: 0 },
+    { id: 'a0lsdasb', kind: 'door', wall: 'S', from: 210, width: 90, height: 240, elev: 0, swing: 'in', hinge: 'right' },
+    { id: 'fvampge0', kind: 'door', wall: 'S', from: 60, width: 75, height: 210, elev: 0, swing: 'out' },
+  ],
+  items: [
+    { id: '5qjzunmc', kind: 'single', type: 'bed', name: 'Single bed', w: 120, d: 180, h: 90, elev: 0, color: '#8b6f4e', x: 60, z: 30, rot: -90 },
+    { id: 'ee9ht8n0', kind: 'wardrobe', type: 'wardrobe', name: 'Wardrobe', w: 90, d: 60, h: 180, elev: 0, color: '#d9cbb5', x: -5, z: -120, rot: 0 },
+    { id: 'leudam19', kind: 'wardrobe', type: 'wardrobe', name: 'Wardrobe', w: 60, d: 60, h: 90, elev: 180, color: '#d9cbb5', x: 120, z: 120, rot: -90 },
+    { id: 'da9n1t9b', kind: 'desk', type: 'desk', name: 'Desk', w: 100, d: 60, h: 75, elev: 0, color: '#c49a6c', x: 100, z: -120, rot: 0 },
+    { id: 'kzizvm72', kind: 'chair', type: 'chair', name: 'Chair', w: 50, d: 50, h: 95, elev: 0, color: '#3d4a5c', x: 100, z: -105, rot: 180 },
+    { id: 'm1g14tix', kind: 'wardrobe', type: 'wardrobe', name: 'Wardrobe', w: 75, d: 30, h: 165, elev: 10, color: '#d9cbb5', x: -135, z: 0, rot: 90 },
+    { id: '823jvpri', kind: 'wardrobe', type: 'wardrobe', name: 'Wardrobe', w: 90, d: 60, h: 90, elev: 180, color: '#d9cbb5', x: -5, z: -120, rot: 0 },
+    { id: 'a4z79lnx', kind: 'wardrobe', type: 'wardrobe', name: 'Wardrobe', w: 110, d: 60, h: 90, elev: 180, color: '#d9cbb5', x: 95, z: -120, rot: 0 },
+    { id: '6449kfer', kind: 'wardrobe', type: 'wardrobe', name: 'Wardrobe', w: 60, d: 60, h: 180, elev: 0, color: '#d9cbb5', x: 120, z: 120, rot: -90 },
+    { id: 'bb203ade', kind: 'bonsai', type: 'bonsai', name: 'Bonsai', w: 30, d: 22, h: 35, elev: 175, color: '#4c7f3a', x: -135, z: 30, rot: 0 },
+    { id: 'lpl79m3l', kind: 'bonsai', type: 'bonsai', name: 'Bonsai', w: 30, d: 22, h: 35, elev: 175, color: '#4c7f3a', x: -135, z: -30, rot: 0 },
+  ],
+};
+const defaultState = () => JSON.parse(JSON.stringify(DEFAULT_LAYOUT));
 
 function loadState() {
   try {
     const s = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (s && s.room && Array.isArray(s.items) && Array.isArray(s.openings)) return s;
   } catch { /* ignore corrupt storage */ }
-  return sampleState();
+  return defaultState();
 }
 
 let state = loadState();
@@ -1769,7 +1770,7 @@ $('#fileInput').onchange = async e => {
   } catch (err) { alert('Could not import layout: ' + err.message); }
 };
 $('#btnShot').onclick = () => { selHelper.visible = false; renderer.render(scene, camera); download('room.png', renderer.domElement.toDataURL('image/png')); updateSelHelper(); };
-$('#btnReset').onclick = () => { if (confirm('Replace the current layout with the sample room?')) { selectedId = null; restore(JSON.stringify(sampleState())); commit(); setView('3d'); } };
+$('#btnReset').onclick = () => { if (confirm('Replace the current layout with the default room?')) { selectedId = null; restore(JSON.stringify(defaultState())); commit(); setView('3d'); } };
 $('#btnClear').onclick = () => { if (confirm('Remove all furniture (room, doors and windows are kept)?')) { state.items = []; selectedId = null; rebuildItems(); renderAll(); commit(); } };
 
 // ---------- Toolbar ----------
