@@ -62,6 +62,58 @@
   #walkProgress div { height: 100%; width: 0; background: var(--accent); transition: width .3s; }
   body.walking #toolbar, body.walking #hud, body.walking #help { display: none; }
   body.walking #sidebar { pointer-events: none; opacity: .45; }
+
+  /* ---------- Phones (desktop layout above is untouched) ---------- */
+  #btnMore, .sheet-head, #btnSheet, #tbHint, #mobileItemBar { display: none; }
+  @media (max-width: 820px), (pointer: coarse) and (max-height: 520px) {
+    html, body { height: 100dvh; }
+    input, select { font-size: 16px; }  /* stops iOS zooming in on focus */
+    #sidebar { position: fixed; z-index: 30; left: 0; right: 0; bottom: 0; width: auto; min-width: 0; height: 72dvh;
+      border-right: none; border-top: 1px solid var(--border); border-radius: 16px 16px 0 0; padding: 0 12px 28px;
+      transform: translateY(105%); transition: transform .25s ease; box-shadow: 0 -12px 30px rgba(0,0,0,.45); overscroll-behavior: contain; }
+    body.sheet-open #sidebar { transform: none; }
+    #sidebar > h1 { display: none; }
+    .sheet-head { display: flex; position: sticky; top: 0; z-index: 2; align-items: center; justify-content: space-between;
+      background: var(--panel); padding: 12px 2px 10px; margin-bottom: 4px; font-size: 15px; }
+    #sidebar section { scroll-margin-top: 56px; }
+    #sidebar section > h2 { display: flex; justify-content: space-between; align-items: center; margin: 0; cursor: pointer; padding: 4px 0; font-size: 12px; }
+    #sidebar section > h2::after { content: '▾'; font-size: 14px; }
+    #sidebar section.collapsed > h2::after { content: '▸'; }
+    #sidebar section > h2 + * { margin-top: 8px; }
+    #sidebar section.collapsed > :not(h2) { display: none !important; }
+    #palette { grid-template-columns: repeat(4, 1fr); }
+    #palette button { padding: 8px 2px; }
+
+    #toolbar { top: 8px; left: 8px; right: 8px; gap: 6px; flex-direction: column; align-items: flex-start; }
+    #toolbar .seg button { padding: 7px 10px; }
+    #btnMore { display: inline-block; font-weight: 700; }
+    #toolbar.open #btnMore { background: var(--accent); }
+    #tbToggles, #tbActions, #btnHelp, #help { display: none !important; }
+    #toolbar.open #tbToggles { display: flex !important; flex-wrap: wrap; gap: 8px 14px; max-width: 100%; }
+    #toolbar.open #tbActions { display: flex !important; flex-wrap: wrap; max-width: 100%; }
+    #toolbar.open #tbHint { display: block; background: rgba(22,28,43,.92); border: 1px solid var(--border); border-radius: 8px;
+      padding: 6px 10px; font-size: 11px; color: var(--muted); max-width: 100%; }
+
+    #mobileItemBar.show { display: flex; position: absolute; top: 54px; left: 8px; right: 8px; align-items: center; gap: 4px;
+      background: rgba(22,28,43,.94); border: 1px solid var(--border); border-radius: 10px; padding: 5px 6px; }
+    #toolbar.open ~ #mobileItemBar { display: none; }
+    #mibName { flex: 1; min-width: 0; font-weight: 600; font-size: 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding-left: 4px; }
+    #mobileItemBar button { padding: 6px 8px; font-size: 13px; }
+
+    #hud { left: 8px; right: 74px; bottom: 8px; max-width: none; font-size: 11px; padding: 7px 10px; max-height: 24dvh; overflow: auto; }
+    #btnSheet { display: block; position: absolute; right: 10px; bottom: 10px; width: 54px; height: 54px; border-radius: 50%; z-index: 25;
+      background: var(--accent); border: none; font-size: 22px; box-shadow: 0 6px 18px rgba(0,0,0,.4); }
+    #walkHud { width: auto; max-width: calc(100% - 16px); left: 8px; top: 8px; }
+    body.walking #btnSheet, body.walking #mobileItemBar.show { display: none; }
+    body.walking #sidebar { transform: translateY(105%); }
+  }
+  /* Phones held sideways: the editor slides in from the left instead of from the bottom */
+  @media (pointer: coarse) and (max-height: 520px) and (orientation: landscape) {
+    #sidebar { top: 0; right: auto; height: 100dvh; width: min(380px, 55vw); border-top: none; border-right: 1px solid var(--border);
+      border-radius: 0 16px 16px 0; transform: translateX(-105%); }
+    body.walking #sidebar { transform: translateX(-105%); }
+    #hud { max-height: 30dvh; }
+  }
 </style>
 <script type="importmap">
   { "imports": { "three": "https://unpkg.com/three@0.160.0/build/three.module.js", "three/addons/": "https://unpkg.com/three@0.160.0/examples/jsm/" } }
@@ -69,6 +121,7 @@
 </head>
 <body>
 <aside id="sidebar">
+  <div class="sheet-head"><b>🏠 Room Planner</b><button id="btnSheetClose">✕ Close</button></div>
   <h1>🏠 Room Planner 3D</h1>
 
   <section>
@@ -136,8 +189,9 @@
       <button data-view="3d" class="active">3D</button>
       <button data-view="top">Top (plan)</button>
       <button data-view="eye">Eye level</button>
+      <button id="btnMore" title="More options">⋯</button>
     </div>
-    <div class="toggles">
+    <div class="toggles" id="tbToggles">
       <label><input type="checkbox" id="optAutoHide" checked>Cutaway walls</label>
       <label><input type="checkbox" id="optCeiling">Ceiling</label>
       <label><input type="checkbox" id="optSnap" checked>Snap</label>
@@ -145,13 +199,24 @@
       <label><input type="checkbox" id="optLabels" checked>N/S/E/W</label>
       <label title="Show the floor area that doors and wardrobe doors sweep when they open"><input type="checkbox" id="optSwings" checked>Swing arcs</label>
     </div>
-    <div class="seg">
+    <div class="seg" id="tbActions">
       <button id="btnDoors" title="Open or close every door">🚪 Open all doors</button>
       <button id="btnWardrobes" title="Open or close every wardrobe / cabinet">👔 Open all wardrobes</button>
       <button id="btnWalk" title="Walk through the room from the door chosen in the sidebar">🚶 Walkthrough</button>
       <button id="btnHelp" title="Show/hide controls help">❔ Help</button>
     </div>
+    <div id="tbHint">One finger: rotate · two fingers: zoom &amp; pan · tap an item to select, drag it to move · tap a door to open it</div>
   </div>
+  <div id="mobileItemBar">
+    <span id="mibName"></span>
+    <button data-mact="edit" title="Edit size, position, colour">✏️ Edit</button>
+    <button data-mact="rot" title="Rotate 90°">⟳</button>
+    <button data-mact="dup" title="Duplicate">⧉</button>
+    <button data-mact="doors" title="Open / close doors">👔</button>
+    <button data-mact="del" class="danger" title="Delete">🗑</button>
+    <button data-mact="close" title="Deselect">✕</button>
+  </div>
+  <button id="btnSheet" title="Edit room, furniture, doors and layout">☰</button>
   <div id="hud"></div>
   <div id="help">
     Drag empty space to orbit · right-drag to pan · scroll to zoom<br>
@@ -1223,6 +1288,8 @@ function startWalk() {
   if (!door) { alert('Add a door first (Doors & windows → + Door), then start the walkthrough.'); return; }
   const segs = planTour(door);
   if (!segs) { alert('That door is too small or sits outside its wall — check its position and size.'); return; }
+  closeSheet();
+  $('#toolbar').classList.remove('open');
   select(null);
   tween = null;
   const pos = segs[0].pos.clone(), dir = segs[0].target.clone().sub(pos);
@@ -1468,6 +1535,7 @@ function addItem(kind) {
   rebuildItem(it.id);
   select(it.id);
   commit();
+  if (isMobile()) closeSheet();  // show the newly placed item
 }
 function deleteItem(id) {
   state.items = state.items.filter(i => i.id !== id);
@@ -1518,6 +1586,12 @@ function pick(e) {
 }
 function onPointerDown(e) {
   if (e.button !== 0 || walk) return;
+  if (isMobile() && (document.body.classList.contains('sheet-open') || $('#toolbar').classList.contains('open'))) {
+    // On phones, tapping the scene first dismisses whatever panel is open.
+    closeSheet();
+    $('#toolbar').classList.remove('open');
+    return;
+  }
   downPos = [e.clientX, e.clientY];
   const hit = pick(e);
   if (!hit) return;
@@ -1641,6 +1715,7 @@ for (const [id, [key, min]] of Object.entries(roomFields)) {
 }
 
 function renderProps() {
+  updateMobileBar();
   const it = getItem(selectedId);
   if (!it) { propsEl.innerHTML = '<p class="muted" style="margin:0">Click an item in the scene or the list below to edit it.</p>'; return; }
   const { w: W, d: D } = state.room;
@@ -1783,6 +1858,49 @@ for (const [id, key] of [['optAutoHide', 'autoHide'], ['optCeiling', 'ceiling'],
 }
 $('#btnDoors').onclick = toggleAllDoors;
 $('#btnWardrobes').onclick = toggleAllWardrobes;
+
+// ---------- Phone layout (only active under the mobile media query) ----------
+const mobileMQ = matchMedia('(max-width: 820px), (pointer: coarse) and (max-height: 520px)');
+const isMobile = () => mobileMQ.matches;
+function openSheet(section) {
+  document.body.classList.add('sheet-open');
+  $('#toolbar').classList.remove('open');
+  if (section) {
+    section.classList.remove('collapsed');
+    setTimeout(() => section.scrollIntoView({ block: 'start', behavior: 'smooth' }), 280);
+  }
+}
+function closeSheet() { document.body.classList.remove('sheet-open'); }
+$('#btnSheet').onclick = () => (document.body.classList.contains('sheet-open') ? closeSheet() : openSheet());
+$('#btnSheetClose').onclick = closeSheet;
+$('#btnMore').onclick = () => $('#toolbar').classList.toggle('open');
+$('#tbActions').addEventListener('click', () => { if (isMobile()) $('#toolbar').classList.remove('open'); });
+document.querySelectorAll('#sidebar section > h2').forEach(h => h.addEventListener('click', () => {
+  if (isMobile()) h.parentElement.classList.toggle('collapsed');
+}));
+if (isMobile()) {
+  // Start with only "Add furniture" and "Selected item" expanded so the sheet isn't a wall of forms.
+  document.querySelectorAll('#sidebar section').forEach(s => {
+    if (!s.contains($('#palette')) && !s.contains(propsEl)) s.classList.add('collapsed');
+  });
+}
+function updateMobileBar() {
+  const it = getItem(selectedId), bar = $('#mobileItemBar');
+  bar.classList.toggle('show', !!it);
+  if (!it) return;
+  $('#mibName').textContent = it.name;
+  bar.querySelector('[data-mact=doors]').style.display = furnPivots.has(it.id) ? '' : 'none';
+}
+$('#mobileItemBar').addEventListener('click', e => {
+  const a = e.target.closest('[data-mact]')?.dataset.mact;
+  if (!a || !selectedId) return;
+  if (a === 'edit') openSheet(propsEl.closest('section'));
+  else if (a === 'rot') rotateItem(selectedId, 90);
+  else if (a === 'dup') duplicateItem(selectedId);
+  else if (a === 'doors') setWardrobe(selectedId);
+  else if (a === 'del') deleteItem(selectedId);
+  else if (a === 'close') select(null);
+});
 $('#btnWalk').onclick = $('#btnWalkStart').onclick = startWalk;
 $('#walkPause').onclick = toggleWalkPause;
 $('#walkNext').onclick = walkNext;
@@ -1800,6 +1918,11 @@ function setView(v) {
   if (v === 'top') { pos = new V(0, m * 1.9 + H, 1); target = new V(0, 0, 0); }
   else if (v === 'eye') { pos = new V(W / 2 - 40, 160, D / 2 - 40); target = new V(-W / 6, 110, -D / 6); fov = 70; }
   else { pos = new V(W * 0.95, m * 0.95 + H * 0.7, D * 1.35); target = new V(0, H * 0.4, 0); }
+  const aspect = viewport.clientWidth / Math.max(1, viewport.clientHeight);
+  if (v !== 'eye' && isMobile() && aspect < 1.3) {
+    // Narrow phone screens: back the camera off so the whole room fits the width.
+    pos.sub(target).multiplyScalar(Math.min(2.4, 1.3 / aspect)).add(target);
+  }
   camera.fov = fov;
   camera.updateProjectionMatrix();
   tween = { p0: camera.position.clone(), t0: controls.target.clone(), p1: pos, t1: target, start: performance.now(), dur: 700 };
